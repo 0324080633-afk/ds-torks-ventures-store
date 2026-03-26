@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS TORKS VENTURES | Animal Feed Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#" class="brand">DS TORKS VENTURES</a>
+      <nav class="nav-links">
+        <a href="#shop">Shop</a>
+        <a href="#featured">Featured</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="topbar-actions">
+        <button id="registerBtn" class="auth-btn" aria-label="Create account">Register</button>
+        <button id="cartButton" class="cart-btn" aria-label="Open cart">
+          Cart <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="kicker">Trusted Feed Supply 2026</p>
+          <h1>Quality animal feed for healthy growth and strong yields</h1>
+          <p>
+            Shop trusted feed formulas for poultry, fish, pigs, and livestock.
+            Reliable nutrition, fair prices, and fast delivery for farms of every size.
+          </p>
+          <a href="#shop" class="cta">Start Shopping</a>
+          <button id="paymentDetailsBtn" class="cta cta-secondary" type="button">Payment Details</button>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <p>Bulk delivery for farms</p>
+          <p>30-day returns</p>
+          <p>Secure checkout</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="featured" class="featured">
+      <div class="container">
+        <h2>Featured Feed Categories</h2>
+        <div class="category-grid">
+          <article class="category">Poultry Feed</article>
+          <article class="category">Fish Feed</article>
+          <article class="category">Pig Feed</article>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop" class="shop">
+      <div class="container">
+        <div class="shop-head">
+          <h2>Poultry Feed Price List</h2>
+          <button id="clearCart" class="ghost-btn">Clear Cart</button>
+        </div>
+        <p class="shop-note">Official DS TORKS VENTURES product and price list. Click on any product to view details.</p>
+        <div id="productGrid" class="product-grid"></div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <h2>Built for modern farming</h2>
+        <p>
+          DS TORKS VENTURES supplies carefully selected feed products from trusted mills
+          to help your birds, fish, and livestock stay healthy and productive. From starter
+          mash to finisher rations, we support your operation with dependable stock.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="container contact-grid">
+        <div>
+          <h2>Contact DS TORKS VENTURES</h2>
+          <p>Address: Datalink Road, Ho, Ghana</p>
+          <p>Hours: Mon - Sat, 7:30 AM - 5:00 PM</p>
+          <p>Phone: +233 53 784 0502</p>
+        </div>
+        <div class="contact-actions">
+          <a id="whatsappOrder" class="cta whatsapp" href="#" target="_blank" rel="noopener noreferrer">Order on WhatsApp</a>
+          <a class="ghost-btn call-btn" href="tel:+233537840502">Call Shop</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="cartPanel" class="cart-panel" aria-live="polite" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button id="closeCart" class="icon-btn" aria-label="Close cart">x</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <p>Total: <strong id="cartTotal">GHS 0.00</strong></p>
+      <button id="checkoutBtn" class="checkout-btn" type="button">Checkout</button>
+      <a id="cartWhatsappOrder" class="checkout-btn whatsapp-checkout" href="#" target="_blank" rel="noopener noreferrer">Send Cart to WhatsApp</a>
+    </div>
+  </aside>
+
+  <div id="productModal" class="modal">
+    <div class="modal-content product-modal-content">
+      <div class="modal-header">
+        <h2 id="productModalTitle">Product Details</h2>
+        <button id="closeProduct" class="icon-btn" aria-label="Close">x</button>
+      </div>
+      <div id="productModalBody" class="product-modal-body">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <div id="registrationModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Create Your Account</h2>
+        <button id="closeRegistration" class="icon-btn" aria-label="Close">x</button>
+      </div>
+      <form id="registrationForm">
+        <div class="form-group">
+          <label for="regFullName">Full Name *</label>
+          <input type="text" id="regFullName" name="fullName" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email Address *</label>
+          <input type="email" id="regEmail" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="regPhone">Phone Number *</label>
+          <input type="tel" id="regPhone" name="phone" placeholder="+233 24 000 0000" required />
+        </div>
+        <div class="form-group">
+          <label for="regAddress">Default Delivery Address</label>
+          <textarea id="regAddress" name="address" placeholder="Your delivery address" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="regBusiness">Business/Farm Name</label>
+          <input type="text" id="regBusiness" name="business" placeholder="Your farm or business name" />
+        </div>
+        <button type="submit" class="checkout-btn">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Complete Your Order</h2>
+        <button id="closeCheckout" class="icon-btn" aria-label="Close checkout">x</button>
+      </div>
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label for="customerName">Full Name *</label>
+          <input type="text" id="customerName" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label for="customerPhone">Phone Number *</label>
+          <input type="tel" id="customerPhone" name="phone" placeholder="+233 24 000 0000" required />
+        </div>
+        <div class="form-group">
+          <label for="customerAddress">Delivery Address *</label>
+          <textarea id="customerAddress" name="address" placeholder="Your delivery address" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method *</label>
+          <select id="paymentMethod" name="payment" required>
+            <option value="">Select a payment method</option>
+            <option value="Cash on Delivery">Cash on Delivery</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="Mobile Money">Mobile Money</option>
+          </select>
+        </div>
+
+        <!-- Payment Method Sections -->
+        <div id="momoSection" class="payment-section hidden">
+          <div class="payment-section-header">
+            <h3>MTN Mobile Money Payment</h3>
+          </div>
+          <div class="momo-details">
+            <p><strong>Send to:</strong> 0543682525 (DS TORKS VENTURES)</p>
+            <p class="momo-instruction">Send your payment amount via MTN Mobile Money to the number above.</p>
+          </div>
+          <div class="form-group">
+            <label for="momoRef">Enter Your MoMo Reference Code *</label>
+            <input type="text" id="momoRef" name="momoRef" placeholder="e.g., DSTV123456" maxlength="20" />
+          </div>
+          <div class="form-group">
+            <label for="momoPIN">Enter Your MoMo PIN *</label>
+            <input type="password" id="momoPIN" name="momoPIN" placeholder="••••" maxlength="4" inputmode="numeric" />
+            <p class="pin-note">Your PIN will not leave your device. It's only for your confirmation.</p>
+          </div>
+        </div>
+
+        <div id="bankSection" class="payment-section hidden">
+          <div class="payment-section-header">
+            <h3>Bank Transfer Payment</h3>
+          </div>
+          <div class="bank-details">
+            <p><strong>Bank:</strong> Zenith Bank</p>
+            <p><strong>Account Name:</strong> Sylvia Akorsua Lagble</p>
+            <p><strong>Account Number:</strong> 6010625165</p>
+            <p class="bank-instruction">Transfer the total amount to the account above.</p>
+          </div>
+          <div class="form-group">
+            <label for="bankReceipt">Bank Receipt Reference *</label>
+            <input type="text" id="bankReceipt" name="bankReceipt" placeholder="e.g., Reference or Transaction ID" />
+          </div>
+        </div>
+
+        <div id="cashSection" class="payment-section hidden">
+          <div class="payment-section-header">
+            <h3>Cash on Delivery</h3>
+          </div>
+          <div class="cash-message">
+            <p>You'll pay the driver when your order arrives.</p>
+            <p>Order Total: <strong id="cashTotal">GHS 0.00</strong></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="specialNotes">Special Instructions (Optional)</label>
+          <textarea id="specialNotes" name="notes" placeholder="Any special requests or instructions" rows="2"></textarea>
+        </div>
+        <p class="order-summary">
+          Order Total: <strong id="checkoutTotal">GHS 0.00</strong>
+        </p>
+        <button type="submit" class="checkout-btn">Complete Payment & Order</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="paymentDetailsModal" class="modal" aria-hidden="true">
+    <div class="modal-content payment-modal-content">
+      <div class="modal-header">
+        <h2>Payment Details</h2>
+        <button id="closePaymentDetails" class="icon-btn" aria-label="Close payment details">x</button>
+      </div>
+      <div class="payment-details-body">
+        <div class="payment-card">
+          <h3>Mobile Money (MTN)</h3>
+          <p><strong>Number:</strong> 0543682525</p>
+          <p><strong>Account Name:</strong> DS TORKS VENTURES</p>
+        </div>
+        <div class="payment-card">
+          <h3>Bank Transfer</h3>
+          <p><strong>Bank:</strong> Zenith Bank</p>
+          <p><strong>Account Name:</strong> Sylvia Akorsua Lagble</p>
+          <p><strong>Account Number:</strong> 6010625165</p>
+        </div>
+        <p class="payment-note">After payment, proceed to checkout and include your transaction reference.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
