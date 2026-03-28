@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pig feed - pigs on a green pasture">
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="pgSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6ac0f5"/>
+      <stop offset="50%"  stop-color="#a0d8f8"/>
+      <stop offset="100%" stop-color="#d0eefc"/>
+    </linearGradient>
+    <!-- Ground gradient -->
+    <linearGradient id="pgGround" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#8bc842"/>
+      <stop offset="35%"  stop-color="#6aa828"/>
+      <stop offset="100%" stop-color="#4a7a18"/>
+    </linearGradient>
+    <!-- Mud patch gradient -->
+    <linearGradient id="pgMud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#8a6040"/>
+      <stop offset="100%" stop-color="#5a3a20"/>
+    </linearGradient>
+    <!-- Pig skin gradient -->
+    <radialGradient id="pigSkin1" cx="40%" cy="35%" r="60%">
+      <stop offset="0%"   stop-color="#f5a87a"/>
+      <stop offset="55%"  stop-color="#e8905a"/>
+      <stop offset="100%" stop-color="#c87040"/>
+    </radialGradient>
+    <radialGradient id="pigSkin2" cx="40%" cy="35%" r="60%">
+      <stop offset="0%"   stop-color="#e8c0a0"/>
+      <stop offset="55%"  stop-color="#d8a880"/>
+      <stop offset="100%" stop-color="#b88860"/>
+    </radialGradient>
+    <radialGradient id="pigSkin3" cx="40%" cy="35%" r="60%">
+      <stop offset="0%"   stop-color="#f0a090"/>
+      <stop offset="55%"  stop-color="#e08070"/>
+      <stop offset="100%" stop-color="#c06050"/>
+    </radialGradient>
+    <!-- Barn gradient -->
+    <linearGradient id="pgBarn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#cc4444"/>
+      <stop offset="100%" stop-color="#8a2828"/>
+    </linearGradient>
+    <!-- Hay bale -->
+    <linearGradient id="pgHay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#dfc040"/>
+      <stop offset="100%" stop-color="#b89820"/>
+    </linearGradient>
+    <!-- Trough -->
+    <linearGradient id="pgTrough" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#a07048"/>
+      <stop offset="100%" stop-color="#7a5030"/>
+    </linearGradient>
+    <!-- Bottom overlay -->
+    <linearGradient id="pgOverlay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="rgba(0,30,0,0.0)"/>
+      <stop offset="100%" stop-color="rgba(0,30,0,0.45)"/>
+    </linearGradient>
+    <filter id="pigBlur">
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#pgSky)"/>
+
+  <!-- Sun -->
+  <circle cx="680" cy="92" r="48" fill="#fff8a0" opacity="0.88"/>
+  <circle cx="680" cy="92" r="35" fill="#ffe050" opacity="0.95"/>
+  <circle cx="680" cy="92" r="24" fill="#ffcc22" opacity="1"/>
+
+  <!-- Clouds -->
+  <g opacity="0.88">
+    <ellipse cx="145" cy="105" rx="88" ry="34" fill="white"/>
+    <ellipse cx="185" cy="86"  rx="65" ry="28" fill="white"/>
+    <ellipse cx="105" cy="96"  rx="58" ry="25" fill="white"/>
+    <ellipse cx="145" cy="100" rx="94" ry="27" fill="white"/>
+  </g>
+  <g opacity="0.72">
+    <ellipse cx="450" cy="75"  rx="72" ry="28" fill="white"/>
+    <ellipse cx="488" cy="58"  rx="52" ry="23" fill="white"/>
+    <ellipse cx="414" cy="67"  rx="50" ry="22" fill="white"/>
+    <ellipse cx="450" cy="70"  rx="78" ry="22" fill="white"/>
+  </g>
+  <g opacity="0.60">
+    <ellipse cx="330" cy="50"  rx="58" ry="22" fill="white"/>
+    <ellipse cx="362" cy="38"  rx="42" ry="18" fill="white"/>
+    <ellipse cx="300" cy="44"  rx="40" ry="17" fill="white"/>
+  </g>
+
+  <!-- Distant hills -->
+  <path d="M0,265 Q80,225 200,248 Q350,215 500,242 Q620,222 760,240 Q780,236 800,240 L800,330 L0,330 Z"
+        fill="#6aaa38" opacity="0.65"/>
+
+  <!-- Ground -->
+  <path d="M0,295 Q200,272 400,285 Q600,272 800,285 L800,600 L0,600 Z"
+        fill="url(#pgGround)"/>
+
+  <!-- Mud patch (where pigs wallow) -->
+  <ellipse cx="370" cy="500" rx="185" ry="50" fill="url(#pgMud)" opacity="0.80"/>
+  <!-- Mud ripples -->
+  <g stroke="#6a4228" stroke-width="1.5" fill="none" opacity="0.45">
+    <ellipse cx="370" cy="498" rx="140" ry="30"/>
+    <ellipse cx="370" cy="498" rx="95"  ry="20"/>
+    <ellipse cx="370" cy="498" rx="50"  ry="12"/>
+  </g>
+  <!-- Mud puddle (smaller) -->
+  <ellipse cx="580" cy="545" rx="70" ry="22" fill="#7a5030" opacity="0.65"/>
+
+  <!-- ── Barn (background) ── -->
+  <rect x="560" y="280" width="175" height="155" fill="url(#pgBarn)"/>
+  <polygon points="544,280 647,200 760,280" fill="#a03030"/>
+  <!-- Roof highlight -->
+  <polygon points="544,280 647,200 662,212 556,285" fill="#c04040" opacity="0.35"/>
+  <!-- Barn door -->
+  <rect x="612" y="348" width="70" height="87" fill="#2a0808" rx="3"/>
+  <rect x="612" y="348" width="35" height="87" fill="#300a0a" rx="3"/>
+  <!-- Barn window -->
+  <rect x="568" y="302" width="38" height="30" fill="#a0d0f0" opacity="0.75" rx="2"/>
+  <line x1="587" y1="302" x2="587" y2="332" stroke="#c0a060" stroke-width="2"/>
+  <line x1="568" y1="317" x2="606" y2="317" stroke="#c0a060" stroke-width="2"/>
+  <!-- Barn window right -->
+  <rect x="700" y="302" width="38" height="30" fill="#a0d0f0" opacity="0.75" rx="2"/>
+  <line x1="719" y1="302" x2="719" y2="332" stroke="#c0a060" stroke-width="2"/>
+  <line x1="700" y1="317" x2="738" y2="317" stroke="#c0a060" stroke-width="2"/>
+
+  <!-- ── Fence ── -->
+  <!-- Fence posts -->
+  <g fill="#9a7848">
+    <rect x="50"  y="375" width="11" height="80" rx="2"/>
+    <rect x="140" y="373" width="11" height="80" rx="2"/>
+    <rect x="230" y="375" width="11" height="80" rx="2"/>
+    <rect x="320" y="373" width="11" height="80" rx="2"/>
+    <rect x="410" y="375" width="11" height="80" rx="2"/>
+    <rect x="500" y="373" width="11" height="80" rx="2"/>
+  </g>
+  <!-- Fence rails -->
+  <path d="M50,393 Q280,386 505,393" stroke="#b09060" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+  <path d="M50,418 Q280,411 505,418" stroke="#b09060" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M50,443 Q280,436 505,443" stroke="#b09060" stroke-width="4"   fill="none" stroke-linecap="round"/>
+
+  <!-- ── Feed Trough ── -->
+  <rect x="105" y="490" width="140" height="38" fill="url(#pgTrough)" rx="8"/>
+  <rect x="108" y="494" width="134" height="24" fill="#8a5e38" rx="5"/>
+  <!-- Feed in trough (mash) -->
+  <ellipse cx="175" cy="497" rx="64" ry="9" fill="#c8a860" opacity="0.85"/>
+  <!-- Feed texture dots -->
+  <g fill="#b89848" opacity="0.8">
+    <circle cx="135" cy="496" r="4"/>
+    <circle cx="152" cy="499" r="3.5"/>
+    <circle cx="170" cy="495" r="4"/>
+    <circle cx="188" cy="498" r="3.5"/>
+    <circle cx="205" cy="495" r="4"/>
+    <circle cx="222" cy="498" r="3.5"/>
+  </g>
+
+  <!-- ── HAY BALES ── -->
+  <!-- Hay bale 1 (round) -->
+  <ellipse cx="55" cy="528" rx="42" ry="30" fill="url(#pgHay)"/>
+  <ellipse cx="55" cy="520" rx="42" ry="25" fill="#e8c848"/>
+  <g stroke="#c0a020" stroke-width="2" fill="none" opacity="0.6">
+    <ellipse cx="55" cy="520" rx="32" ry="16"/>
+    <ellipse cx="55" cy="520" rx="20" ry="10"/>
+  </g>
+  <!-- Straw wisps on bale -->
+  <g stroke="#d4a820" stroke-width="1.5" opacity="0.55">
+    <line x1="20" y1="520" x2="18" y2="508"/>
+    <line x1="35" y1="496" x2="33" y2="484"/>
+    <line x1="75" y1="494" x2="73" y2="482"/>
+    <line x1="90" y1="518" x2="92" y2="506"/>
+  </g>
+
+  <!-- ── PIGS ── -->
+  <!-- Pig 1 (large, facing right) -->
+  <g transform="translate(310,455)" filter="url(#pigBlur)">
+    <!-- Body (big round) -->
+    <ellipse cx="0" cy="0" rx="65" ry="48" fill="url(#pigSkin1)"/>
+    <!-- Belly highlight -->
+    <ellipse cx="8" cy="12" rx="42" ry="28" fill="#f0b890" opacity="0.45"/>
+    <!-- Head -->
+    <circle cx="60" cy="-15" r="35" fill="url(#pigSkin1)"/>
+    <!-- Snout -->
+    <ellipse cx="88" cy="-8" rx="20" ry="16" fill="#e07858"/>
+    <!-- Nostrils -->
+    <circle cx="82" cy="-4"  r="5" fill="#b04830"/>
+    <circle cx="94" cy="-4"  r="5" fill="#b04830"/>
+    <!-- Eyes -->
+    <circle cx="72" cy="-25" r="8" fill="#2a1a1a"/>
+    <circle cx="74" cy="-27" r="3" fill="white"/>
+    <!-- Ear (right) -->
+    <path d="M50,-48 Q40,-70 62,-62 Q75,-52 65,-44 Z" fill="#e07858"/>
+    <path d="M52,-50 Q44,-66 60,-60 Q70,-52 62,-45 Z" fill="#c85840" opacity="0.5"/>
+    <!-- Ear (forward) -->
+    <path d="M74,-48 Q78,-68 92,-60 Q98,-50 85,-44 Z" fill="#e07858"/>
+    <path d="M76,-49 Q80,-65 90,-59 Q95,-50 84,-45 Z" fill="#c85840" opacity="0.5"/>
+    <!-- Legs -->
+    <rect x="-35" y="40"  width="18" height="42" fill="#d07858" rx="6"/>
+    <rect x="-5"  y="42"  width="18" height="42" fill="#d07858" rx="6"/>
+    <rect x="20"  y="40"  width="18" height="42" fill="#d07858" rx="6"/>
+    <rect x="48"  y="42"  width="18" height="42" fill="#d07858" rx="6"/>
+    <!-- Hooves -->
+    <ellipse cx="-26" cy="82" rx="10" ry="6" fill="#3a2a1a"/>
+    <ellipse cx="4"   cy="84" rx="10" ry="6" fill="#3a2a1a"/>
+    <ellipse cx="29"  cy="82" rx="10" ry="6" fill="#3a2a1a"/>
+    <ellipse cx="57"  cy="84" rx="10" ry="6" fill="#3a2a1a"/>
+    <!-- Curly tail -->
+    <path d="M-62,0 Q-80,-8 -82,5 Q-80,18 -68,14 Q-60,10 -62,2" 
+          stroke="#e07858" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Spots -->
+    <circle cx="-18" cy="-18" r="12" fill="#d87050" opacity="0.35"/>
+    <circle cx="18"  cy="8"   r="10" fill="#d87050" opacity="0.3"/>
+  </g>
+
+  <!-- Pig 2 (medium, left, facing left, eating from trough) -->
+  <g transform="translate(170,468) scale(0.82) rotate(5)" filter="url(#pigBlur)">
+    <ellipse cx="0" cy="0" rx="65" ry="48" fill="url(#pigSkin2)"/>
+    <ellipse cx="8" cy="12" rx="42" ry="28" fill="#ead0b0" opacity="0.45"/>
+    <circle cx="-60" cy="-14" r="34" fill="url(#pigSkin2)"/>
+    <!-- Snout -->
+    <ellipse cx="-86" cy="-8" rx="19" ry="15" fill="#c89068"/>
+    <circle cx="-80" cy="-4"  r="5"  fill="#9a6840"/>
+    <circle cx="-92" cy="-4"  r="5"  fill="#9a6840"/>
+    <!-- Eyes -->
+    <circle cx="-72" cy="-24" r="7"  fill="#2a1a1a"/>
+    <circle cx="-74" cy="-26" r="2.5" fill="white"/>
+    <!-- Ears -->
+    <path d="M-50,-46 Q-42,-68 -62,-60 Q-74,-50 -64,-44 Z" fill="#c89068"/>
+    <path d="M-72,-46 Q-78,-66 -92,-58 Q-97,-48 -84,-44 Z" fill="#c89068"/>
+    <!-- Legs -->
+    <rect x="-45" y="40"  width="17" height="40" fill="#c08060" rx="5"/>
+    <rect x="-18" y="42"  width="17" height="40" fill="#c08060" rx="5"/>
+    <rect x="12"  y="40"  width="17" height="40" fill="#c08060" rx="5"/>
+    <rect x="40"  y="42"  width="17" height="40" fill="#c08060" rx="5"/>
+    <!-- Hooves -->
+    <ellipse cx="-36" cy="80" rx="9" ry="5" fill="#3a2a1a"/>
+    <ellipse cx="-9"  cy="82" rx="9" ry="5" fill="#3a2a1a"/>
+    <ellipse cx="20"  cy="80" rx="9" ry="5" fill="#3a2a1a"/>
+    <ellipse cx="48"  cy="82" rx="9" ry="5" fill="#3a2a1a"/>
+    <!-- Curly tail -->
+    <path d="M62,0 Q80,-8 82,5 Q80,18 68,14 Q60,10 62,2" 
+          stroke="#c08060" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Pig 3 (small piglet, right, background) -->
+  <g transform="translate(538,488) scale(0.58)" filter="url(#pigBlur)">
+    <ellipse cx="0" cy="0" rx="62" ry="45" fill="url(#pigSkin3)"/>
+    <ellipse cx="8" cy="12" rx="40" ry="26" fill="#f8c0b0" opacity="0.4"/>
+    <circle cx="58" cy="-14" r="32" fill="url(#pigSkin3)"/>
+    <ellipse cx="84" cy="-8" rx="18" ry="14" fill="#d07068"/>
+    <circle cx="78" cy="-4"  r="4.5" fill="#a04848"/>
+    <circle cx="90" cy="-4"  r="4.5" fill="#a04848"/>
+    <circle cx="70" cy="-24" r="7"   fill="#2a1a1a"/>
+    <circle cx="72" cy="-26" r="2.5" fill="white"/>
+    <path d="M48,-46 Q38,-68 60,-60 Q72,-50 64,-44 Z" fill="#d07068"/>
+    <path d="M72,-46 Q76,-66 90,-58 Q96,-48 83,-44 Z" fill="#d07068"/>
+    <rect x="-32" y="38"  width="16" height="38" fill="#c06058" rx="5"/>
+    <rect x="-4"  y="40"  width="16" height="38" fill="#c06058" rx="5"/>
+    <rect x="22"  y="38"  width="16" height="38" fill="#c06058" rx="5"/>
+    <rect x="48"  y="40"  width="16" height="38" fill="#c06058" rx="5"/>
+    <ellipse cx="-24" cy="76" rx="9" ry="5" fill="#3a2a1a"/>
+    <ellipse cx="4"   cy="78" rx="9" ry="5" fill="#3a2a1a"/>
+    <ellipse cx="30"  cy="76" rx="9" ry="5" fill="#3a2a1a"/>
+    <ellipse cx="56"  cy="78" rx="9" ry="5" fill="#3a2a1a"/>
+    <path d="M-60,0 Q-78,-8 -80,5 Q-78,18 -66,14 Q-58,10 -60,2" 
+          stroke="#c06058" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Trees (left background) -->
+  <rect x="14"  y="318" width="15" height="85" fill="#7a5828" rx="3"/>
+  <circle cx="21"  cy="305" r="50" fill="#3a7028" opacity="0.9"/>
+  <circle cx="0"   cy="322" r="38" fill="#2e6022"/>
+  <circle cx="42"  cy="318" r="35" fill="#3a7028"/>
+  <circle cx="21"  cy="295" r="42" fill="#4a7a30"/>
+
+  <!-- Trees (right far background) -->
+  <rect x="762" y="330" width="14" height="75" fill="#7a5828" rx="3"/>
+  <circle cx="769" cy="318" r="46" fill="#3a7028" opacity="0.85"/>
+  <circle cx="750" cy="333" r="36" fill="#2e6022"/>
+  <circle cx="788" cy="328" r="33" fill="#4a7a30"/>
+
+  <!-- Butterflies (small detail) -->
+  <g opacity="0.75" transform="translate(480,345)">
+    <path d="M0,0 Q-12,-14 -18,-8 Q-12,2 0,0 Z" fill="#f5c030"/>
+    <path d="M0,0 Q12,-14 18,-8 Q12,2 0,0 Z" fill="#f5c030"/>
+    <path d="M0,0 Q-10,12 -16,8 Q-10,-2 0,0 Z" fill="#e8a820"/>
+    <path d="M0,0 Q10,12 16,8 Q10,-2 0,0 Z" fill="#e8a820"/>
+    <line x1="-4" y1="-2" x2="-12" y2="-10" stroke="#2a1a00" stroke-width="1.5"/>
+    <line x1="4"  y1="-2" x2="12"  y2="-10" stroke="#2a1a00" stroke-width="1.5"/>
+  </g>
+  <g opacity="0.60" transform="translate(100,360)">
+    <path d="M0,0 Q-10,-12 -15,-7 Q-10,2 0,0 Z" fill="#ee88cc"/>
+    <path d="M0,0 Q10,-12 15,-7 Q10,2 0,0 Z" fill="#ee88cc"/>
+    <path d="M0,0 Q-8,10 -13,7 Q-8,-2 0,0 Z" fill="#dd66aa"/>
+    <path d="M0,0 Q8,10 13,7 Q8,-2 0,0 Z" fill="#dd66aa"/>
+    <line x1="-3" y1="-2" x2="-10" y2="-9" stroke="#1a0a10" stroke-width="1.2"/>
+    <line x1="3"  y1="-2" x2="10"  y2="-9" stroke="#1a0a10" stroke-width="1.2"/>
+  </g>
+
+  <!-- Bottom overlay -->
+  <rect width="800" height="600" fill="url(#pgOverlay)"/>
+</svg>

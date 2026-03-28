@@ -1,0 +1,305 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Poultry feed - chickens on a sunny farm">
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="pSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#5bb8f5"/>
+      <stop offset="55%"  stop-color="#a8d8f0"/>
+      <stop offset="100%" stop-color="#d8eefc"/>
+    </linearGradient>
+    <!-- Ground gradient -->
+    <linearGradient id="pGround" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#9acd42"/>
+      <stop offset="40%"  stop-color="#78aa28"/>
+      <stop offset="100%" stop-color="#5a8018"/>
+    </linearGradient>
+    <!-- Dirt patch gradient -->
+    <linearGradient id="pDirt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#c8a060"/>
+      <stop offset="100%" stop-color="#a07840"/>
+    </linearGradient>
+    <!-- Coop wall gradient -->
+    <linearGradient id="pCoop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#e8d8a0"/>
+      <stop offset="100%" stop-color="#c8b870"/>
+    </linearGradient>
+    <!-- Sun glow -->
+    <radialGradient id="pSunGlow" cx="80%" cy="15%" r="30%">
+      <stop offset="0%"   stop-color="#fff8a0" stop-opacity="0.9"/>
+      <stop offset="40%"  stop-color="#ffe860" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ffcc00" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Egg gradient -->
+    <radialGradient id="eggGrad" cx="40%" cy="35%" r="55%">
+      <stop offset="0%"   stop-color="#fffae8"/>
+      <stop offset="60%"  stop-color="#f5e8c0"/>
+      <stop offset="100%" stop-color="#e0cc90"/>
+    </radialGradient>
+    <!-- Nest gradient -->
+    <linearGradient id="nestGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#c8a040"/>
+      <stop offset="100%" stop-color="#8a6820"/>
+    </linearGradient>
+    <!-- Overlay for card readability -->
+    <linearGradient id="pOverlay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="rgba(0,40,0,0.05)"/>
+      <stop offset="100%" stop-color="rgba(0,30,0,0.4)"/>
+    </linearGradient>
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+    <filter id="chickBlur">
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#pSky)"/>
+
+  <!-- Sun -->
+  <circle cx="640" cy="88" r="52" fill="url(#pSunGlow)"/>
+  <circle cx="640" cy="88" r="36" fill="#fff060" opacity="0.95"/>
+  <circle cx="640" cy="88" r="26" fill="#ffe820" opacity="1"/>
+
+  <!-- Clouds -->
+  <g opacity="0.85">
+    <ellipse cx="130" cy="110" rx="75" ry="30" fill="white"/>
+    <ellipse cx="165" cy="94"  rx="52" ry="26" fill="white"/>
+    <ellipse cx="95"  cy="100" rx="48" ry="22" fill="white"/>
+  </g>
+  <g opacity="0.75">
+    <ellipse cx="440" cy="80"  rx="65" ry="26" fill="white"/>
+    <ellipse cx="475" cy="66"  rx="44" ry="22" fill="white"/>
+    <ellipse cx="408" cy="72"  rx="42" ry="20" fill="white"/>
+  </g>
+
+  <!-- Distant green hills -->
+  <path d="M0,320 Q100,270 220,295 Q340,265 460,288 Q580,265 700,285 Q760,275 800,285 L800,400 L0,400 Z"
+        fill="#78b040" opacity="0.7"/>
+
+  <!-- Ground -->
+  <path d="M0,370 Q200,345 400,360 Q600,345 800,358 L800,600 L0,600 Z"
+        fill="url(#pGround)"/>
+
+  <!-- Dirt patch (farmyard ground near coop) -->
+  <ellipse cx="400" cy="500" rx="280" ry="65" fill="url(#pDirt)" opacity="0.85"/>
+
+  <!-- ── Chicken Coop ── -->
+  <!-- Coop body -->
+  <rect x="50" y="330" width="200" height="140" fill="url(#pCoop)" rx="4"/>
+  <!-- Coop roof -->
+  <polygon points="38,330 150,258 262,330" fill="#a87830"/>
+  <!-- Roof highlight -->
+  <polygon points="38,330 150,258 165,270 50,335" fill="#c09040" opacity="0.4"/>
+  <!-- Coop door opening -->
+  <rect x="122" y="398" width="56" height="72" fill="#3a2810" rx="3"/>
+  <!-- Coop window -->
+  <rect x="60"  y="352" width="45" height="35" fill="#a0d8f0" opacity="0.8" rx="3"/>
+  <line x1="82"  y1="352" x2="82"  y2="387" stroke="#c8a860" stroke-width="2"/>
+  <line x1="60"  y1="370" x2="105" y2="370" stroke="#c8a860" stroke-width="2"/>
+  <!-- Coop window right -->
+  <rect x="155" y="352" width="45" height="35" fill="#a0d8f0" opacity="0.8" rx="3"/>
+  <line x1="177" y1="352" x2="177" y2="387" stroke="#c8a860" stroke-width="2"/>
+  <line x1="155" y1="370" x2="200" y2="370" stroke="#c8a860" stroke-width="2"/>
+  <!-- Coop wood plank lines -->
+  <g stroke="#b8a070" stroke-width="1.5" opacity="0.4">
+    <line x1="50" y1="370" x2="250" y2="370"/>
+    <line x1="50" y1="400" x2="250" y2="400"/>
+    <line x1="50" y1="430" x2="250" y2="430"/>
+    <line x1="50" y1="460" x2="250" y2="460"/>
+  </g>
+  <!-- Roost stick -->
+  <line x1="70" y1="468" x2="230" y2="468" stroke="#a07830" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- ── Feed Trough ── -->
+  <rect x="290" y="505" width="120" height="28" fill="#c8904a" rx="6"/>
+  <rect x="293" y="508" width="114" height="18" fill="#b07838" rx="4"/>
+  <!-- Feed in trough -->
+  <ellipse cx="350" cy="510" rx="55" ry="8" fill="#d4a848" opacity="0.8"/>
+  <!-- Feed pellet dots -->
+  <g fill="#e0b840" opacity="0.9">
+    <circle cx="315" cy="510" r="4"/>
+    <circle cx="330" cy="513" r="3.5"/>
+    <circle cx="348" cy="509" r="4"/>
+    <circle cx="365" cy="512" r="3.5"/>
+    <circle cx="382" cy="510" r="4"/>
+  </g>
+
+  <!-- ── Hen Nest with Eggs ── -->
+  <!-- Nest base -->
+  <ellipse cx="680" cy="528" rx="62" ry="22" fill="url(#nestGrad)"/>
+  <ellipse cx="680" cy="524" rx="62" ry="18" fill="#c8a040" opacity="0.8"/>
+  <!-- Nest straw lines -->
+  <g stroke="#a07820" stroke-width="2" opacity="0.7">
+    <path d="M625,522 Q648,510 660,524"/>
+    <path d="M635,528 Q658,516 670,530"/>
+    <path d="M700,520 Q718,510 730,524"/>
+    <path d="M710,528 Q728,518 740,530"/>
+    <path d="M665,515 Q678,506 690,518"/>
+  </g>
+  <!-- Eggs in nest -->
+  <ellipse cx="662" cy="518" rx="14" ry="18" fill="url(#eggGrad)" transform="rotate(-15,662,518)"/>
+  <ellipse cx="682" cy="514" rx="14" ry="18" fill="url(#eggGrad)" transform="rotate(5,682,514)"/>
+  <ellipse cx="700" cy="518" rx="14" ry="18" fill="url(#eggGrad)" transform="rotate(15,700,518)"/>
+  <!-- Egg highlights -->
+  <ellipse cx="658" cy="512" rx="4" ry="6" fill="white" opacity="0.45" transform="rotate(-15,658,512)"/>
+  <ellipse cx="678" cy="508" rx="4" ry="6" fill="white" opacity="0.45" transform="rotate(5,678,508)"/>
+  <ellipse cx="696" cy="512" rx="4" ry="6" fill="white" opacity="0.45" transform="rotate(15,696,512)"/>
+
+  <!-- ── CHICKENS ── -->
+  <!-- Chicken 1 (large hen, center) -->
+  <g transform="translate(380,430)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="46" ry="36" fill="#e8a830"/>
+    <!-- Wing detail -->
+    <path d="M-30,-10 Q-50,10 -30,25 Q-10,20 0,5 Z" fill="#d09020" opacity="0.6"/>
+    <!-- Head -->
+    <circle cx="40" cy="-28" r="22" fill="#e8a830"/>
+    <!-- Neck -->
+    <ellipse cx="28" cy="-12" rx="14" ry="18" fill="#e8a830"/>
+    <!-- Beak -->
+    <polygon points="58,-30 72,-24 58,-18" fill="#f5c040"/>
+    <!-- Comb (red) -->
+    <path d="M30,-50 Q34,-42 28,-38 Q36,-36 32,-30 Q40,-30 36,-22" 
+          stroke="#cc2020" stroke-width="4" fill="#cc2020"/>
+    <!-- Wattle -->
+    <ellipse cx="52" cy="-18" rx="5" ry="8" fill="#cc2020"/>
+    <!-- Eye -->
+    <circle cx="48" cy="-30" r="4" fill="#1a1a1a"/>
+    <circle cx="49" cy="-31" r="1.5" fill="white"/>
+    <!-- Tail feathers -->
+    <path d="M-42,-8 Q-65,-25 -58,-5 Q-68,5 -50,12 Q-62,22 -50,28" 
+          stroke="#c88018" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Legs -->
+    <line x1="-10" y1="32" x2="-14" y2="58" stroke="#e8c048" stroke-width="4" stroke-linecap="round"/>
+    <line x1="10"  y1="32" x2="14"  y2="58" stroke="#e8c048" stroke-width="4" stroke-linecap="round"/>
+    <!-- Feet -->
+    <g stroke="#e8c048" stroke-width="3" stroke-linecap="round">
+      <line x1="-14" y1="58" x2="-22" y2="64"/>
+      <line x1="-14" y1="58" x2="-12" y2="66"/>
+      <line x1="-14" y1="58" x2="-6"  y2="63"/>
+      <line x1="14"  y1="58" x2="6"   y2="64"/>
+      <line x1="14"  y1="58" x2="16"  y2="66"/>
+      <line x1="14"  y1="58" x2="24"  y2="63"/>
+    </g>
+  </g>
+
+  <!-- Chicken 2 (smaller hen, left, pecking) -->
+  <g transform="translate(510,468) scale(0.82)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="42" ry="32" fill="#e0c860" transform="rotate(-20,0,0)"/>
+    <!-- Head (angled down for pecking) -->
+    <circle cx="38" cy="18" r="20" fill="#e0c860"/>
+    <!-- Neck -->
+    <ellipse cx="24" cy="12" rx="14" ry="16" fill="#e0c860"/>
+    <!-- Beak (pointing down) -->
+    <polygon points="50,30 64,36 52,40" fill="#f5c040"/>
+    <!-- Comb -->
+    <path d="M26,0 Q30,8 24,12 Q32,14 28,20" 
+          stroke="#cc2020" stroke-width="4" fill="#cc2020"/>
+    <!-- Wattle -->
+    <ellipse cx="50" cy="38" rx="5" ry="7" fill="#cc2020"/>
+    <!-- Eye -->
+    <circle cx="46" cy="18" r="4" fill="#1a1a1a"/>
+    <circle cx="47" cy="17" r="1.5" fill="white"/>
+    <!-- Wing -->
+    <path d="M-28,-8 Q-48,8 -30,22 Q-10,18 0,2 Z" fill="#c8b040" opacity="0.6"/>
+    <!-- Tail -->
+    <path d="M-38,-5 Q-60,-22 -55,-2 Q-64,8 -48,14" 
+          stroke="#b8a028" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Legs -->
+    <line x1="-8"  y1="28" x2="-10" y2="52" stroke="#e8c048" stroke-width="4" stroke-linecap="round"/>
+    <line x1="8"   y1="28" x2="12"  y2="52" stroke="#e8c048" stroke-width="4" stroke-linecap="round"/>
+    <g stroke="#e8c048" stroke-width="3" stroke-linecap="round">
+      <line x1="-10" y1="52" x2="-18" y2="58"/>
+      <line x1="-10" y1="52" x2="-8"  y2="60"/>
+      <line x1="-10" y1="52" x2="-2"  y2="57"/>
+      <line x1="12"  y1="52" x2="4"   y2="58"/>
+      <line x1="12"  y1="52" x2="14"  y2="60"/>
+      <line x1="12"  y1="52" x2="22"  y2="57"/>
+    </g>
+  </g>
+
+  <!-- Chicken 3 (rooster, right side) -->
+  <g transform="translate(620,420) scale(1.05)">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="48" ry="38" fill="#b83818"/>
+    <!-- Wing -->
+    <path d="M-32,-12 Q-56,8 -35,26 Q-12,22 0,4 Z" fill="#901818" opacity="0.7"/>
+    <!-- Neck -->
+    <ellipse cx="30" cy="-14" rx="16" ry="20" fill="#b83818"/>
+    <!-- Head -->
+    <circle cx="44" cy="-36" r="24" fill="#b83818"/>
+    <!-- Beak -->
+    <polygon points="62,-36 78,-30 62,-24" fill="#f5c040"/>
+    <!-- Rooster comb (larger, more elaborate) -->
+    <path d="M32,-60 Q38,-50 30,-44 Q40,-42 35,-34 Q44,-33 40,-25" 
+          stroke="#ee1818" stroke-width="5" fill="#ee1818"/>
+    <ellipse cx="48" cy="-60" rx="6" ry="10" fill="#ee1818" transform="rotate(-15,48,-60)"/>
+    <!-- Wattle -->
+    <ellipse cx="60" cy="-22" rx="6" ry="10" fill="#ee1818"/>
+    <!-- Eye -->
+    <circle cx="58" cy="-38" r="5" fill="#1a1a1a"/>
+    <circle cx="59" cy="-39" r="2" fill="white"/>
+    <!-- Tail feathers (elaborate) -->
+    <path d="M-44,-6 Q-72,-30 -64,-6 Q-78,6 -60,15" stroke="#6a1010" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-48,4 Q-78,20 -68,38 Q-55,42 -44,28" stroke="#8a1818" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M-42,12 Q-68,32 -55,50 Q-42,52 -35,38" stroke="#901a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Legs -->
+    <line x1="-8"  y1="34" x2="-12" y2="62" stroke="#e8c048" stroke-width="5" stroke-linecap="round"/>
+    <line x1="10"  y1="34" x2="15"  y2="62" stroke="#e8c048" stroke-width="5" stroke-linecap="round"/>
+    <!-- Spurs -->
+    <line x1="-10" y1="50" x2="-20" y2="44" stroke="#e8c048" stroke-width="3" stroke-linecap="round"/>
+    <g stroke="#e8c048" stroke-width="3.5" stroke-linecap="round">
+      <line x1="-12" y1="62" x2="-22" y2="70"/>
+      <line x1="-12" y1="62" x2="-9"  y2="72"/>
+      <line x1="-12" y1="62" x2="-2"  y2="68"/>
+      <line x1="15"  y1="62" x2="5"   y2="70"/>
+      <line x1="15"  y1="62" x2="17"  y2="72"/>
+      <line x1="15"  y1="62" x2="27"  y2="68"/>
+    </g>
+  </g>
+
+  <!-- Chick (small, background) -->
+  <g transform="translate(470,492) scale(0.58)">
+    <ellipse cx="0" cy="0" rx="28" ry="22" fill="#f5da60"/>
+    <circle cx="26" cy="-18" r="16" fill="#f5da60"/>
+    <polygon points="38,-18 50,-14 38,-10" fill="#f0a820"/>
+    <circle cx="34" cy="-20" r="3" fill="#1a1a1a"/>
+    <line x1="-5"  y1="20" x2="-7"  y2="38" stroke="#f0a820" stroke-width="3" stroke-linecap="round"/>
+    <line x1="5"   y1="20" x2="7"   y2="38" stroke="#f0a820" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- ── Sunflowers (background decoration) ── -->
+  <!-- Sunflower 1 -->
+  <line x1="740" y1="480" x2="740" y2="380" stroke="#5a8a18" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="740" cy="374" r="22" fill="#f5c020"/>
+  <circle cx="740" cy="374" r="14" fill="#b87820"/>
+  <!-- Petals -->
+  <g fill="#f5c020" transform="translate(740,374)">
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(0)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(45)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(90)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(135)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(180)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(225)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(270)"/>
+    <ellipse cx="0" cy="-28" rx="7" ry="14" transform="rotate(315)"/>
+  </g>
+
+  <!-- Straw/hay on ground -->
+  <g stroke="#c8a830" stroke-width="2" opacity="0.6">
+    <line x1="305" y1="490" x2="335" y2="502"/>
+    <line x1="315" y1="493" x2="340" y2="485"/>
+    <line x1="320" y1="500" x2="345" y2="510"/>
+    <line x1="328" y1="488" x2="360" y2="494"/>
+  </g>
+  <g stroke="#c8a830" stroke-width="2" opacity="0.6">
+    <line x1="555" y1="475" x2="585" y2="487"/>
+    <line x1="563" y1="478" x2="590" y2="470"/>
+    <line x1="568" y1="485" x2="594" y2="495"/>
+    <line x1="576" y1="473" x2="608" y2="479"/>
+  </g>
+
+  <!-- Bottom overlay -->
+  <rect width="800" height="600" fill="url(#pOverlay)"/>
+</svg>

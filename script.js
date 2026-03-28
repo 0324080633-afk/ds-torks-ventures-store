@@ -16,11 +16,18 @@ const products = [
   { id: 15, name: "DEVELOPER MASH", category: "Poultry Feed", price: 387, stock: 22, description: "Transitional feed for growing pullets before layer production phase. Supports skeletal development.", image:"https://www.koudijs.com.gh/siteassets/animal-nutrition/poultry/microsoftteams-image.png?format=webp&mode=max&width=2048&height=1200" },
   { id: 16, name: "PRE-LAYER", category: "Poultry Feed", price: 369, stock: 19, description: "Preparation feed for pullets 14-18 weeks old. Conditions birds for transition to layer production.", image: "https://www.koudijs.com.gh/siteassets/animal-nutrition/poultry/microsoftteams-image.png?format=webp&mode=max&width=2048&height=1200" },
   { id: 17, name: "CATFISH 4MM", category: "Fish Feed", price: 272, stock: 31, description: "Sinking pellets for young catfish. 4mm size for fry and small fingerlings. Complete nutrition.", image: "https://www.deheus.com.gh/siteassets/products-and-services/fish/bags_koudijs_ghana_catfish.jpg?format=webp&mode=max&width=890&height=1000" },
-  { id: 18, name: "SANKOFA", category: "Special Feed", price: 372, stock: 13, description: "Multi-species supplement feed. Supports growth in various poultry and livestock types.", image: "https://www.facebook.com/groups/351437262561935/posts/1473393707032946/" },
+  { id: 18, name: "SANKOFA", category: "Special Feed", price: 372, stock: 13, description: "Multi-species supplement feed. Supports growth in various poultry and livestock types.", image: "images/hero-bg.svg" },
   { id: 19, name: "GALDUS", category: "Special Feed", price: 397, stock: 15, description: "Specialized nutrient booster. Enhances performance and immune response across animal types.", image: "https://www.koudijs.com.gh/siteassets/products/large-bags_pigs_koudijs_romelko-general_gaszak.jpg?format=webp&mode=max&width=2048&height=1200" }
 ];
 
 const cart = [];
+
+const categoryFallbackImages = {
+  "Poultry Feed": "images/poultry-feed-bg.svg",
+  "Fish Feed":    "images/fish-feed-bg.svg",
+  "Pig Feed":     "images/pig-feed-bg.svg",
+  "Special Feed": "images/hero-bg.svg",
+};
 
 const productGrid = document.getElementById("productGrid");
 const cartItems = document.getElementById("cartItems");
@@ -100,7 +107,8 @@ function renderProducts() {
     .map(
       (product) => `
       <article class="product-card" data-id="${product.id}" role="button" tabindex="0" aria-label="Click to view ${product.name}">
-        <img class="product-thumb" src="${product.image}" alt="${product.name}" loading="lazy" />
+        <img class="product-thumb" src="${product.image}" alt="${product.name}" loading="lazy"
+             onerror="this.onerror=null;this.src='${categoryFallbackImages[product.category] || "images/hero-bg.svg"}'" />
         <h3>${product.name}</h3>
         <div class="product-meta">
           <span>${product.category}</span>
@@ -371,7 +379,8 @@ function showProductDetails(productId) {
 
   document.getElementById("productModalTitle").textContent = product.name;
   document.getElementById("productModalBody").innerHTML = `
-    <img src="${product.image}" alt="${product.name}" class="product-detail-image" />
+    <img src="${product.image}" alt="${product.name}" class="product-detail-image"
+         onerror="this.onerror=null;this.src='${categoryFallbackImages[product.category] || "images/hero-bg.svg"}'" />
     <div class="product-detail-info">
       <h3>${product.name}</h3>
       <p class="product-detail-category">${product.category}</p>
