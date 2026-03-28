@@ -1,0 +1,11 @@
+127.0.0.1 - - [28/Mar/2026 09:12:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET /styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET /images/hero-bg.svg HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET /images/fish-feed-bg.svg HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET /images/poultry-feed-bg.svg HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:03] "GET /images/pig-feed-bg.svg HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:20] "GET /images/hero-bg.svg HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:12:20] "GET /images/fish-feed-bg.svg HTTP/1.1" 200 -
+127.0.0.1 - - [28/Mar/2026 09:13:18] "GET /images/fish-feed-bg.svg HTTP/1.1" 200 -
