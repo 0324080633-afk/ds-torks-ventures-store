@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS TORKS VENTURES | Revenue Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="index.html" class="brand">DS TORKS VENTURES</a>
+      <nav class="nav-links" aria-label="Main menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="shop.html">Shop</a>
+      </nav>
+      <div class="topbar-actions">
+        <a href="shop.html" class="auth-btn">Back To Shop</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="affiliate-section">
+      <div class="container">
+        <h2>Affiliate Revenue Dashboard</h2>
+        <p class="shop-note">Admin-only page for this browser. Set or enter your passcode to view tracked affiliate performance.</p>
+
+        <div id="adminGate" class="lead-card">
+          <p id="adminGateMessage" class="shop-note">Enter passcode to continue.</p>
+
+          <form id="adminSetupForm" class="hidden dashboard-form">
+            <label for="adminPassA">Create Passcode</label>
+            <input id="adminPassA" type="password" minlength="4" required />
+            <label for="adminPassB">Confirm Passcode</label>
+            <input id="adminPassB" type="password" minlength="4" required />
+            <button type="submit" class="cta">Create And Open Dashboard</button>
+          </form>
+
+          <form id="adminUnlockForm" class="hidden dashboard-form">
+            <label for="adminPassInput">Passcode</label>
+            <input id="adminPassInput" type="password" required />
+            <button type="submit" class="cta">Unlock Dashboard</button>
+          </form>
+        </div>
+
+        <div id="adminDashboardApp" class="hidden"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="monetize.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Environment variables — NEVER commit .env
+.env
+
+# Database files — persistent data, do not commit
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/

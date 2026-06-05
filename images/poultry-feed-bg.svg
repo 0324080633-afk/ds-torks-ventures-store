@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Poultry feed background">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7edd2"/>
+      <stop offset="100%" stop-color="#e2d4a7"/>
+    </linearGradient>
+    <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="2" fill="#d4c388" opacity="0.55"/>
+      <circle cx="24" cy="24" r="2" fill="#d4c388" opacity="0.55"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#g)"/>
+  <rect width="800" height="500" fill="url(#dots)"/>
+  <path d="M0 360 Q160 300 320 360 T640 360 T800 360 V500 H0 Z" fill="#c8b77f" opacity="0.7"/>
+  <circle cx="120" cy="120" r="60" fill="#f1dfad" opacity="0.55"/>
+  <circle cx="680" cy="90" r="50" fill="#f1dfad" opacity="0.45"/>
+</svg>

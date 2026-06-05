@@ -27,29 +27,233 @@ const cartItems = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
 const cartCount = document.getElementById("cartCount");
 const cartPanel = document.getElementById("cartPanel");
-const whatsappOrder = document.getElementById("whatsappOrder");
 const cartWhatsappOrder = document.getElementById("cartWhatsappOrder");
-const cashierItems = document.getElementById("cashierItems");
-const cashierTotal = document.getElementById("cashierTotal");
-const adminProductCount = document.getElementById("adminProductCount");
-const adminLowStock = document.getElementById("adminLowStock");
 
 const businessPhone = "233537840502";
 let currentFilter = null; // Track current category filter
 
-// Payment details
-const paymentDetails = {
-  momo: {
-    network: "MTN",
-    number: "0543682525",
-    accountName: "DS TORKS VENTURES"
+const feedingGuides = {
+  1: {
+    target: "Layer chickens",
+    ageStage: "18 weeks and above (early laying)",
+    schedule: "Feed 2 times daily with clean water all day",
+    rate: "Approx. 110-120g per bird per day",
+    tips: "Best for birds just entering lay. Keep calcium supplements available.",
   },
-  bank: {
-    name: "Zenith Bank",
-    accountName: "Sylvia Akorsua Lagble",
-    accountNumber: "6010625165"
-  }
+  2: {
+    target: "Layer chickens",
+    ageStage: "Peak laying phase",
+    schedule: "Feed morning and evening consistently",
+    rate: "Approx. 115-125g per bird per day",
+    tips: "Use during stable production period for shell quality and egg volume.",
+  },
+  3: {
+    target: "Growing pullets",
+    ageStage: "8-14 weeks",
+    schedule: "2-3 feedings per day",
+    rate: "Approx. 70-95g per bird per day",
+    tips: "Do not mix with layer feed too early to avoid premature laying.",
+  },
+  4: {
+    target: "Day-old chicks",
+    ageStage: "0-4 weeks",
+    schedule: "Small frequent feedings throughout the day",
+    rate: "Approx. 20-55g per chick per day",
+    tips: "Spread feed on clean paper trays in first days to encourage intake.",
+  },
+  5: {
+    target: "Broiler chicks",
+    ageStage: "0-2 weeks",
+    schedule: "Ad-lib feeding (always available)",
+    rate: "Approx. 25-70g per bird per day",
+    tips: "Keep brooder warm and dry for best starter response.",
+  },
+  6: {
+    target: "Broilers",
+    ageStage: "4 weeks to market",
+    schedule: "Ad-lib feeding until sale",
+    rate: "Approx. 130-180g per bird per day",
+    tips: "Use in final growth stage for weight gain before market.",
+  },
+  7: {
+    target: "Broilers",
+    ageStage: "2-4 weeks",
+    schedule: "Ad-lib feeding",
+    rate: "Approx. 70-130g per bird per day",
+    tips: "Transition gradually from starter to grower over 2-3 days.",
+  },
+  8: {
+    target: "Catfish",
+    ageStage: "Juvenile to grow-out",
+    schedule: "Feed 2-3 times daily",
+    rate: "2-4% of total biomass per day",
+    tips: "Use where fish can consume within 10-15 minutes to reduce waste.",
+  },
+  9: {
+    target: "Catfish",
+    ageStage: "Large growers and adults",
+    schedule: "Feed 2 times daily",
+    rate: "1.5-3% of total biomass per day",
+    tips: "Prefer evening feeding in hot weather for better feed response.",
+  },
+  10: {
+    target: "Poultry (concentrate mix)",
+    ageStage: "As formulation requires",
+    schedule: "Mix with maize or local grains before feeding",
+    rate: "Use according to formulated ration percentage",
+    tips: "Do not feed straight. Must be diluted in a complete ration mix.",
+  },
+  11: {
+    target: "Poultry (premix)",
+    ageStage: "All growth stages with proper formulation",
+    schedule: "Add to feed during ration preparation",
+    rate: "Low inclusion only, based on mixing guide",
+    tips: "Do not over-dose. Use precise weighing for premix safety.",
+  },
+  12: {
+    target: "Piglets",
+    ageStage: "2-8 weeks",
+    schedule: "Feed 3-4 small meals daily",
+    rate: "Start low then increase gradually",
+    tips: "Introduce from creep area while piglets still suckling.",
+  },
+  13: {
+    target: "Growing pigs",
+    ageStage: "8-16 weeks",
+    schedule: "Feed 2-3 times daily",
+    rate: "Approx. 1.2-2.0kg per pig per day",
+    tips: "Adjust quantity to body condition and growth target.",
+  },
+  14: {
+    target: "Finishing pigs",
+    ageStage: "16 weeks to market",
+    schedule: "Feed 2 times daily",
+    rate: "Approx. 2.0-3.0kg per pig per day",
+    tips: "Use in final phase to improve market weight and carcass quality.",
+  },
+  15: {
+    target: "Pullets",
+    ageStage: "14-18 weeks",
+    schedule: "Feed 2 times daily",
+    rate: "Approx. 95-105g per bird per day",
+    tips: "Supports frame development before moving to layer feed.",
+  },
+  16: {
+    target: "Pullets",
+    ageStage: "2-4 weeks before lay",
+    schedule: "Feed 2 times daily",
+    rate: "Approx. 100-110g per bird per day",
+    tips: "Shift to layer ration once first eggs appear.",
+  },
+  17: {
+    target: "Catfish",
+    ageStage: "Fry and small fingerlings",
+    schedule: "Feed 3-4 times daily in small amounts",
+    rate: "4-8% of total biomass per day",
+    tips: "Frequent feeding supports early survival and uniform growth.",
+  },
+  18: {
+    target: "Multi-species supplement",
+    ageStage: "Use as advised for target species",
+    schedule: "Blend with base ration",
+    rate: "Follow farm nutritionist or label guide",
+    tips: "Works best as supportive supplement, not sole feed.",
+  },
+  19: {
+    target: "Multi-species performance booster",
+    ageStage: "Performance or recovery periods",
+    schedule: "Use with balanced base feed",
+    rate: "Follow product inclusion guideline",
+    tips: "Combine with good water management and hygiene for best results.",
+  },
 };
+
+function getFeedingGuide(productId) {
+  return feedingGuides[productId] || {
+    target: "Livestock",
+    ageStage: "Follow stage-appropriate feeding",
+    schedule: "Feed regularly with clean water available",
+    rate: "Adjust by body weight and farm practice",
+    tips: "Contact support for a custom farm feeding plan.",
+  };
+}
+
+function getApiBase() {
+  const isLocalHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  const isBackendPort = window.location.port === "3000";
+
+  if (isLocalHost && !isBackendPort) {
+    return "http://localhost:3000";
+  }
+
+  return "";
+}
+
+function buildApiUrl(path) {
+  return `${getApiBase()}${path}`;
+}
+
+async function parseApiResponse(response) {
+  const raw = await response.text();
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch (_error) {
+    throw new Error("Payment service returned an invalid response. Ensure backend server is running on port 3000.");
+  }
+}
+
+function normalizeGhanaPhoneInput(raw) {
+  const input = String(raw || "").trim();
+  if (!input) {
+    return null;
+  }
+
+  const compact = input.replace(/[\s()-]/g, "");
+
+  if (/^\+233\d{9}$/.test(compact)) {
+    return compact;
+  }
+  if (/^233\d{9}$/.test(compact)) {
+    return `+${compact}`;
+  }
+  if (/^0\d{9}$/.test(compact)) {
+    return `+233${compact.slice(1)}`;
+  }
+  if (/^\d{9}$/.test(compact)) {
+    return `+233${compact}`;
+  }
+
+  return null;
+}
+
+function updateMomoOtpDestinationPreview() {
+  const preview = document.getElementById("momoOtpDestination");
+  if (!preview) {
+    return;
+  }
+
+  const payment = document.getElementById("paymentMethod")?.value || "";
+  if (payment !== "Mobile Money") {
+    preview.textContent = "Authorization code is sent to the payer's phone for digital payments.";
+    return;
+  }
+
+  const momoRaw = document.getElementById("momoPhone")?.value || "";
+  const customerRaw = document.getElementById("customerPhone")?.value || "";
+  const normalized = normalizeGhanaPhoneInput(momoRaw || customerRaw);
+
+  if (!normalized) {
+    preview.textContent = "Enter a valid MoMo number (for example: +233531234567).";
+    return;
+  }
+
+  preview.textContent = `Authorization code will be sent to: ${normalized}`;
+}
+
 
 function formatGHS(value) {
   return `GHS ${value.toFixed(2)}`;
@@ -74,19 +278,9 @@ function buildWhatsAppMessage() {
 
 function updateWhatsAppLinks() {
   const url = `https://wa.me/${businessPhone}?text=${buildWhatsAppMessage()}`;
-  whatsappOrder.href = url;
   cartWhatsappOrder.href = url;
 }
 
-function renderOpsPanel() {
-  const lowStockCount = products.filter((product) => product.stock <= 12).length;
-  if (adminProductCount) {
-    adminProductCount.textContent = String(products.length);
-  }
-  if (adminLowStock) {
-    adminLowStock.textContent = String(lowStockCount);
-  }
-}
 
 function renderProducts() {
   let productsToRender = products;
@@ -118,12 +312,6 @@ function renderCart() {
     cartItems.innerHTML = "<p>Your cart is empty.</p>";
     cartTotal.textContent = "GHS 0.00";
     cartCount.textContent = "0";
-    if (cashierItems) {
-      cashierItems.textContent = "0";
-    }
-    if (cashierTotal) {
-      cashierTotal.textContent = "GHS 0.00";
-    }
     updateWhatsAppLinks();
     return;
   }
@@ -147,12 +335,6 @@ function renderCart() {
 
   cartTotal.textContent = formatGHS(total);
   cartCount.textContent = String(count);
-  if (cashierItems) {
-    cashierItems.textContent = String(count);
-  }
-  if (cashierTotal) {
-    cashierTotal.textContent = formatGHS(total);
-  }
   updateWhatsAppLinks();
 }
 
@@ -266,6 +448,8 @@ document.getElementById("paymentMethod").addEventListener("change", (e) => {
   const momoSection = document.getElementById("momoSection");
   const bankSection = document.getElementById("bankSection");
   const cashSection = document.getElementById("cashSection");
+  const momoEl = document.getElementById("momoPhone");
+  const customerPhoneInput = document.getElementById("customerPhone");
 
   // Hide all sections
   momoSection.classList.add("hidden");
@@ -273,21 +457,42 @@ document.getElementById("paymentMethod").addEventListener("change", (e) => {
   cashSection.classList.add("hidden");
 
   // Clear payment-specific fields
-  document.getElementById("momoRef").value = "";
-  document.getElementById("momoPIN").value = "";
   document.getElementById("bankReceipt").value = "";
 
   // Show selected section
   if (payment === "Mobile Money") {
+    if (momoEl && !momoEl.value.trim() && customerPhoneInput?.value.trim()) {
+      momoEl.value = customerPhoneInput.value.trim();
+    }
     momoSection.classList.remove("hidden");
   } else if (payment === "Bank Transfer") {
     bankSection.classList.remove("hidden");
   } else if (payment === "Cash on Delivery") {
     cashSection.classList.remove("hidden");
   }
+
+  updateMomoOtpDestinationPreview();
 });
 
-document.getElementById("checkoutForm").addEventListener("submit", (event) => {
+document.getElementById("customerPhone")?.addEventListener("input", () => {
+  const payment = document.getElementById("paymentMethod")?.value || "";
+  const momoEl = document.getElementById("momoPhone");
+  const customerPhoneInput = document.getElementById("customerPhone");
+
+  if (payment === "Mobile Money" && momoEl && !momoEl.value.trim() && customerPhoneInput?.value.trim()) {
+    momoEl.value = customerPhoneInput.value.trim();
+  }
+
+  updateMomoOtpDestinationPreview();
+});
+
+document.getElementById("momoPhone")?.addEventListener("input", () => {
+  updateMomoOtpDestinationPreview();
+});
+
+let pendingPaymentReference = null;
+
+document.getElementById("checkoutForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   
   const name = document.getElementById("customerName").value.trim();
@@ -301,23 +506,32 @@ document.getElementById("checkoutForm").addEventListener("submit", (event) => {
     return;
   }
 
+  const normalizedCustomerPhone = normalizeGhanaPhoneInput(phone);
+  if (!normalizedCustomerPhone) {
+    alert("Enter a valid customer phone number in Ghana format (for example: +233531234567).");
+    return;
+  }
+  document.getElementById("customerPhone").value = normalizedCustomerPhone;
+
   if (cart.length === 0) {
     alert("Your cart is empty.");
     return;
   }
 
-  // Validate payment-specific fields
+  let finalPhone = normalizedCustomerPhone;
   if (payment === "Mobile Money") {
-    const momoRef = document.getElementById("momoRef").value.trim();
-    const momoPIN = document.getElementById("momoPIN").value.trim();
-    if (!momoRef || !momoPIN) {
-      alert("Please enter your MoMo reference and PIN.");
+    const momoPhone = document.getElementById("momoPhone")?.value.trim();
+    if (!momoPhone) {
+      alert("Please enter your MoMo Phone number.");
       return;
     }
-    if (momoPIN.length !== 4 || isNaN(momoPIN)) {
-      alert("MoMo PIN must be 4 digits.");
+    const normalizedMomoPhone = normalizeGhanaPhoneInput(momoPhone);
+    if (!normalizedMomoPhone) {
+      alert("Enter a valid MoMo phone number in Ghana format (for example: +233531234567).");
       return;
     }
+    document.getElementById("momoPhone").value = normalizedMomoPhone;
+    finalPhone = normalizedMomoPhone;
   } else if (payment === "Bank Transfer") {
     const bankReceipt = document.getElementById("bankReceipt").value.trim();
     if (!bankReceipt) {
@@ -326,29 +540,180 @@ document.getElementById("checkoutForm").addEventListener("submit", (event) => {
     }
   }
 
-  const orderId = generateOrderId();
-  const lines = cart.map((item) => `${item.name} x ${item.qty} = ${formatGHS(item.price * item.qty)}`);
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  
-  let paymentInfo = `Payment Method: ${payment}`;
-  if (payment === "Mobile Money") {
-    const momoRef = document.getElementById("momoRef").value.trim();
-    paymentInfo += `%0AMTN Number: ${paymentDetails.momo.number}%0AMoMo Reference: ${momoRef}`;
-  } else if (payment === "Bank Transfer") {
-    const bankReceipt = document.getElementById("bankReceipt").value.trim();
-    paymentInfo += `%0A${paymentDetails.bank.name}: ${paymentDetails.bank.accountNumber}%0AReceipt Reference: ${bankReceipt}`;
+if (payment === "Cash on Delivery") {
+    const order = await saveOrderToDatabase(`COD-${generateOrderId()}`);
+    if (order) {
+      alert(`✅ Payment Successful!\n\nOrder Number: ${order.order_number}\n\nWe will contact you shortly to confirm delivery. Thank you for shopping with DS TORKS VENTURES!`);
+    } else {
+      alert("⚠️ Order placed but could not be saved to the system. Please contact us directly via WhatsApp.");
+    }
+    resetCartAndCheckout();
+    return;
   }
-  
-  const message = `*NEW ORDER - DS TORKS VENTURES*%0AOrder ID: ${orderId}%0A%0A*Customer Details:*%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0A%0A*Payment:*%0A${paymentInfo}%0A${notes ? `%0A*Special Notes:*%0A${notes}` : ""}%0A%0A*Order Items:*%0A${lines.join("%0A")}%0A%0A*Order Total: ${formatGHS(total)}*`;
 
-  const url = `https://wa.me/${businessPhone}?text=${message}`;
-  window.open(url, "_blank");
+  const orderId = generateOrderId();
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
+  const payload = {
+    paymentMethod: payment,
+    phone: finalPhone,
+    amount: total,
+    customer: { name, email: `guest-${orderId.toLowerCase()}@dstorks.local`, phone: normalizedCustomerPhone, address, notes },
+    metadata: { items: cart.map(i => i.id) }
+  };
+
+  try {
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    submitBtn.textContent = "Processing...";
+    submitBtn.disabled = true;
+
+    const response = await fetch(buildApiUrl("/api/payments/authorization/request"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await parseApiResponse(response);
+
+    if (!data || !data.ok) {
+      throw new Error((data && data.error) || "Failed to initiate payment. Confirm backend is running on http://localhost:3000.");
+    }
+
+    if (data.requiresCode) {
+       pendingPaymentReference = data.reference;
+       document.getElementById("checkoutModal").classList.remove("open");
+       document.getElementById("otpModal").classList.add("open");
+    } else if (data.requiresRedirect) {
+       window.location.href = data.authorizationUrl;
+    } else {
+       alert("Payment Successful! Your order has been placed.");
+       resetCartAndCheckout();
+    }
+  } catch (err) {
+    alert("Payment Error: " + err.message);
+  } finally {
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.textContent = "Complete Payment & Order";
+      submitBtn.disabled = false;
+    }
+  }
+});
+
+async function saveOrderToDatabase(paymentReference) {
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
+  const address = document.getElementById("customerAddress").value.trim();
+  const payment = document.getElementById("paymentMethod").value.trim();
+  const notes = document.getElementById("specialNotes").value.trim();
+  const email = document.getElementById("regEmail")?.value?.trim() || null;
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  try {
+    // 1. Create order in SQLite
+    const orderRes = await fetch(buildApiUrl("/api/orders"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customer: {
+          name,
+          email,
+          phone,
+          business: null,
+          notes,
+        },
+        items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty })),
+        totalAmount: total,
+        paymentReference,
+        deliveryAddress: address,
+        paymentMethod: payment,
+      }),
+    });
+
+    const orderData = await orderRes.json();
+
+    if (!orderData.success) {
+      throw new Error(orderData.error || "Failed to save order.");
+    }
+
+    // 2. Deduct stock for each item
+    await fetch(buildApiUrl("/api/products/deduct-stock"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: cart.map(i => ({ productId: i.id, qty: i.qty })),
+      }),
+    });
+
+    return orderData.order;
+  } catch (err) {
+    console.error("Failed to save order to database:", err.message);
+    return null;
+  }
+}
+
+function resetCartAndCheckout() {
   cart.length = 0;
   renderCart();
   document.getElementById("checkoutModal").classList.remove("open");
-  document.getElementById("checkoutForm").reset();
-  alert(`Order ${orderId} sent! Please wait for confirmation from DS TORKS VENTURES.`);
+  document.getElementById("otpModal")?.classList.remove("open");
+  const checkoutForm = document.getElementById("checkoutForm");
+  if (checkoutForm) checkoutForm.reset();
+}
+
+const customOtpForm = document.getElementById("otpForm");
+if (customOtpForm) {
+  customOtpForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const code = document.getElementById("otpCode").value.trim();
+    if (!code || !pendingPaymentReference) return;
+
+    try {
+      const verifyBtn = document.getElementById("verifyOtpBtn");
+      verifyBtn.textContent = "Verifying...";
+      verifyBtn.disabled = true;
+
+      const res = await fetch(buildApiUrl("/api/payments/authorization/verify"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reference: pendingPaymentReference,
+          authCode: code
+        })
+      });
+
+      const data = await parseApiResponse(res);
+
+      if (!data || !data.ok) {
+        throw new Error((data && data.error) || "Failed to verify OTP. Confirm backend is reachable.");
+      }
+
+if (data.authorized) {
+        document.getElementById("otpModal").classList.remove("open");
+        const order = await saveOrderToDatabase(pendingPaymentReference);
+        if (order) {
+          alert(`✅ Payment Successful!\n\nOrder Number: ${order.order_number}\n\nWe will begin processing your order right away. Thank you for choosing DS TORKS VENTURES!`);
+        } else {
+          alert("⚠️ Payment confirmed but order could not be saved. Please contact us via WhatsApp with your payment reference.");
+        }
+        resetCartAndCheckout();
+      } else {
+        alert("Payment not authorized: " + data.message);
+      }
+    } catch (err) {
+      alert("Verification Error: " + err.message);
+    } finally {
+      const verifyBtn = document.getElementById("verifyOtpBtn");
+      if (verifyBtn) {
+        verifyBtn.textContent = "Verify Payment";
+        verifyBtn.disabled = false;
+      }
+    }
+  });
+}
+
+document.getElementById("closeOtp")?.addEventListener("click", () => {
+    document.getElementById("otpModal").classList.remove("open");
 });
 
 document.getElementById("checkoutModal").addEventListener("click", (event) => {
@@ -361,6 +726,7 @@ document.getElementById("checkoutModal").addEventListener("click", (event) => {
 function showProductDetails(productId) {
   const product = products.find((p) => p.id === productId);
   if (!product) return;
+  const guide = getFeedingGuide(product.id);
 
   const stockStatus = product.stock > 20 ? "available" : product.stock > 0 ? "low" : "unavailable";
   const stockClass = `stock-${stockStatus}`;
@@ -381,6 +747,16 @@ function showProductDetails(productId) {
     <div>
       <h4>Product Details</h4>
       <p>${product.description}</p>
+    </div>
+    <div class="feeding-guide" aria-label="Feeding guide">
+      <h4>When and How To Feed</h4>
+      <div class="feeding-guide-grid">
+        <p><strong>Best For:</strong> ${guide.target}</p>
+        <p><strong>Age/Stage:</strong> ${guide.ageStage}</p>
+        <p><strong>Feeding Schedule:</strong> ${guide.schedule}</p>
+        <p><strong>Recommended Rate:</strong> ${guide.rate}</p>
+      </div>
+      <p class="feeding-guide-tip"><strong>Practical Tip:</strong> ${guide.tips}</p>
     </div>
     <div class="quantity-selector">
       <button type="button" class="qty-decrease" data-id="${product.id}">−</button>
@@ -418,7 +794,7 @@ function showProductDetails(productId) {
   document.getElementById("productModal").classList.add("open");
 }
 
-// Registration Functions
+// ── Registration & Profile Functions ─────────────────────────────────────────
 function loadCustomerProfile() {
   const saved = localStorage.getItem("customerProfile");
   return saved ? JSON.parse(saved) : null;
@@ -428,11 +804,31 @@ function saveCustomerProfile(profile) {
   localStorage.setItem("customerProfile", JSON.stringify(profile));
 }
 
+function updateAccountButton() {
+  const profile = loadCustomerProfile();
+  const accountBtn = document.getElementById("accountBtn");
+  if (!accountBtn) return;
+  if (profile) {
+    accountBtn.textContent = "My Account";
+    accountBtn.style.background = "var(--accent)";
+    accountBtn.style.color = "#fff";
+  }
+}
+
+// My Account button — redirect to profile page
+document.getElementById("accountBtn")?.addEventListener("click", () => {
+  const profile = loadCustomerProfile();
+  if (profile) {
+    window.location.href = "profile.html";
+  } else {
+    window.location.href = "profile.html";
+  }
+});
+
 document.getElementById("registerBtn").addEventListener("click", () => {
   const profile = loadCustomerProfile();
   if (profile) {
-    alert(`Welcome back, ${profile.fullName}! Your profile is loaded.`);
-    autofillCheckout(profile);
+    window.location.href = "profile.html";
   } else {
     document.getElementById("registrationModal").classList.add("open");
   }
@@ -442,9 +838,9 @@ document.getElementById("closeRegistration").addEventListener("click", () => {
   document.getElementById("registrationModal").classList.remove("open");
 });
 
-document.getElementById("registrationForm").addEventListener("submit", (event) => {
+document.getElementById("registrationForm").addEventListener("submit", async (event) => {
   event.preventDefault();
-  
+
   const profile = {
     fullName: document.getElementById("regFullName").value,
     email: document.getElementById("regEmail").value,
@@ -458,11 +854,36 @@ document.getElementById("registrationForm").addEventListener("submit", (event) =
     return;
   }
 
+  // Save to localStorage for fast UX
   saveCustomerProfile(profile);
+
+  // Also save to SQLite database
+  try {
+    const normalizedPhone = normalizeGhanaPhoneInput(profile.phone);
+    const response = await fetch(buildApiUrl("/api/customers"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName: profile.fullName,
+        email: profile.email,
+        phone: normalizedPhone || profile.phone,
+        address: profile.address,
+        business: profile.business,
+      }),
+    });
+    const data = await response.json();
+    if (!data.success) {
+      console.warn("Could not save customer to database:", data.error);
+    }
+  } catch (_err) {
+    console.warn("Could not reach server to save customer profile.");
+  }
+
   document.getElementById("registrationModal").classList.remove("open");
-  alert(`Welcome, ${profile.fullName}! Your account has been created successfully.`);
+  alert(`✅ Account created for ${profile.fullName}!\n\nYour profile is saved. Click "My Account" to manage your details and view orders.`);
   autofillCheckout(profile);
   document.getElementById("registrationForm").reset();
+  updateAccountButton();
 });
 
 function autofillCheckout(profile) {
@@ -487,40 +908,12 @@ document.getElementById("registrationModal").addEventListener("click", (event) =
   }
 });
 
-// Payment Details Modal
-const paymentDetailsBtn = document.getElementById("paymentDetailsBtn");
-const paymentDetailsModal = document.getElementById("paymentDetailsModal");
-const closePaymentDetails = document.getElementById("closePaymentDetails");
-
-if (paymentDetailsBtn && paymentDetailsModal && closePaymentDetails) {
-  paymentDetailsBtn.addEventListener("click", () => {
-    paymentDetailsModal.classList.add("open");
-    paymentDetailsModal.setAttribute("aria-hidden", "false");
-  });
-
-  closePaymentDetails.addEventListener("click", () => {
-    paymentDetailsModal.classList.remove("open");
-    paymentDetailsModal.setAttribute("aria-hidden", "true");
-  });
-
-  paymentDetailsModal.addEventListener("click", (event) => {
-    if (event.target === paymentDetailsModal) {
-      paymentDetailsModal.classList.remove("open");
-      paymentDetailsModal.setAttribute("aria-hidden", "true");
-    }
-  });
-}
-
 // Escape key to close modals
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     document.getElementById("checkoutModal")?.classList.remove("open");
     document.getElementById("productModal")?.classList.remove("open");
     document.getElementById("registrationModal")?.classList.remove("open");
-    if (paymentDetailsModal) {
-      paymentDetailsModal.classList.remove("open");
-      paymentDetailsModal.setAttribute("aria-hidden", "true");
-    }
   }
 });
 
@@ -574,9 +967,26 @@ if (clearCartBtn) {
   });
 }
 
+// Sync products to SQLite database on page load
+async function syncProductsToDatabase() {
+  try {
+    const response = await fetch(buildApiUrl("/api/products/sync"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ products }),
+    });
+    const data = await response.json();
+    if (data.success) {
+      console.log(`[DB] Synced ${data.count} products to SQLite database.`);
+    }
+  } catch (_err) {
+    // Non-critical — products render from JS array regardless
+    console.warn("[DB] Could not sync products to database.");
+  }
+}
+
 renderProducts();
 renderCart();
-renderOpsPanel();
 updateWhatsAppLinks();
 
 // Load customer profile if exists
@@ -584,3 +994,9 @@ const savedProfile = loadCustomerProfile();
 if (savedProfile) {
   autofillCheckout(savedProfile);
 }
+
+// Sync products to database (runs in background, doesn't block rendering)
+syncProductsToDatabase();
+
+// Update account button appearance based on saved profile
+updateAccountButton();

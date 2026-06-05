@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS TORKS VENTURES | Animal Feed Store</title>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="index.html" class="brand">DS TORKS VENTURES</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="#shop">Shop</a>
+        <a href="#featured">Featured</a>
+      </nav>
+      <div class="topbar-actions">
+        <button id="registerBtn" class="auth-btn" aria-label="Create account">Register</button>
+        <button id="cartButton" class="cart-btn" aria-label="Open cart">
+          Cart <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="kicker">Trusted Feed Supply 2026</p>
+          <h1>Quality animal feed for healthy growth and strong yields</h1>
+          <p>
+            Shop trusted feed formulas for poultry, fish, pigs, and livestock.
+            Reliable nutrition, fair prices, and fast delivery for farms of every size.
+          </p>
+          <a href="#shop" class="cta">Start Shopping</a>
+        </div>
+        <div class="hero-card" aria-hidden="true">
+          <p>Bulk delivery for farms</p>
+          <p>30-day returns</p>
+          <p>Secure checkout</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="featured" class="featured">
+      <div class="container">
+        <h2>Featured Feed Categories</h2>
+        <div class="category-grid">
+          <article class="category" data-bg="poultry">Poultry Feed</article>
+          <article class="category" data-bg="fish">Fish Feed</article>
+          <article class="category" data-bg="pig">Pig Feed</article>
+          <article class="category" data-bg="special">Special Feed</article>
+        </div>
+      </div>
+    </section>
+
+    <section class="monetize-strip">
+      <div class="container monetize-grid">
+        <article class="ad-unit" aria-label="Advertisement">
+          <p class="ad-label">Sponsored</p>
+          <div class="ad-placeholder" data-ad-slot="2001">In-Shop Ad Slot (replace publisher ID)</div>
+        </article>
+        <article class="lead-card">
+          <h3>Bulk Buyers Discount</h3>
+          <p>Buying in volume? Contact us for distributor and farm bulk pricing options.</p>
+          <a class="cta whatsapp" href="https://wa.me/233503269673?text=Hello%20DS%20TORKS%20VENTURES%2C%20I%20want%20bulk%20pricing%20for%20feed." target="_blank" rel="noopener noreferrer">Request Bulk Quote</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="shop" class="shop">
+      <div class="container">
+        <div class="shop-head">
+          <h2>Poultry Feed Price List</h2>
+          <button id="clearCart" class="ghost-btn">Clear Cart</button>
+        </div>
+        <p class="shop-note">Official DS TORKS VENTURES product and price list. Click on any product to view details.</p>
+        <div id="productGrid" class="product-grid"></div>
+      </div>
+    </section>
+
+    <section class="affiliate-section">
+      <div class="container">
+        <h2>Related Farm Essentials</h2>
+        <p class="shop-note">Affiliate recommendations. We may earn a commission from qualified purchases.</p>
+        <div class="affiliate-grid">
+          <article class="affiliate-card">
+            <h3>Automatic Feeders</h3>
+            <p>Reduce feed waste and labor with controlled feeding systems.</p>
+            <a class="ghost-btn affiliate-link" data-label="automatic-feeders" href="https://example.com/automatic-feeders" target="_blank" rel="nofollow noopener noreferrer">View Supplier</a>
+          </article>
+          <article class="affiliate-card">
+            <h3>Pond Water Test Kits</h3>
+            <p>Monitor water quality to improve fish feed conversion and growth.</p>
+            <a class="ghost-btn affiliate-link" data-label="pond-test-kits" href="https://example.com/pond-test-kits" target="_blank" rel="nofollow noopener noreferrer">View Supplier</a>
+          </article>
+          <article class="affiliate-card">
+            <h3>Pig Pen Drinkers</h3>
+            <p>Keep clean water available and reduce contamination risk.</p>
+            <a class="ghost-btn affiliate-link" data-label="pig-drinkers" href="https://example.com/pig-drinkers" target="_blank" rel="nofollow noopener noreferrer">View Supplier</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <aside id="cartPanel" class="cart-panel" aria-live="polite" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button id="closeCart" class="icon-btn" aria-label="Close cart">x</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-footer">
+      <p>Total: <strong id="cartTotal">GHS 0.00</strong></p>
+      <button id="checkoutBtn" class="checkout-btn" type="button">Checkout</button>
+      <a id="cartWhatsappOrder" class="checkout-btn whatsapp-checkout" href="#" target="_blank" rel="noopener noreferrer">Send Cart to WhatsApp</a>
+    </div>
+  </aside>
+
+  <div id="productModal" class="modal">
+    <div class="modal-content product-modal-content">
+      <div class="modal-header">
+        <h2 id="productModalTitle">Product Details</h2>
+        <button id="closeProduct" class="icon-btn" aria-label="Close">x</button>
+      </div>
+      <div id="productModalBody" class="product-modal-body">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <div id="registrationModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Create Your Account</h2>
+        <button id="closeRegistration" class="icon-btn" aria-label="Close">x</button>
+      </div>
+      <form id="registrationForm">
+        <div class="form-group">
+          <label for="regFullName">Full Name *</label>
+          <input type="text" id="regFullName" name="fullName" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email Address *</label>
+          <input type="email" id="regEmail" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="regPhone">Phone Number *</label>
+          <input type="tel" id="regPhone" name="phone" placeholder="+233 24 000 0000" required />
+        </div>
+        <div class="form-group">
+          <label for="regAddress">Default Delivery Address</label>
+          <textarea id="regAddress" name="address" placeholder="Your delivery address" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="regBusiness">Business/Farm Name</label>
+          <input type="text" id="regBusiness" name="business" placeholder="Your farm or business name" />
+        </div>
+        <button type="submit" class="checkout-btn">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Complete Your Order</h2>
+        <button id="closeCheckout" class="icon-btn" aria-label="Close checkout">x</button>
+      </div>
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label for="customerName">Full Name *</label>
+          <input type="text" id="customerName" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label for="customerPhone">Phone Number *</label>
+          <input type="tel" id="customerPhone" name="phone" placeholder="+233 24 000 0000" required />
+        </div>
+        <div class="form-group">
+          <label for="customerAddress">Delivery Address *</label>
+          <textarea id="customerAddress" name="address" placeholder="Your delivery address" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method *</label>
+          <select id="paymentMethod" name="payment" required>
+            <option value="">Select a payment method</option>
+            <option value="Cash on Delivery">Cash on Delivery</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="Mobile Money">Mobile Money</option>
+          </select>
+        </div>
+
+        <div id="momoSection" class="payment-section hidden">
+          <div class="payment-section-header">
+            <h3>MTN Mobile Money Payment</h3>
+          </div>
+          <div class="form-group">
+            <label for="momoPhone">MoMo Phone Number *</label>
+            <input type="tel" id="momoPhone" name="momoPhone" placeholder="+233 24 000 0000" />
+            <p class="pin-note">Use the customer's own MoMo number. The authorization code is sent to this number.</p>
+            <p id="momoOtpDestination" class="pin-note">Authorization code is sent to the payer's phone for digital payments.</p>
+          </div>
+        </div>
+
+        <div id="bankSection" class="payment-section hidden">
+          <div class="payment-section-header">
+            <h3>Bank Transfer Payment</h3>
+          </div>
+          <div class="form-group">
+            <label for="bankReceipt">Bank Receipt Reference *</label>
+            <input type="text" id="bankReceipt" name="bankReceipt" placeholder="e.g., Reference or Transaction ID" />
+          </div>
+        </div>
+
+        <div id="cashSection" class="payment-section hidden">
+          <div class="payment-section-header">
+            <h3>Cash on Delivery</h3>
+          </div>
+          <div class="cash-message">
+            <p>You'll pay the driver when your order arrives.</p>
+            <p>Order Total: <strong id="cashTotal">GHS 0.00</strong></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="specialNotes">Special Instructions (Optional)</label>
+          <textarea id="specialNotes" name="notes" placeholder="Any special requests or instructions" rows="2"></textarea>
+        </div>
+        <p class="order-summary">
+          Order Total: <strong id="checkoutTotal">GHS 0.00</strong>
+        </p>
+        <button type="submit" class="checkout-btn">Complete Payment & Order</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="otpModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Enter Authorization Code</h2>
+        <button id="closeOtp" class="icon-btn" aria-label="Close OTP">x</button>
+      </div>
+      <form id="otpForm" style="padding: 1.2rem; display: grid; gap: 1rem;">
+        <p>An authorization OTP has been sent. Please enter it below to confirm your payment.</p>
+        <div class="form-group">
+          <label for="otpCode">OTP Code *</label>
+          <input type="text" id="otpCode" name="otpCode" placeholder="Enter 6-digit code" required />
+        </div>
+        <button type="submit" id="verifyOtpBtn" class="checkout-btn">Verify Payment</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="monetize.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Fish feed background">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8f1f4"/>
+      <stop offset="100%" stop-color="#a9dbe3"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#g)"/>
+  <path d="M0 120 C120 80 220 160 340 120 C460 80 560 160 680 120 C730 104 765 108 800 120" stroke="#7bc3cf" stroke-width="10" fill="none" opacity="0.6"/>
+  <path d="M0 230 C120 190 220 270 340 230 C460 190 560 270 680 230 C730 214 765 218 800 230" stroke="#5ab0bf" stroke-width="10" fill="none" opacity="0.5"/>
+  <path d="M0 340 C120 300 220 380 340 340 C460 300 560 380 680 340 C730 324 765 328 800 340" stroke="#3f97aa" stroke-width="10" fill="none" opacity="0.45"/>
+  <circle cx="120" cy="90" r="6" fill="#ffffff" opacity="0.5"/>
+  <circle cx="210" cy="60" r="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="620" cy="80" r="5" fill="#ffffff" opacity="0.5"/>
+</svg>

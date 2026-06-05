@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DS TORKS VENTURES | Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .contact-page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .contact-info {
+      background: #f5f5f5;
+      padding: 2rem;
+      border-radius: 16px;
+    }
+    .contact-form-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+    }
+    .feedback {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+    }
+    .feedback.success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .feedback.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    @media (max-width: 768px) {
+      .contact-page-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="index.html" class="brand">DS TORKS VENTURES</a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="shop.html">Shop</a>
+      </nav>
+      <div class="topbar-actions">
+        <a href="shop.html" class="auth-btn">Go To Shop</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="contact-page-grid">
+      <div class="contact-info">
+        <h2>Get In Touch</h2>
+        <p>📍 <strong>Address:</strong> Datalink Road, Ho, Ghana</p>
+        <p>⏰ <strong>Hours:</strong> Mon - Sat, 7:30 AM - 5:00 PM</p>
+        <p>📞 <strong>Phone:</strong> +233 53 784 0502</p>
+        <p>📞 <strong>Phone:</strong> +233 24 4844701</p>
+        <p>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/233503269673" target="_blank">Chat with us</a></p>
+      </div>
+      
+      <div class="contact-form-container">
+        <h2>Send Us a Message</h2>
+        <form id="contactForm">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" id="contactName" required>
+          </div>
+          <div class="form-group">
+            <label>Email (optional)</label>
+            <input type="email" id="contactEmail">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="contactPhone" placeholder="024XXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>Message *</label>
+            <textarea id="contactMessage" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="cta">Send Message</button>
+          <div id="formFeedback" class="feedback"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API_BASE = window.location.origin;
+    
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('contactName').value;
+      const email = document.getElementById('contactEmail').value;
+      const phone = document.getElementById('contactPhone').value;
+      const message = document.getElementById('contactMessage').value;
+      const feedback = document.getElementById('formFeedback');
+      
+      feedback.innerHTML = 'Sending...';
+      feedback.className = 'feedback';
+      
+      try {
+        const response = await fetch(`${API_BASE}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, message })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          feedback.innerHTML = '✅ Message sent successfully! We will contact you soon.';
+          feedback.className = 'feedback success';
+          document.getElementById('contactForm').reset();
+        } else {
+          feedback.innerHTML = '❌ Error: ' + data.error;
+          feedback.className = 'feedback error';
+        }
+      } catch (error) {
+        feedback.innerHTML = '❌ Network error. Please try again.';
+        feedback.className = 'feedback error';
+      }
+      
+      setTimeout(() => {
+        feedback.innerHTML = '';
+        feedback.className = 'feedback';
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
