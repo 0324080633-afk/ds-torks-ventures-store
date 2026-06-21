@@ -1,305 +1,339 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const helmet = require("helmet");
-const path = require("path");
-const fs = require("fs");
-const { createAuthorizationRequest, verifyAuthorization, getPaymentByReference } = require("./server/services/paymentGateway");
-const db = require("./db");
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const db = require('./db');
+const paymentGateway = require('./server/services/paymentGateway');
 
 const app = express();
-const PORT = Number(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
 
-const allowedOrigins = new Set([
-  "http://localhost:3000", "http://127.0.0.1:3000",
-  "http://localhost:5500", "http://127.0.0.1:5500",
-]);
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname)));
 
-app.use(helmet({
-  crossOriginEmbedderPolicy: false,
-  contentSecurityPolicy: {
-    directives: {
-      "script-src": ["'self'", "'unsafe-inline'"],
-      "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      "font-src": ["'self'", "https://fonts.gstatic.com"],
-      "img-src": ["'self'", "data:", "https:"],
-      "connect-src": ["'self'", "http://localhost:3000"],
-      "frame-src": ["'self'", "https://pagead2.googlesyndication.com"],
-    },
-  },
-}));
+// ============ PUBLIC ROUTES ============
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.has(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.setHeader("Vary", "Origin");
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'about.html'));
+});
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'contact.html'));
+});
+
+app.get('/shop', (req, res) => {
+  res.sendFile(path.join(__dirname, 'shop.html'));
+});
+
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'profile.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// ============ API ROUTES ============
+
+app.get('/api/products', async (req, res) => {
+  try {
+    const products = await db.getAllProducts();
+    res.json(products);
+  } catch (error) {
+    console.error('Fetch products error:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
   }
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  return next();
 });
 
-app.use(express.json({ limit: "1mb" }));
-
-// Health
-app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, service: "ds-torks-api", provider: (process.env.PAYMENT_GATEWAY_PROVIDER || "mock").toLowerCase(), date: new Date().toISOString() });
-});
-
-// Payment endpoints
-app.post("/api/payments/authorization/request", async (req, res) => {
+app.get('/api/products/:id', async (req, res) => {
   try {
-    const { paymentMethod, phone, amount, customer, metadata } = req.body || {};
-    if (!paymentMethod || !phone || !amount) return res.status(400).json({ ok: false, error: "paymentMethod, phone, and amount are required." });
-    const result = await createAuthorizationRequest({ paymentMethod, phone, amount, customer, metadata, currency: process.env.PAYMENT_CURRENCY || "GHS" });
-    return res.status(200).json({ ok: true, ...result });
-  } catch (error) { return res.status(400).json({ ok: false, error: error.message || "Failed to create authorization request." }); }
+    const product = await db.getProduct(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+    res.json(product);
+  } catch (error) {
+    console.error('Fetch product error:', error);
+    res.status(500).json({ error: 'Failed to fetch product' });
+  }
 });
 
-app.post("/api/payments/authorization/verify", async (req, res) => {
+app.post('/api/customers/register', async (req, res) => {
   try {
-    const { reference, authCode } = req.body || {};
-    if (!reference) return res.status(400).json({ ok: false, error: "reference is required." });
-    const result = await verifyAuthorization({ reference, authCode });
-    return res.status(200).json({ ok: true, ...result });
-  } catch (error) { return res.status(400).json({ ok: false, error: error.message || "Failed to verify authorization." }); }
-});
-
-app.get("/api/payments/:reference", (req, res) => {
-  const payment = getPaymentByReference(req.params.reference);
-  if (!payment) return res.status(404).json({ ok: false, error: "Payment not found." });
-  return res.json({ ok: true, payment });
-});
-
-// Customers
-app.post("/api/customers", (req, res) => {
-  try {
-    const { fullName, email, phone, address, business } = req.body || {};
-    if (!fullName || !phone) return res.status(400).json({ success: false, error: "fullName and phone are required." });
-    const customerId = db.upsertCustomer({ full_name: fullName, email: email || null, phone, address: address || null, business_name: business || null });
-    res.json({ success: true, customer: db.getCustomerById.get(customerId) });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
-});
-
-app.get("/api/customers/lookup", (req, res) => {
-  const { email, phone } = req.query;
-  if (!email && !phone) return res.status(400).json({ success: false, error: "email or phone query parameter is required." });
-  let customer = null;
-  if (email) customer = db.getCustomerByEmail.get(email);
-  if (!customer && phone) customer = db.getCustomerByPhone.get(phone);
-  if (!customer) return res.status(404).json({ success: false, error: "Customer not found." });
-  res.json({ success: true, customer });
-});
-
-// Products
-app.get("/api/products", (_req, res) => {
-  try { res.json({ success: true, count: db.getAllProducts().length, products: db.getAllProducts() }); }
-  catch (error) { res.status(500).json({ success: false, error: error.message }); }
-});
-
-app.get("/api/products/:id", (req, res) => {
-  try {
-    const product = db.getProductById(req.params.id);
-    if (!product) return res.status(404).json({ success: false, error: "Product not found." });
-    res.json({ success: true, product });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
-});
-
-app.post("/api/products/sync", (req, res) => {
-  try {
-    const { products } = req.body || {};
-    if (!Array.isArray(products) || !products.length) return res.status(400).json({ success: false, error: "products array is required." });
-    db.syncProducts(products);
-    res.json({ success: true, message: `Synced ${products.length} products.`, count: db.getAllProducts().length });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
-});
-
-app.post("/api/products/deduct-stock", (req, res) => {
-  try {
-    const { items } = req.body || {};
-    if (!Array.isArray(items)) return res.status(400).json({ success: false, error: "items array is required." });
-    const deductions = [];
-    for (const item of items) {
-      if (!item.productId || !item.qty) continue;
-      const result = db.updateProductStock.run(item.qty, item.productId, item.qty);
-      deductions.push({ productId: item.productId, deducted: result.changes > 0 });
+    const { name, email, phone, address } = req.body;
+    if (!name || !email || !phone) {
+      return res.status(400).json({ error: 'Name, email, and phone are required' });
     }
-    res.json({ success: true, deductions });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const existing = await db.getCustomerByEmail(email);
+    if (existing) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
+    const customer = await db.createCustomer({ name, email, phone, address });
+    res.status(201).json({ message: 'Registration successful', customer });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Registration failed' });
+  }
 });
 
-// Contact
-app.post("/api/contact", (req, res) => {
+app.post('/api/customers/login', async (req, res) => {
   try {
-    const { name, email, phone, message } = req.body || {};
-    if (!name || !message) return res.status(400).json({ success: false, error: "Name and message are required." });
-    const saved = db.saveContactMessage({ name, email: email || null, phone: phone || null, message });
-    res.json({ success: true, message: "Message received!", id: saved.id });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Email is required' });
+    const customer = await db.getCustomerByEmail(email);
+    if (!customer) return res.status(404).json({ error: 'Customer not found' });
+    res.json({ message: 'Login successful', customer });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Login failed' });
+  }
 });
 
-// Orders
-app.post("/api/orders", (req, res) => {
+app.get('/api/customers/:id', async (req, res) => {
   try {
-    const { customer, items, totalAmount, paymentReference, deliveryAddress, paymentMethod } = req.body || {};
-    if (!customer || !items || !items.length) return res.status(400).json({ success: false, error: "Customer and items are required." });
-    if (!deliveryAddress || !paymentMethod) return res.status(400).json({ success: false, error: "deliveryAddress and paymentMethod are required." });
-
-    const customerId = db.upsertCustomer({ full_name: customer.name || "Guest", email: customer.email || null, phone: customer.phone || "", address: deliveryAddress || null, business_name: customer.business || null });
-
-    const now = new Date();
-    const orderNumber = `DSTV-${now.toISOString().slice(0, 10).replace(/-/g, "")}-${Math.floor(Math.random() * 10000).toString().padStart(4, "0")}`;
-
-    const order = db.createOrder(
-      { orderNumber, customerId, customerName: customer.name || "Guest", customerPhone: customer.phone || "", customerEmail: customer.email || null, deliveryAddress, paymentMethod, paymentReference: paymentReference || null, specialNotes: customer.notes || null, totalAmount: totalAmount || 0 },
-      items.map(i => ({ productId: i.id, name: i.name, price: i.price, qty: i.qty || 1 }))
-    );
-
-    res.json({ success: true, order, items: db.getOrderItems(order.id) });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const customer = await db.getCustomer(req.params.id);
+    if (!customer) return res.status(404).json({ error: 'Customer not found' });
+    res.json(customer);
+  } catch (error) {
+    console.error('Fetch customer error:', error);
+    res.status(500).json({ error: 'Failed to fetch customer' });
+  }
 });
 
-app.get("/api/orders/:orderNumber", (req, res) => {
+app.post('/api/orders', async (req, res) => {
   try {
-    const order = db.getOrderByNumber(req.params.orderNumber);
-    if (!order) return res.status(404).json({ success: false, error: "Order not found." });
-    res.json({ success: true, order, items: db.getOrderItems(order.id) });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
-});
+    const { customerId, items, total, deliveryAddress, paymentMethod } = req.body;
+    if (!customerId || !items || items.length === 0 || !total) {
+      return res.status(400).json({ error: 'Missing required order data' });
+    }
+    
+    const customer = await db.getCustomer(customerId);
+    if (!customer) {
+      return res.status(400).json({ error: 'Customer not found' });
+    }
 
-// Admin auth
-function adminAuth(req, res, next) {
-  const token = req.headers["x-admin-token"] || "";
-  const validToken = process.env.ADMIN_SECRET_TOKEN || "dstorks-local-admin";
-  if (token !== validToken) return res.status(401).json({ success: false, error: "Unauthorized." });
-  return next();
-}
-
-app.get("/api/admin/stats", adminAuth, (_req, res) => {
-  try {
-    const orderStats = db.getOrderStats.get();
-    const todayStats = db.getTodayStats() || {};
-    const productStats = db.getProductStats() || {};
-    const todaySales = db.getTodaySalesByProduct() || [];
-    const recentOrders = db.getAllOrders().slice(0, 10);
-    const recentMessages = db.getAllContactMessages().slice(0, 10);
-    const allProducts = db.getAllProducts();
-    res.json({
-      success: true,
-      stats: {
-        totalOrders: orderStats.total_orders || 0,
-        totalRevenue: orderStats.total_revenue || 0,
-        deliveredOrders: orderStats.delivered_count || 0,
-        pendingOrders: orderStats.pending_count || 0,
-        cancelledOrders: orderStats.cancelled_count || 0,
-        unreadMessages: recentMessages.length,
-        activeProducts: allProducts.length,
-        todayOrders: todayStats.total_orders || 0,
-        todayRevenue: todayStats.total_revenue || 0,
-        todayUnitsSold: todaySales.reduce((sum, p) => sum + Number(p.units_sold), 0),
-        totalStock: productStats.total_stock || 0,
-        lowStockCount: productStats.low_stock_count || 0,
-        outOfStockCount: productStats.out_of_stock_count || 0,
-      },
-      todaySales, recentOrders, recentMessages,
+    const order = await db.createOrder({
+      customerId,
+      items: JSON.stringify(items),
+      total,
+      deliveryAddress: deliveryAddress || '',
+      paymentMethod: paymentMethod || 'paystack'
     });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    
+    // Decrement stock for each purchased item
+    for (const item of items) {
+      await db.decrementProductStock(item.id, item.quantity);
+    }
+
+    // Call payment gateway based on config
+    const provider = process.env.PAYMENT_GATEWAY_PROVIDER || 'mock';
+    if (provider === 'paystack') {
+      const paystackRes = await paymentGateway.initiatePayment({
+        amount: total,
+        currency: 'GHS',
+        customerId,
+        orderId: order.id,
+        phone: customer.phone,
+        email: customer.email
+      });
+
+      if (paystackRes.success) {
+        return res.status(201).json({
+          message: 'Order created, redirecting to payment page',
+          order,
+          payment: {
+            provider: 'paystack',
+            authorizationUrl: paystackRes.authorizationUrl,
+            reference: paystackRes.reference
+          }
+        });
+      } else {
+        return res.status(500).json({ error: paystackRes.error || 'Failed to initialize payment gateway' });
+      }
+    }
+    
+    // Default mock response for other modes
+    res.status(201).json({ message: 'Order created', order, payment: { provider: 'mock', success: true } });
+  } catch (error) {
+    console.error('Create order error:', error);
+    res.status(500).json({ error: 'Failed to create order' });
+  }
 });
 
-app.get("/api/admin/orders", adminAuth, (req, res) => {
+app.get('/api/orders/customer/:customerId', async (req, res) => {
   try {
-    const page = Math.max(1, Number(req.query.page) || 1);
-    const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
-    const offset = (page - 1) * limit;
-    const orders = db.db.prepare(`SELECT * FROM orders ORDER BY created_at DESC LIMIT ? OFFSET ?`).all(limit, offset);
-    res.json({ success: true, page, limit, orders });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const orders = await db.getCustomerOrders(req.params.customerId);
+    res.json(orders);
+  } catch (error) {
+    console.error('Fetch customer orders error:', error);
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
 });
 
-app.put("/api/admin/orders/:id/status", adminAuth, (req, res) => {
+app.patch('/api/orders/:id/status', async (req, res) => {
   try {
-    const { status } = req.body || {};
-    const validStatuses = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
-    if (!status || !validStatuses.includes(status)) return res.status(400).json({ success: false, error: "Invalid status." });
-    const result = db.updateOrderStatus.run(status, req.params.id);
-    if (result.changes === 0) return res.status(404).json({ success: false, error: "Order not found." });
-    res.json({ success: true, order: db.getOrderById.get(req.params.id) });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const { status } = req.body;
+    if (!status) return res.status(400).json({ error: 'Status is required' });
+    await db.updateOrderStatus(req.params.id, status);
+    res.json({ message: 'Order status updated' });
+  } catch (error) {
+    console.error('Update order status error:', error);
+    res.status(500).json({ error: 'Failed to update order status' });
+  }
 });
 
-app.get("/api/admin/messages", adminAuth, (req, res) => {
+app.post('/api/contact', async (req, res) => {
   try {
-    const page = Math.max(1, Number(req.query.page) || 1);
-    const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
-    const offset = (page - 1) * limit;
-    const messages = db.db.prepare(`SELECT * FROM contact_messages ORDER BY created_at DESC LIMIT ? OFFSET ?`).all(limit, offset);
-    const total = db.db.prepare(`SELECT COUNT(*) as count FROM contact_messages`).get().count;
-    res.json({ success: true, page, limit, total, messages });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const { name, email, phone, subject, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Name, email, and message are required' });
+    }
+    const contact = await db.createContactMessage({ name, email, phone, subject, message });
+    res.status(201).json({ message: 'Message sent successfully', contact });
+  } catch (error) {
+    console.error('Create contact message error:', error);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
 });
 
-app.get("/api/admin/orders/:id", adminAuth, (req, res) => {
+app.post('/api/payment/verify', async (req, res) => {
   try {
-    const order = db.getOrderById.get(req.params.id);
-    if (!order) return res.status(404).json({ success: false, error: "Order not found." });
-    res.json({ success: true, order, items: db.getOrderItems(order.id) });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const { orderId, reference } = req.body;
+    const provider = process.env.PAYMENT_GATEWAY_PROVIDER || 'mock';
+    
+    if (provider === 'paystack') {
+      if (!reference) {
+        return res.status(400).json({ error: 'Paystack reference is required' });
+      }
+      
+      const verifyRes = await paymentGateway.verifyPayment({ reference });
+      if (verifyRes.success) {
+        const orderIdToUpdate = verifyRes.orderId;
+        await db.updateOrder(orderIdToUpdate, { paymentStatus: 'paid', transactionId: verifyRes.transactionId });
+        return res.json({ success: true, orderId: orderIdToUpdate, transactionId: verifyRes.transactionId });
+      } else {
+        return res.status(400).json({ error: verifyRes.error || 'Payment verification failed' });
+      }
+    }
+    
+    // Fallback/Mock mode verification
+    const transactionId = 'MOCK-' + Date.now();
+    if (orderId) {
+      await db.updateOrder(orderId, { paymentStatus: 'paid', transactionId });
+    }
+    res.json({ success: true, transactionId });
+  } catch (error) {
+    console.error('Payment verify error:', error);
+    res.status(500).json({ error: 'Failed to verify payment' });
+  }
 });
 
-app.get("/api/admin/products", adminAuth, (req, res) => {
-  try { res.json({ success: true, products: db.getAllProducts(), stats: db.getProductStats() }); }
-  catch (error) { res.status(500).json({ success: false, error: error.message }); }
-});
+// ============ ADMIN ROUTES ============
 
-app.post("/api/admin/products", adminAuth, (req, res) => {
+const adminAuth = (req, res, next) => {
+  const token = req.headers['x-admin-token'];
+  if (token === process.env.ADMIN_SECRET_TOKEN) {
+    next();
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
+app.get('/api/admin/stats', adminAuth, async (req, res) => {
   try {
-    const { name, category, price, stock, description, image_url } = req.body || {};
-    if (!name || !price) return res.status(400).json({ success: false, error: "name and price are required." });
-    const product = db.addProduct({ name: String(name).trim(), category: String(category || "General").trim(), price: Number(price), stock: Number(stock || 0), description: String(description || "").trim(), image_url: String(image_url || "").trim() });
-    res.json({ success: true, product });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const stats = await db.getTodayStats();
+    const products = await db.getAllProducts();
+    const lowStock = products.filter(p => p.stock < 10);
+    res.json({ ...stats, totalProducts: products.length, lowStockCount: lowStock.length, lowStockProducts: lowStock });
+  } catch (error) {
+    console.error('Admin stats error:', error);
+    res.status(500).json({ error: 'Failed to fetch stats' });
+  }
 });
 
-app.put("/api/admin/products/:id", adminAuth, (req, res) => {
+app.get('/api/admin/orders', adminAuth, async (req, res) => {
+  try { 
+    res.json(await db.getAllOrders()); 
+  } catch (error) { 
+    console.error('Admin orders error:', error);
+    res.status(500).json({ error: 'Failed to fetch orders' }); 
+  }
+});
+
+app.get('/api/admin/products', adminAuth, async (req, res) => {
+  try { 
+    res.json(await db.getAllProducts()); 
+  } catch (error) { 
+    console.error('Admin products error:', error);
+    res.status(500).json({ error: 'Failed to fetch products' }); 
+  }
+});
+
+app.post('/api/admin/products', adminAuth, async (req, res) => {
   try {
-    const { name, category, price, stock, description, image_url } = req.body || {};
-    if (!name || !price) return res.status(400).json({ success: false, error: "name and price are required." });
-    const product = db.updateProduct({ id: Number(req.params.id), name: String(name).trim(), category: String(category || "General").trim(), price: Number(price), stock: Number(stock || 0), description: String(description || "").trim(), image_url: String(image_url || "").trim() });
-    if (!product) return res.status(404).json({ success: false, error: "Product not found." });
-    res.json({ success: true, product });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const { name, description, price, stock, category } = req.body;
+    const product = await db.addProduct({ name, description, price, stock, category });
+    res.status(201).json({ message: 'Product added', product });
+  } catch (error) {
+    console.error('Admin add product error:', error);
+    res.status(500).json({ error: 'Failed to add product' });
+  }
 });
 
-app.delete("/api/admin/products/:id", adminAuth, (req, res) => {
+app.put('/api/admin/products/:id', adminAuth, async (req, res) => {
   try {
-    const result = db.deactivateProduct.run(req.params.id);
-    if (result.changes === 0) return res.status(404).json({ success: false, error: "Product not found." });
-    res.json({ success: true, message: "Product removed." });
-  } catch (error) { res.status(500).json({ success: false, error: error.message }); }
+    const { name, description, price, stock, category } = req.body;
+    const product = await db.updateProduct(req.params.id, { name, description, price, stock, category });
+    res.json({ message: 'Product updated', product });
+  } catch (error) {
+    console.error('Admin update product error:', error);
+    res.status(500).json({ error: 'Failed to update product' });
+  }
 });
 
-// Static files
-app.use(express.static(path.resolve(__dirname)));
+app.delete('/api/admin/products/:id', adminAuth, async (req, res) => {
+  try { 
+    await db.deleteProduct(req.params.id); 
+    res.json({ message: 'Product deleted' }); 
+  } catch (error) { 
+    console.error('Admin delete product error:', error);
+    res.status(500).json({ error: 'Failed to delete product' }); 
+  }
+});
 
-// HTML routes
-const HTML_FILES = { "/": "index.html", "/shop": "shop.html", "/about": "about.html", "/contact": "contact.html", "/admin": "admin.html", "/monetize-admin": "monetize-admin.html", "/profile": "profile.html", "/profile.html": "profile.html" };
-for (const [route, file] of Object.entries(HTML_FILES)) {
-  app.get(route, (_req, res) => {
-    const filePath = path.join(__dirname, file);
-    if (fs.existsSync(filePath)) res.sendFile(filePath);
-    else res.status(404).send(`<p>${file} not found.</p>`);
+app.get('/api/admin/contact-messages', adminAuth, async (req, res) => {
+  try { 
+    res.json(await db.getAllContactMessages()); 
+  } catch (error) { 
+    console.error('Admin messages error:', error);
+    res.status(500).json({ error: 'Failed to fetch messages' }); 
+  }
+});
+
+app.get('/api/admin/customers', adminAuth, async (req, res) => {
+  try { 
+    res.json(await db.getAllCustomers()); 
+  } catch (error) { 
+    console.error('Admin customers error:', error);
+    res.status(500).json({ error: 'Failed to fetch customers' }); 
+  }
+});
+
+// Initialize database and start server
+db.initializeDatabase()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log('DS TORKS VENTURES server running on port ' + PORT);
+      console.log('Admin panel: http://localhost:' + PORT + '/admin');
+      console.log('Admin token: ' + (process.env.ADMIN_SECRET_TOKEN || 'change_me_now'));
+    });
+  })
+  .catch(err => {
+    console.error('Failed to initialize database:', err);
+    process.exit(1);
   });
-}
-
-// Error handler
-app.use((err, _req, res, _next) => {
-  res.status(err.status || 500).json({ ok: false, error: err.message || "Unexpected server error." });
-});
-
-app.listen(PORT, () => {
-  console.log(`\nDS TORKS VENTURES running on http://localhost:${PORT}`);
-  console.log(`Admin: http://localhost:${PORT}/admin`);
-  console.log(`Payment gateway: ${process.env.PAYMENT_GATEWAY_PROVIDER || "mock"}\n`);
-});

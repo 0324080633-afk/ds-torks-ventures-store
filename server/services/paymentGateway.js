@@ -1,353 +1,354 @@
-/**
- * DS TORKS VENTURES — Payment Gateway Service
- *
- * This module handles payment authorization requests and verifications.
- * Currently supports MOCK, MTN Mobile Money, and Vodafone Cash.
- *
- * Environment variables (add to .env):
- *   PAYMENT_GATEWAY_PROVIDER=mock   # or "mtn", "vodafone"
- *
- *   MTN credentials (from MTN Developer Portal):
- *   MTN_API_USER=your_primary_key_uuid
- *   MTN_API_KEY=your_secondary_key
- *   MTN_SUBSCRIPTION_KEY=your_secondary_key   # same as secondary key in new portal
- *   MTN_PRIMARY_KEY=your_primary_key_uuid
- *   MTN_TARGET_ENVIRONMENT=sandbox  # or "live"
- *   MTN_CALLBACK_HOST=yourdomain.com
- */
+require('dotenv').config();
 
-const PAYMENT_GATEWAY_MODE = process.env.PAYMENT_GATEWAY_PROVIDER || "mock";
+// Mock mode for testing - OTP is always "123456"
+const MOCK_MODE = process.env.PAYMENT_GATEWAY_PROVIDER !== 'mtn' && 
+                   process.env.PAYMENT_GATEWAY_PROVIDER !== 'vodafone' &&
+                   process.env.PAYMENT_GATEWAY_PROVIDER !== 'paystack';
 
-// In-memory store for mock payments (resets on server restart)
-const paymentStore = new Map();
-
-function generateReferenceId() {
-  // Format: DSTV-YYYYMMDD-XXXX
-  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  const rand = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
-  return `DSTV-${date}-${rand}`;
+// Simulate payment initiation
+async function initiatePayment({ amount, currency, customerId, orderId, phone, email }) {
+  console.log(`Payment initiation: ${currency} ${amount} for order ${orderId}`);
+  
+  // Real Paystack integration
+  if (process.env.PAYMENT_GATEWAY_PROVIDER === 'paystack') {
+    return initiatePaystackPayment({ amount, currency, email, orderId });
+  }
+  
+  if (MOCK_MODE) {
+    // Mock mode - return success after delay
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          success: true,
+          provider: 'mock',
+          message: 'Payment initiated successfully',
+          otpRequired: true,
+          instructions: 'Enter OTP code: 123456',
+          orderId: orderId
+        });
+      }, 1000);
+    });
+  }
+  
+  // Real MTN Mobile Money integration
+  if (process.env.PAYMENT_GATEWAY_PROVIDER === 'mtn') {
+    return initiateMTNPayment({ amount, currency, customerId, orderId, phone });
+  }
+  
+  // Real Vodafone Cash integration
+  if (process.env.PAYMENT_GATEWAY_PROVIDER === 'vodafone') {
+    return initiateVodafonePayment({ amount, currency, customerId, orderId, phone });
+  }
+  
+  return { success: false, error: 'Invalid payment provider' };
 }
 
-/**
- * Create an authorization request for a payment.
- * Called by POST /api/payments/authorization/request
- *
- * @param {Object} params
- * @param {string} params.paymentMethod  - "Mobile Money" | "Bank Transfer" | "Cash on Delivery"
- * @param {string} params.phone          - Customer phone number in format +233...
- * @param {number} params.amount         - Payment amount in GHS
- * @param {Object} [params.customer]     - Customer details
- * @param {Object} [params.metadata]     - Additional metadata
- * @param {string} [params.currency]     - Currency code (default: GHS)
- * @returns {Promise<Object>}            - Response with reference, requiresCode, etc.
- */
-async function createAuthorizationRequest({
-  paymentMethod,
-  phone,
-  amount,
-  customer,
-  metadata,
-  currency = "GHS",
-}) {
-  if (PAYMENT_GATEWAY_MODE === "mock") {
-    return handleMockPayment({ paymentMethod, phone, amount, customer, metadata, currency });
+// Verify payment
+async function verifyPayment({ orderId, otp, reference }) {
+  console.log(`Payment verification for order ${orderId} / ref ${reference}`);
+  
+  // Real Paystack verification
+  if (process.env.PAYMENT_GATEWAY_PROVIDER === 'paystack') {
+    return verifyPaystackPayment(reference);
   }
-
-  // ── Live MTN MoMo Integration ──────────────────────────────────────────────
-  if (PAYMENT_GATEWAY_MODE === "mtn" || PAYMENT_GATEWAY_MODE === "mtn-sandbox") {
-    return handleMtnPayment({ paymentMethod, phone, amount, customer, metadata, currency });
+  
+  if (MOCK_MODE) {
+    // Mock mode - accept "123456" as valid OTP
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (otp === '123456') {
+          resolve({
+            success: true,
+            provider: 'mock',
+            message: 'Payment verified successfully',
+            transactionId: `MOCK-${Date.now()}`
+          });
+        } else {
+          resolve({
+            success: false,
+            error: 'Invalid OTP code'
+          });
+        }
+      }, 500);
+    });
   }
-
-  // ── Vodaafone Pay Integration ───────────────────────────────────────────────
-  if (PAYMENT_GATEWAY_MODE === "vodafone" || PAYMENT_GATEWAY_MODE === "vodafone-sandbox") {
-    return handleVodafonePayment({ paymentMethod, phone, amount, customer, metadata, currency });
+  
+  // Real MTN verification
+  if (process.env.PAYMENT_GATEWAY_PROVIDER === 'mtn') {
+    return verifyMTNPayment({ orderId, referenceId: reference || otp });
   }
-
-  throw new Error(`Unknown PAYMENT_GATEWAY_PROVIDER: "${PAYMENT_GATEWAY_MODE}". Set to mock, mtn, or vodafone.`);
+  
+  return { success: false, error: 'Invalid payment provider' };
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  MOCK MODE — For testing without a real payment provider
-// ══════════════════════════════════════════════════════════════════════════════
-
-function handleMockPayment({ paymentMethod, phone, amount, customer, metadata, currency }) {
-  const reference = generateReferenceId();
-
-  // Store payment in memory
-  paymentStore.set(reference, {
-    reference,
-    paymentMethod,
-    phone,
-    amount,
-    currency,
-    customer,
-    metadata,
-    status: "pending",
-    authorized: false,
-    createdAt: new Date().toISOString(),
-  });
-
-  // MoMo payments require an OTP step in mock mode
-  if (paymentMethod === "Mobile Money") {
-    const mockOtp = "123456"; // Simulated OTP
-    console.log(`\n[MOCK] Payment reference: ${reference}`);
-    console.log(`[MOCK] Simulated OTP sent to ${phone}: ${mockOtp}`);
-    console.log(`[MOCK] Use OTP ${mockOtp} to verify this payment.\n`);
-
-    return {
-      requiresCode: true,
-      reference,
-      message: `Mock OTP sent to ${phone}. Use code: ${mockOtp}`,
-    };
-  }
-
-  // Bank Transfer and Cash on Delivery skip OTP in mock mode
-  if (paymentMethod === "Bank Transfer") {
-    paymentStore.set(reference, { ...paymentStore.get(reference), authorized: true, status: "authorized" });
-    return {
-      requiresCode: false,
-      reference,
-      authorized: true,
-      message: "Bank transfer authorized (mock mode).",
-    };
-  }
-
-  // Cash on Delivery
-  paymentStore.set(reference, { ...paymentStore.get(reference), authorized: true, status: "authorized" });
-  return {
-    requiresCode: false,
-    reference,
-    authorized: true,
-    message: "Order placed for Cash on Delivery (mock mode).",
-  };
+// Check payment status
+async function checkPaymentStatus(orderId) {
+  // In a real implementation, this would check with the payment provider
+  return { status: 'pending' };
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  MTN MOBILE MONEY — Production integration
-//  See: https://momodeveloper.mtn.com/
-// ══════════════════════════════════════════════════════════════════════════════
+// ============ MTN Mobile Money Integration ============
 
-async function getMtnAccessToken() {
-  const apiUser = process.env.MTN_API_USER;
-  const apiKey = process.env.MTN_API_KEY; // This is the secondary key in newer portal
-  const subscriptionKey = process.env.MTN_SUBSCRIPTION_KEY || apiKey; // fallback to secondary key
-  const environment = process.env.MTN_TARGET_ENVIRONMENT || "sandbox";
-
-  const baseUrl =
-    environment === "sandbox"
-      ? "https://sandbox.momodeveloper.mtn.com"
-      : "https://proxy.mymtn.com";
-
-  // 1. Create API user
-  const userRes = await fetch(`${baseUrl}/v1_0/apiuser`, {
-    method: "POST",
-    headers: {
-      "Ocp-Apim-Subscription-Key": subscriptionKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ providerCallbackHost: process.env.MTN_CALLBACK_HOST || "localhost" }),
-  });
-
-  if (!userRes.ok && userRes.status !== 409) {
-    throw new Error("Failed to create MTN API user");
-  }
-
-  // 2. Create API key for that user
-  const keyRes = await fetch(`${baseUrl}/v1_0/apiuser/${apiUser}/apikey`, {
-    method: "POST",
-    headers: { "Ocp-Apim-Subscription-Key": subscriptionKey },
-  });
-
-  if (!keyRes.ok) {
-    throw new Error("Failed to create MTN API key");
-  }
-
-  const { apiKey: generatedKey } = await keyRes.json();
-
-  // 3. Get OAuth token
-  const tokenRes = await fetch(`${baseUrl}/disbursement/token`, {
-    method: "POST",
-    headers: {
-      "Ocp-Apim-Subscription-Key": subscriptionKey,
-      Authorization: `Basic ${Buffer.from(`${apiUser}:${generatedKey}`).toString("base64")}`,
-    },
-  });
-
-  if (!tokenRes.ok) {
-    throw new Error("Failed to get MTN access token");
-  }
-
-  const { access_token } = await tokenRes.json();
-  return { access_token, baseUrl };
-}
-
-async function handleMtnPayment({ paymentMethod, phone, amount, customer, metadata, currency }) {
-  if (paymentMethod !== "Mobile Money") {
-    throw new Error("MTN gateway only supports Mobile Money payments.");
-  }
-
-  const { access_token, baseUrl } = await getMtnAccessToken();
-  const reference = generateReferenceId();
-  const subscriptionKey = process.env.MTN_SUBSCRIPTION_KEY;
-
-  const collectionRes = await fetch(`${baseUrl}/disbursement/v1_0/transfer`, {
-    method: "POST",
-    headers: {
-      "Ocp-Apim-Subscription-Key": subscriptionKey,
-      Authorization: `Bearer ${access_token}`,
-      "X-Reference-Id": reference,
-      "X-Target-Environment": process.env.MTN_TARGET_ENVIRONMENT || "sandbox",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      amount: String(amount),
-      currency,
-      externalId: reference,
-      payer: {
-        partyIdType: "MSISDN",
-        partyId: phone.replace("+", ""), // MTN expects 233XXXXXXXXX without +
+async function initiateMTNPayment({ amount, currency, customerId, orderId, phone }) {
+  try {
+    const environment = process.env.MTN_TARGET_ENVIRONMENT || 'sandbox';
+    const baseUrl = environment === 'live' 
+      ? 'https://live.momodeveloper.mtn.com' 
+      : 'https://sandbox.momodeveloper.mtn.com';
+    
+    // Step 1: Get API User (usually done once, stored in config)
+    // For this implementation, we'll use the configured API User
+    
+    const apiUser = process.env.MTN_API_USER;
+    const apiKey = process.env.MTN_API_KEY;
+    const subscriptionKey = process.env.MTN_SUBSCRIPTION_KEY;
+    
+    if (!apiUser || !apiKey || !subscriptionKey) {
+      throw new Error('MTN API credentials not configured');
+    }
+    
+    // Step 2: Get Bearer Token
+    const tokenResponse = await fetch(`${baseUrl}/v1_0/apiuser/${apiUser}/token`, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': subscriptionKey,
+        'Authorization': 'Basic ' + Buffer.from(`${apiUser}:${apiKey}`).toString('base64')
+      }
+    });
+    
+    if (!tokenResponse.ok) {
+      throw new Error('Failed to get MTN API token');
+    }
+    
+    const tokenData = await tokenResponse.json();
+    const bearerToken = tokenData.access_token;
+    
+    // Step 3: Request to pay (initiate payment)
+    const referenceId = `DS-${orderId}-${Date.now()}`;
+    const payResponse = await fetch(`${baseUrl}/v1_0/requesttopay`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${bearerToken}`,
+        'X-Reference-Id': referenceId,
+        'X-Target-Environment': environment,
+        'Ocp-Apim-Subscription-Key': subscriptionKey,
+        'Content-Type': 'application/json'
       },
-      payeeNote: `DS TORKS VENTURES Order Payment - ${reference}`,
-      language: "EN",
-    }),
-  });
-
-  if (!collectionRes.ok) {
-    const err = await collectionRes.json().catch(() => ({}));
-    throw new Error(`MTN collection failed: ${err.message || collectionRes.statusText}`);
+      body: JSON.stringify({
+        amount: amount.toString(),
+        currency: currency || 'GHS',
+        externalId: orderId.toString(),
+        payer: {
+          partyIdType: 'MSISDN',
+          partyId: phone.replace(/^0/, '233') // Convert Ghana number format
+        },
+        payerMessage: `Payment for Order #${orderId} at DS TORKS VENTURES`,
+        payeeNote: `Animal Feed Order #${orderId}`
+      })
+    });
+    
+    if (!payResponse.ok) {
+      const error = await payResponse.text();
+      throw new Error(`MTN payment request failed: ${error}`);
+    }
+    
+    return {
+      success: true,
+      provider: 'mtn',
+      referenceId: referenceId,
+      message: 'MTN Mobile Money payment initiated. Check your phone.',
+      orderId: orderId
+    };
+  } catch (error) {
+    console.error('MTN Payment Error:', error);
+    return {
+      success: false,
+      error: error.message
+    };
   }
-
-  paymentStore.set(reference, {
-    reference,
-    paymentMethod,
-    phone,
-    amount,
-    currency,
-    customer,
-    metadata,
-    status: "pending",
-    authorized: false,
-    createdAt: new Date().toISOString(),
-  });
-
-  // In production, MTN will call back to your callback URL on success/failure
-  // For now, we check status via polling
-  return {
-    requiresCode: false,
-    reference,
-    message: "MoMo payment request sent. Check your phone to approve.",
-  };
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  VODAFONE CASH — Alternative mobile money integration
-//  See: https://developer.vodafone.com.gh/
-// ══════════════════════════════════════════════════════════════════════════════
+async function verifyMTNPayment({ orderId, referenceId }) {
+  try {
+    const environment = process.env.MTN_TARGET_ENVIRONMENT || 'sandbox';
+    const baseUrl = environment === 'live' 
+      ? 'https://live.momodeveloper.mtn.com' 
+      : 'https://sandbox.momodeveloper.mtn.com';
+    
+    const apiUser = process.env.MTN_API_USER;
+    const apiKey = process.env.MTN_API_KEY;
+    const subscriptionKey = process.env.MTN_SUBSCRIPTION_KEY;
 
-async function handleVodafonePayment({ paymentMethod, phone, amount, customer, metadata, currency }) {
-  if (paymentMethod !== "Mobile Money") {
-    throw new Error("Vodafone gateway only supports Mobile Money payments.");
-  }
-
-  // Replace with real Vodafone API integration
-  const reference = generateReferenceId();
-  console.log(`[VODAFONE] Payment request to ${phone} for ${currency} ${amount} — reference: ${reference}`);
-
-  paymentStore.set(reference, {
-    reference,
-    paymentMethod,
-    phone,
-    amount,
-    currency,
-    customer,
-    metadata,
-    status: "pending",
-    authorized: false,
-    createdAt: new Date().toISOString(),
-  });
-
-  return {
-    requiresCode: true,
-    reference,
-    message: "Vodafone Cash payment initiated. Enter the verification code.",
-  };
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  VERIFY AUTHORIZATION
-// ══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Verify an authorization code (e.g., OTP from MoMo).
- * Called by POST /api/payments/authorization/verify
- *
- * @param {Object} params
- * @param {string} params.reference  - Payment reference from createAuthorizationRequest
- * @param {string} [params.authCode] - Authorization code / OTP
- * @returns {Promise<Object>}
- */
-async function verifyAuthorization({ reference, authCode }) {
-  const payment = paymentStore.get(reference);
-
-  if (!payment) {
-    throw new Error(`Payment reference not found: ${reference}`);
-  }
-
-  if (PAYMENT_GATEWAY_MODE === "mock") {
-    const expectedCode = "123456";
-    if (authCode === expectedCode) {
-      payment.authorized = true;
-      payment.status = "authorized";
-      payment.verifiedAt = new Date().toISOString();
+    // Get token
+    const tokenResponse = await fetch(`${baseUrl}/v1_0/apiuser/${apiUser}/token`, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': subscriptionKey,
+        'Authorization': 'Basic ' + Buffer.from(`${apiUser}:${apiKey}`).toString('base64')
+      }
+    });
+    
+    const tokenData = await tokenResponse.json();
+    const bearerToken = tokenData.access_token;
+    
+    // Check transaction status
+    const statusResponse = await fetch(`${baseUrl}/v1_0/requesttopay/${referenceId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${bearerToken}`,
+        'X-Target-Environment': environment,
+        'Ocp-Apim-Subscription-Key': subscriptionKey
+      }
+    });
+    
+    const statusData = await statusResponse.json();
+    
+    if (statusData.status === 'SUCCESSFUL') {
       return {
-        ok: true,
-        authorized: true,
-        message: "Payment authorized successfully (mock mode).",
-        reference,
+        success: true,
+        provider: 'mtn',
+        transactionId: referenceId,
+        message: 'Payment successful'
+      };
+    } else if (statusData.status === 'PENDING') {
+      return {
+        success: false,
+        status: 'pending',
+        message: 'Payment still processing'
+      };
+    } else {
+      return {
+        success: false,
+        error: `Payment ${statusData.status.toLowerCase()}`
       };
     }
-    return {
-      ok: true,
-      authorized: false,
-      message: "Invalid OTP code.",
-      reference,
-    };
+  } catch (error) {
+    console.error('MTN Verification Error:', error);
+    return { success: false, error: error.message };
   }
-
-  // ── Live provider verification ─────────────────────────────────────────────
-  if (PAYMENT_GATEWAY_MODE === "mtn") {
-    // MTN verifies automatically via callback URL; this is for polling
-    return {
-      ok: true,
-      authorized: payment.status === "authorized",
-      message: payment.status === "authorized" ? "Payment confirmed." : "Payment still processing.",
-      reference,
-    };
-  }
-
-  // Add Vodafone verification logic here
-  if (PAYMENT_GATEWAY_MODE === "vodafone") {
-    return {
-      ok: true,
-      authorized: authCode === "VF123456", // Replace with real verification
-      message: "Verification result from Vodafone.",
-      reference,
-    };
-  }
-
-  throw new Error(`Unknown provider mode: ${PAYMENT_GATEWAY_MODE}`);
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  HELPER — Lookup a payment by reference
-// ══════════════════════════════════════════════════════════════════════════════
+// ============ Vodafone Cash Integration (Template) ============
 
-function getPaymentByReference(reference) {
-  return paymentStore.get(reference) || null;
+async function initiateVodafonePayment({ amount, currency, customerId, orderId, phone }) {
+  // Vodafone Cash integration would follow similar pattern
+  // Implementation depends on Vodafone Ghana API documentation
+  
+  return {
+    success: true,
+    provider: 'vodafone',
+    message: 'Vodafone Cash payment initiated. Check your phone.',
+    orderId: orderId
+  };
+}
+
+// ============ Paystack Integration ============
+
+async function initiatePaystackPayment({ amount, currency, email, orderId }) {
+  try {
+    const secretKey = process.env.PAYSTACK_SECRET_KEY;
+    const callbackUrl = process.env.PAYSTACK_CALLBACK_URL || 'http://localhost:3000/shop';
+    
+    if (!secretKey) {
+      throw new Error('Paystack API secret key not configured');
+    }
+    
+    const reference = `DS-PAYSTACK-${orderId}-${Date.now()}`;
+    const amountInPesewas = Math.round(amount * 100);
+    
+    const response = await fetch('https://api.paystack.co/transaction/initialize', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${secretKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        amount: amountInPesewas,
+        currency: currency || 'GHS',
+        reference,
+        callback_url: callbackUrl,
+        metadata: {
+          orderId
+        }
+      })
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Paystack initialization failed: ${errorText}`);
+    }
+    
+    const resData = await response.json();
+    if (!resData.status) {
+      throw new Error(`Paystack error: ${resData.message}`);
+    }
+    
+    return {
+      success: true,
+      provider: 'paystack',
+      authorizationUrl: resData.data.authorization_url,
+      reference: reference,
+      message: 'Redirect to Paystack checkout page'
+    };
+  } catch (error) {
+    console.error('Paystack Initiation Error:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+async function verifyPaystackPayment(reference) {
+  try {
+    const secretKey = process.env.PAYSTACK_SECRET_KEY;
+    if (!secretKey) {
+      throw new Error('Paystack API secret key not configured');
+    }
+    
+    const response = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${secretKey}`
+      }
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Paystack verification API error: ${errorText}`);
+    }
+    
+    const resData = await response.json();
+    if (!resData.status) {
+      throw new Error(`Paystack error: ${resData.message}`);
+    }
+    
+    if (resData.data.status === 'success') {
+      return {
+        success: true,
+        provider: 'paystack',
+        orderId: resData.data.metadata.orderId,
+        transactionId: reference,
+        message: 'Payment verified successfully'
+      };
+    } else {
+      return {
+        success: false,
+        error: `Transaction status is: ${resData.data.status}`
+      };
+    }
+  } catch (error) {
+    console.error('Paystack Verification Error:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 }
 
 module.exports = {
-  createAuthorizationRequest,
-  verifyAuthorization,
-  getPaymentByReference,
+  initiatePayment,
+  verifyPayment,
+  checkPaymentStatus
 };

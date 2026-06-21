@@ -1,266 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DS TORKS VENTURES | Animal Feed Store</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - DS TORKS VENTURES</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0C969C',
+            secondary: '#0A7075',
+            accent: '#6BA3BE',
+            dark: '#274D60',
+            light: '#031716'
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a href="index.html" class="brand">DS TORKS VENTURES</a>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="#shop">Shop</a>
-        <a href="#featured">Featured</a>
-      </nav>
-      <div class="topbar-actions">
-        <button id="registerBtn" class="auth-btn" aria-label="Create account">Register</button>
-        <button id="cartButton" class="cart-btn" aria-label="Open cart">
-          Cart <span id="cartCount" class="cart-count">0</span>
+<body class="font-sans antialiased">
+  <!-- Background Blobs -->
+  <div class="blob-bg">
+    <div class="blob-container">
+      <div class="blob-1"></div>
+      <div class="blob-2"></div>
+      <div class="blob-3"></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="glass-nav sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <a href="/" class="flex items-center space-x-2">
+          <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
+          <div>
+            <span class="font-bold text-lg text-gray-800">DS TORKS</span>
+            <span class="block text-xs text-primary font-medium">VENTURES</span>
+          </div>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
+          <a href="shop.html" class="text-primary font-medium">Shop</a>
+          <a href="about.html" class="text-gray-700 hover:text-primary font-medium">About</a>
+          <a href="contact.html" class="text-gray-700 hover:text-primary font-medium">Contact</a>
+          <a href="profile.html" class="text-gray-700 hover:text-primary font-medium">My Account</a>
+          <button onclick="toggleCart()" class="relative p-2">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="cartBadge" class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+          </button>
+        </div>
+        
+        <button id="mobileMenuBtn" class="md:hidden p-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
         </button>
       </div>
     </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <p class="kicker">Trusted Feed Supply 2026</p>
-          <h1>Quality animal feed for healthy growth and strong yields</h1>
-          <p>
-            Shop trusted feed formulas for poultry, fish, pigs, and livestock.
-            Reliable nutrition, fair prices, and fast delivery for farms of every size.
-          </p>
-          <a href="#shop" class="cta">Start Shopping</a>
-        </div>
-        <div class="hero-card" aria-hidden="true">
-          <p>Bulk delivery for farms</p>
-          <p>30-day returns</p>
-          <p>Secure checkout</p>
-        </div>
+    
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+      <div class="px-4 py-4 space-y-3">
+        <a href="/" class="block py-2 text-gray-700">Home</a>
+        <a href="shop.html" class="block py-2 text-gray-700">Shop</a>
+        <a href="about.html" class="block py-2 text-gray-700">About</a>
+        <a href="contact.html" class="block py-2 text-gray-700">Contact</a>
+        <a href="profile.html" class="block py-2 text-gray-700">My Account</a>
       </div>
-    </section>
-
-    <section id="featured" class="featured">
-      <div class="container">
-        <h2>Featured Feed Categories</h2>
-        <div class="category-grid">
-          <article class="category" data-bg="poultry">Poultry Feed</article>
-          <article class="category" data-bg="fish">Fish Feed</article>
-          <article class="category" data-bg="pig">Pig Feed</article>
-          <article class="category" data-bg="special">Special Feed</article>
-        </div>
-      </div>
-    </section>
-
-    <section class="monetize-strip">
-      <div class="container monetize-grid">
-        <article class="ad-unit" aria-label="Advertisement">
-          <p class="ad-label">Sponsored</p>
-          <div class="ad-placeholder" data-ad-slot="2001">In-Shop Ad Slot (replace publisher ID)</div>
-        </article>
-        <article class="lead-card">
-          <h3>Bulk Buyers Discount</h3>
-          <p>Buying in volume? Contact us for distributor and farm bulk pricing options.</p>
-          <a class="cta whatsapp" href="https://wa.me/233503269673?text=Hello%20DS%20TORKS%20VENTURES%2C%20I%20want%20bulk%20pricing%20for%20feed." target="_blank" rel="noopener noreferrer">Request Bulk Quote</a>
-        </article>
-      </div>
-    </section>
-
-    <section id="shop" class="shop">
-      <div class="container">
-        <div class="shop-head">
-          <h2>Poultry Feed Price List</h2>
-          <button id="clearCart" class="ghost-btn">Clear Cart</button>
-        </div>
-        <p class="shop-note">Official DS TORKS VENTURES product and price list. Click on any product to view details.</p>
-        <div id="productGrid" class="product-grid"></div>
-      </div>
-    </section>
-
-    <section class="affiliate-section">
-      <div class="container">
-        <h2>Related Farm Essentials</h2>
-        <p class="shop-note">Affiliate recommendations. We may earn a commission from qualified purchases.</p>
-        <div class="affiliate-grid">
-          <article class="affiliate-card">
-            <h3>Automatic Feeders</h3>
-            <p>Reduce feed waste and labor with controlled feeding systems.</p>
-            <a class="ghost-btn affiliate-link" data-label="automatic-feeders" href="https://example.com/automatic-feeders" target="_blank" rel="nofollow noopener noreferrer">View Supplier</a>
-          </article>
-          <article class="affiliate-card">
-            <h3>Pond Water Test Kits</h3>
-            <p>Monitor water quality to improve fish feed conversion and growth.</p>
-            <a class="ghost-btn affiliate-link" data-label="pond-test-kits" href="https://example.com/pond-test-kits" target="_blank" rel="nofollow noopener noreferrer">View Supplier</a>
-          </article>
-          <article class="affiliate-card">
-            <h3>Pig Pen Drinkers</h3>
-            <p>Keep clean water available and reduce contamination risk.</p>
-            <a class="ghost-btn affiliate-link" data-label="pig-drinkers" href="https://example.com/pig-drinkers" target="_blank" rel="nofollow noopener noreferrer">View Supplier</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <aside id="cartPanel" class="cart-panel" aria-live="polite" aria-label="Shopping cart">
-    <div class="cart-header">
-      <h3>Your Cart</h3>
-      <button id="closeCart" class="icon-btn" aria-label="Close cart">x</button>
     </div>
-    <div id="cartItems" class="cart-items"></div>
-    <div class="cart-footer">
-      <p>Total: <strong id="cartTotal">GHS 0.00</strong></p>
-      <button id="checkoutBtn" class="checkout-btn" type="button">Checkout</button>
-      <a id="cartWhatsappOrder" class="checkout-btn whatsapp-checkout" href="#" target="_blank" rel="noopener noreferrer">Send Cart to WhatsApp</a>
-    </div>
-  </aside>
+  </nav>
 
-  <div id="productModal" class="modal">
-    <div class="modal-content product-modal-content">
-      <div class="modal-header">
-        <h2 id="productModalTitle">Product Details</h2>
-        <button id="closeProduct" class="icon-btn" aria-label="Close">x</button>
+  <!-- Shop Header -->
+  <section class="bg-cover bg-center text-white py-12" style="background-image: linear-gradient(rgba(3, 47, 48, 0.70), rgba(3, 47, 48, 0.85)), url('images/logo0.png')">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h1 class="text-4xl font-bold mb-4">Our Products</h1>
+      <p class="text-xl text-white/90">Premium quality animal feed for every need</p>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="glass-nav py-4 sticky top-16 z-40 shadow-sm border-t border-white/20">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex flex-wrap gap-2">
+          <button onclick="filterProducts('all')" class="filter-btn px-4 py-2 rounded-full bg-primary text-white flex items-center gap-1.5" data-filter="all">All</button>
+          <button onclick="filterProducts('Layers Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Layers Feed">
+            <span>Layers</span>
+          </button>
+          <button onclick="filterProducts('Broiler Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Broiler Feed">
+            <span>Broilers</span>
+          </button>
+          <button onclick="filterProducts('Grower Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Grower Feed">
+            <span>Growers</span>
+          </button>
+          <button onclick="filterProducts('Fish Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Fish Feed">
+            <span>Fish</span>
+          </button>
+          <button onclick="filterProducts('Pig Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Pig Feed">
+            <span>Pigs</span>
+          </button>
+          <button onclick="filterProducts('Specialty Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Specialty Feed">
+            <span>Specialty</span>
+          </button>
+          <button onclick="filterProducts('Supplements')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Supplements">
+            <span>Supplements</span>
+          </button>
+        </div>
+        <div class="flex items-center">
+          <input type="text" id="searchInput" placeholder="Search products..." class="px-4 py-2 border rounded-lg w-64" onkeyup="searchProducts()">
+        </div>
       </div>
-      <div id="productModalBody" class="product-modal-body">
-        <!-- Dynamically populated -->
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div id="productsGrid" class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Products loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Sidebar -->
+  <div id="cartSidebar" class="fixed right-0 top-0 h-full w-full md:w-96 glass-panel border-l border-white/30 shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+    <div class="flex flex-col h-full">
+      <div class="flex justify-between items-center p-4 border-b bg-primary text-white">
+        <h2 class="text-xl font-bold">Shopping Cart</h2>
+        <button onclick="toggleCart()" class="p-2 hover:bg-white/20 rounded-full">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <!-- Cart items here -->
+      </div>
+      <div class="border-t p-4 bg-gray-50">
+        <div class="flex justify-between mb-4">
+          <span class="font-bold text-lg">Total:</span>
+          <span id="cartTotal" class="font-bold text-lg text-primary">GH₵ 0.00</span>
+        </div>
+        <button onclick="checkout()" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-dark transition">
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   </div>
 
-  <div id="registrationModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Create Your Account</h2>
-        <button id="closeRegistration" class="icon-btn" aria-label="Close">x</button>
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div class="p-6 border-b border-white/20 flex justify-between items-center sticky top-0 bg-white/60 backdrop-blur">
+        <h2 class="text-2xl font-bold">Checkout</h2>
+        <button onclick="closeCheckout()" class="p-2 hover:bg-gray-100 rounded-full">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
-      <form id="registrationForm">
-        <div class="form-group">
-          <label for="regFullName">Full Name *</label>
-          <input type="text" id="regFullName" name="fullName" placeholder="Your full name" required />
+      
+      <form id="checkoutForm" class="p-6 space-y-6">
+        <!-- Customer Info -->
+        <div id="customerSection">
+          <h3 class="font-bold text-lg mb-4">Customer Information</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+              <input type="text" id="customerName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+              <input type="email" id="customerEmail" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+              <input type="tel" id="customerPhone" required placeholder="e.g. 0241234567" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Address *</label>
+              <textarea id="deliveryAddress" required rows="2" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="regEmail">Email Address *</label>
-          <input type="email" id="regEmail" name="email" placeholder="your@email.com" required />
+        
+        <!-- Order Summary -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h3 class="font-bold text-lg mb-4">Order Summary</h3>
+          <div id="orderSummaryItems" class="space-y-2 mb-4">
+            <!-- Items -->
+          </div>
+          <div class="flex justify-between text-xl font-bold border-t pt-4">
+            <span>Total</span>
+            <span id="orderTotal" class="text-primary">GH₵ 0.00</span>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="regPhone">Phone Number *</label>
-          <input type="tel" id="regPhone" name="phone" placeholder="+233 24 000 0000" required />
+        
+        <!-- Payment Method -->
+        <div>
+          <h3 class="font-bold text-lg mb-4">Payment Method</h3>
+          <div class="space-y-3">
+            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+              <input type="radio" name="paymentMethod" value="mtn" checked class="w-5 h-5 text-primary">
+              <div class="ml-3">
+                <span class="font-medium">MTN Mobile Money</span>
+                <p class="text-sm text-gray-500">Pay with MoMo</p>
+              </div>
+            </label>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="regAddress">Default Delivery Address</label>
-          <textarea id="regAddress" name="address" placeholder="Your delivery address" rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="regBusiness">Business/Farm Name</label>
-          <input type="text" id="regBusiness" name="business" placeholder="Your farm or business name" />
-        </div>
-        <button type="submit" class="checkout-btn">Create Account</button>
+        
+        <button type="submit" class="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-dark transition">
+          Place Order & Pay
+        </button>
       </form>
-    </div>
-  </div>
-
-  <div id="checkoutModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Complete Your Order</h2>
-        <button id="closeCheckout" class="icon-btn" aria-label="Close checkout">x</button>
+      
+      <!-- Payment Processing -->
+      <div id="paymentSection" class="p-6 hidden">
+        <div class="text-center py-8">
+          <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <h3 class="text-xl font-bold mb-2">Processing Payment</h3>
+          <p class="text-gray-600 mb-4">Please check your phone for a MoMo prompt</p>
+          
+          <div id="otpSection" class="hidden">
+            <p class="text-sm text-gray-600 mb-2">Enter the OTP code sent to your phone:</p>
+            <input type="text" id="otpInput" maxlength="6" placeholder="123456" class="w-32 text-center text-2xl tracking-widest border-2 border-primary rounded-lg py-3 focus:outline-none">
+            <button onclick="verifyOTP()" class="block mx-auto mt-4 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-dark transition">
+              Verify Payment
+            </button>
+          </div>
+          
+          <p id="mockOtpHint" class="text-sm text-gray-500 mt-4">Test mode: Use OTP <strong>123456</strong></p>
+        </div>
       </div>
-      <form id="checkoutForm">
-        <div class="form-group">
-          <label for="customerName">Full Name *</label>
-          <input type="text" id="customerName" name="name" placeholder="Your name" required />
+      
+      <!-- Success -->
+      <div id="successSection" class="p-6 hidden text-center">
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 text-3xl font-bold">
+          ✓
         </div>
-        <div class="form-group">
-          <label for="customerPhone">Phone Number *</label>
-          <input type="tel" id="customerPhone" name="phone" placeholder="+233 24 000 0000" required />
-        </div>
-        <div class="form-group">
-          <label for="customerAddress">Delivery Address *</label>
-          <textarea id="customerAddress" name="address" placeholder="Your delivery address" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="paymentMethod">Payment Method *</label>
-          <select id="paymentMethod" name="payment" required>
-            <option value="">Select a payment method</option>
-            <option value="Cash on Delivery">Cash on Delivery</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="Mobile Money">Mobile Money</option>
-          </select>
-        </div>
-
-        <div id="momoSection" class="payment-section hidden">
-          <div class="payment-section-header">
-            <h3>MTN Mobile Money Payment</h3>
-          </div>
-          <div class="form-group">
-            <label for="momoPhone">MoMo Phone Number *</label>
-            <input type="tel" id="momoPhone" name="momoPhone" placeholder="+233 24 000 0000" />
-            <p class="pin-note">Use the customer's own MoMo number. The authorization code is sent to this number.</p>
-            <p id="momoOtpDestination" class="pin-note">Authorization code is sent to the payer's phone for digital payments.</p>
-          </div>
-        </div>
-
-        <div id="bankSection" class="payment-section hidden">
-          <div class="payment-section-header">
-            <h3>Bank Transfer Payment</h3>
-          </div>
-          <div class="form-group">
-            <label for="bankReceipt">Bank Receipt Reference *</label>
-            <input type="text" id="bankReceipt" name="bankReceipt" placeholder="e.g., Reference or Transaction ID" />
-          </div>
-        </div>
-
-        <div id="cashSection" class="payment-section hidden">
-          <div class="payment-section-header">
-            <h3>Cash on Delivery</h3>
-          </div>
-          <div class="cash-message">
-            <p>You'll pay the driver when your order arrives.</p>
-            <p>Order Total: <strong id="cashTotal">GHS 0.00</strong></p>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="specialNotes">Special Instructions (Optional)</label>
-          <textarea id="specialNotes" name="notes" placeholder="Any special requests or instructions" rows="2"></textarea>
-        </div>
-        <p class="order-summary">
-          Order Total: <strong id="checkoutTotal">GHS 0.00</strong>
-        </p>
-        <button type="submit" class="checkout-btn">Complete Payment & Order</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="otpModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Enter Authorization Code</h2>
-        <button id="closeOtp" class="icon-btn" aria-label="Close OTP">x</button>
+        <h3 class="text-2xl font-bold text-green-600 mb-2">Payment Successful!</h3>
+        <p class="text-gray-600 mb-6">Your order has been placed successfully.</p>
+        <p class="text-sm text-gray-500 mb-6">Order ID: <span id="orderIdDisplay" class="font-bold"></span></p>
+        <button onclick="closeCheckout()" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-dark transition">
+          Continue Shopping
+        </button>
       </div>
-      <form id="otpForm" style="padding: 1.2rem; display: grid; gap: 1rem;">
-        <p>An authorization OTP has been sent. Please enter it below to confirm your payment.</p>
-        <div class="form-group">
-          <label for="otpCode">OTP Code *</label>
-          <input type="text" id="otpCode" name="otpCode" placeholder="Enter 6-digit code" required />
-        </div>
-        <button type="submit" id="verifyOtpBtn" class="checkout-btn">Verify Payment</button>
-      </form>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
-  <script src="monetize.js"></script>
+  <script>
+    console.log('Shop script loaded');
+    let allProducts = [];
+    let currentFilter = 'all';
+
+    async function loadProducts() {
+      console.log('loadProducts() called');
+      try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+        console.log('API Response:', data);
+        const productsList = data.products || data;
+        allProducts = productsList.map(p => ({
+          ...p,
+          inStock: p.stock > 0
+        }));
+        console.log('Products loaded:', allProducts);
+        if (Array.isArray(allProducts)) {
+          console.log('Rendering', allProducts.length, 'products');
+          renderProducts(allProducts);
+        } else {
+          console.error('allProducts is not an array:', allProducts);
+        }
+      } catch (error) {
+        console.error('Error loading products:', error);
+      }
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById('productsGrid');
+      console.log('renderProducts called with', products.length, 'items');
+      console.log('Container:', container);
+      container.innerHTML = products.map(p => `
+        <div class="product-card glass-card rounded-2xl overflow-hidden relative p-5 flex flex-col justify-between" data-category="${p.category || ''}">
+          <div>
+            <div class="relative">
+              ${!p.inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Out of Stock</span>` : ''}
+            </div>
+            <span class="text-xs text-primary font-semibold">${p.category || 'General'}</span>
+            <h3 class="font-bold text-gray-800 mt-1">${p.name}</h3>
+            <p class="text-sm text-gray-500 mt-1 line-clamp-2">${p.description || 'Premium quality feed'}</p>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xl font-bold text-primary">GH₵ ${p.price.toFixed(2)}</span>
+              <span class="text-xs text-gray-500">${p.inStock ? 'In Stock' : 'Out of Stock'}</span>
+            </div>
+            <button onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})" ${!p.inStock ? 'disabled' : ''} class="w-full mt-4 bg-primary text-white py-2 rounded-lg font-medium hover:bg-dark transition ${!p.inStock ? 'opacity-50 cursor-not-allowed' : ''}">
+              ${p.inStock ? 'Add to Cart' : 'Out of Stock'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function filterProducts(category) {
+      currentFilter = category;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white');
+        btn.classList.add('bg-gray-200', 'text-gray-700');
+      });
+      document.querySelector(`[data-filter="${category}"]`).classList.remove('bg-gray-200', 'text-gray-700');
+      document.querySelector(`[data-filter="${category}"]`).classList.add('bg-primary', 'text-white');
+      
+      if (category === 'all') {
+        renderProducts(allProducts);
+      } else {
+        const filtered = allProducts.filter(p => p.category === category);
+        renderProducts(filtered);
+      }
+    }
+    
+    function searchProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = allProducts.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        (p.description && p.description.toLowerCase().includes(query)) ||
+        (p.category && p.category.toLowerCase().includes(query))
+      );
+      renderProducts(filtered);
+    }
+    function getCategoryIcon(category) { return ""; }
+    
+    loadProducts();
+    
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+    
+    // Checkout form
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await placeOrder();
+    });
+  </script>
 </body>
 </html>
