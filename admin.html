@@ -20,11 +20,11 @@
   <style>
     * { font-family: 'Inter', sans-serif; }
     .tab-active { border-bottom: 3px solid #0C969C; color: #0C969C !important; font-weight: 700; }
-    .status-pending { background: rgba(234, 179, 8, 0.15) !important; color: #fbbf24 !important; border: 1px solid rgba(234, 179, 8, 0.3); }
-    .status-confirmed { background: rgba(12, 150, 156, 0.15) !important; color: #0C969C !important; border: 1px solid rgba(12, 150, 156, 0.3); }
-    .status-shipped { background: rgba(99, 102, 241, 0.15) !important; color: #818cf8 !important; border: 1px solid rgba(99, 102, 241, 0.3); }
-    .status-delivered { background: rgba(34, 197, 94, 0.15) !important; color: #4ade80 !important; border: 1px solid rgba(34, 197, 94, 0.3); }
-    .status-cancelled { background: rgba(239, 68, 68, 0.15) !important; color: #f87171 !important; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .status-pending { background: rgba(217, 119, 6, 0.1) !important; color: #b45309 !important; border: 1px solid rgba(217, 119, 6, 0.2); }
+    .status-confirmed { background: rgba(12, 150, 156, 0.1) !important; color: #0A7075 !important; border: 1px solid rgba(12, 150, 156, 0.2); }
+    .status-shipped { background: rgba(79, 70, 229, 0.1) !important; color: #4f46e5 !important; border: 1px solid rgba(79, 70, 229, 0.2); }
+    .status-delivered { background: rgba(22, 163, 74, 0.1) !important; color: #15803d !important; border: 1px solid rgba(22, 163, 74, 0.2); }
+    .status-cancelled { background: rgba(220, 38, 38, 0.1) !important; color: #b91c1c !important; border: 1px solid rgba(220, 38, 38, 0.2); }
   </style>
 </head>
 <body class="font-sans antialiased text-gray-100">
@@ -124,8 +124,8 @@
         <!-- Orders Tab -->
         <div id="ordersTab" class="p-6">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white">Recent Orders</h2>
-            <button onclick="loadOrders()" class="text-accent hover:text-white text-sm font-semibold transition duration-300">Refresh</button>
+            <h2 class="text-xl font-extrabold text-gray-900">Recent Orders</h2>
+            <button onclick="loadOrders()" class="text-primary hover:text-secondary text-sm font-semibold transition duration-300">Refresh</button>
           </div>
           <div id="ordersList" class="space-y-4">
             <!-- Orders loaded here -->
@@ -135,23 +135,23 @@
         <!-- Products Tab -->
         <div id="productsTab" class="p-6 hidden">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white">Product Inventory</h2>
+            <h2 class="text-xl font-extrabold text-gray-900">Product Inventory</h2>
             <button onclick="openProductModal()" class="bg-primary text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-dark transition duration-300 shadow-md">
               + Add Product
             </button>
           </div>
-          <div class="overflow-x-auto rounded-2xl border border-white/10">
+          <div class="overflow-x-auto rounded-2xl border border-gray-150 shadow-sm">
             <table class="w-full border-collapse">
               <thead>
-                <tr class="bg-white/5 border-b border-white/10">
-                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Product</th>
-                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Category</th>
-                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Price</th>
-                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Stock</th>
-                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Actions</th>
+                <tr class="bg-gray-50 border-b border-gray-150">
+                  <th class="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">Product</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">Category</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">Price</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">Stock</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-secondary uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody id="productsList" class="divide-y divide-white/5 bg-white/5">
+              <tbody id="productsList" class="divide-y divide-gray-100 bg-white">
                 <!-- Products loaded here -->
               </tbody>
             </table>
@@ -161,8 +161,8 @@
         <!-- Messages Tab -->
         <div id="messagesTab" class="p-6 hidden">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white">Contact Messages</h2>
-            <span id="unreadBadge" class="bg-red-500/20 text-red-400 border border-red-500/30 text-xs px-2.5 py-1 rounded-full font-bold hidden">0 unread</span>
+            <h2 class="text-xl font-extrabold text-gray-900">Contact Messages</h2>
+            <span id="unreadBadge" class="bg-red-500/20 text-red-700 border border-red-500/30 text-xs px-2.5 py-1 rounded-full font-bold hidden">0 unread</span>
           </div>
           <div id="messagesList" class="space-y-4">
             <!-- Messages loaded here -->
@@ -172,7 +172,7 @@
         <!-- Customers Tab -->
         <div id="customersTab" class="p-6 hidden">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-white">Registered Customers</h2>
+            <h2 class="text-xl font-extrabold text-gray-900">Registered Customers</h2>
           </div>
           <div id="customersList" class="grid md:grid-cols-2 gap-4">
             <!-- Customers loaded here -->
@@ -333,7 +333,7 @@
     function renderOrders(orders) {
       const container = document.getElementById('ordersList');
       if (orders.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-center py-8">No orders yet</p>';
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">No orders yet</p>';
         return;
       }
       
@@ -346,22 +346,22 @@
         }
 
         return `
-          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition duration-300">
+          <div class="bg-gray-50/50 border border-gray-150 rounded-2xl p-6 hover:border-gray-200 transition duration-300">
             <div class="flex justify-between items-start mb-4">
               <div>
-                <span class="font-bold text-white text-lg">Order #${order.id}</span>
-                <span class="text-sm text-gray-400 ml-2">${new Date(order.created_at).toLocaleString()}</span>
+                <span class="font-bold text-gray-900 text-lg">Order #${order.id}</span>
+                <span class="text-sm text-gray-500 ml-2">${new Date(order.created_at).toLocaleString()}</span>
               </div>
               <span class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider status-${order.status}">${order.status}</span>
             </div>
-            <div class="text-sm text-gray-300 mb-2 border-t border-white/5 pt-3">
-              <span class="font-semibold text-white">${order.customer_name || 'Unknown'}</span> - ${order.customer_phone || ''}
+            <div class="text-sm text-gray-600 mb-2 border-t border-gray-200/60 pt-3">
+              <span class="font-bold text-gray-900">${order.customer_name || 'Unknown'}</span> - ${order.customer_phone || ''}
             </div>
-            <div class="text-sm text-gray-400 mb-4">
-              ${parsedItems.map(i => `${i.name} <span class="text-gray-500">x${i.quantity}</span>`).join(', ')}
+            <div class="text-sm text-gray-600 mb-4">
+              ${parsedItems.map(i => `${i.name} <span class="text-gray-500 font-normal">x${i.quantity}</span>`).join(', ')}
             </div>
-            <div class="flex justify-between items-center border-t border-white/5 pt-3">
-              <span class="font-bold text-lg text-white">GH₵ ${order.total.toFixed(2)}</span>
+            <div class="flex justify-between items-center border-t border-gray-200/60 pt-3">
+              <span class="font-bold text-lg text-gray-900">GH₵ ${order.total.toFixed(2)}</span>
               <div class="flex gap-2">
                 ${order.status === 'pending' ? `
                   <button onclick="updateOrderStatus(${order.id}, 'confirmed')" class="px-3.5 py-1.5 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary/80 transition duration-300 shadow-md">Confirm</button>
@@ -373,7 +373,7 @@
                   <button onclick="updateOrderStatus(${order.id}, 'delivered')" class="px-3.5 py-1.5 bg-green-500 text-white rounded-xl text-xs font-bold hover:bg-green-600 transition duration-300 shadow-md">Delivered</button>
                 ` : ''}
                 ${order.status !== 'cancelled' && order.status !== 'delivered' ? `
-                  <button onclick="updateOrderStatus(${order.id}, 'cancelled')" class="px-3.5 py-1.5 bg-red-500/20 border border-red-500/30 text-red-400 rounded-xl text-xs font-bold hover:bg-red-500/35 transition duration-300">Cancel</button>
+                  <button onclick="updateOrderStatus(${order.id}, 'cancelled')" class="px-3.5 py-1.5 bg-red-500/10 border border-red-500/20 text-red-600 rounded-xl text-xs font-bold hover:bg-red-500/20 transition duration-300">Cancel</button>
                 ` : ''}
               </div>
             </div>
@@ -385,19 +385,19 @@
     function renderProducts(products) {
       const container = document.getElementById('productsList');
       container.innerHTML = products.map(p => `
-        <tr class="hover:bg-white/10 transition duration-200">
+        <tr class="hover:bg-gray-50/60 transition duration-200">
           <td class="px-6 py-4">
-            <div class="font-semibold text-white">${p.name}</div>
-            <div class="text-xs text-gray-400 mt-1 max-w-md truncate">${p.description || ''}</div>
+            <div class="font-bold text-gray-900">${p.name}</div>
+            <div class="text-xs text-gray-600 mt-1 max-w-md truncate">${p.description || ''}</div>
           </td>
-          <td class="px-6 py-4 text-sm text-gray-300">${p.category || '-'}</td>
+          <td class="px-6 py-4 text-sm text-gray-700">${p.category || '-'}</td>
           <td class="px-6 py-4 font-semibold text-primary">GH₵ ${p.price.toFixed(2)}</td>
           <td class="px-6 py-4">
-            <span class="px-2 py-0.5 rounded-md text-xs font-bold ${p.stock < 10 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-green-500/20 text-green-400 border border-green-500/30'}">${p.stock}</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-bold border ${p.stock < 10 ? 'bg-red-50 text-red-700 border-red-200' : 'bg-green-50 text-green-700 border-green-200'}">${p.stock}</span>
           </td>
           <td class="px-6 py-4 text-sm">
-            <button onclick="editProduct(${p.id})" class="text-accent hover:text-white mr-3 font-semibold transition duration-200">Edit</button>
-            <button onclick="deleteProduct(${p.id})" class="text-red-400 hover:text-red-300 font-semibold transition duration-200">Delete</button>
+            <button onclick="editProduct(${p.id})" class="text-primary hover:text-secondary mr-3 font-semibold transition duration-200">Edit</button>
+            <button onclick="deleteProduct(${p.id})" class="text-red-600 hover:text-red-800 font-semibold transition duration-200">Delete</button>
           </td>
         </tr>
       `).join('');
@@ -416,21 +416,21 @@
       }
       
       if (messages.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-center py-8">No messages yet</p>';
+        container.innerHTML = '<p class="text-gray-500 text-center py-8">No messages yet</p>';
         return;
       }
       
       container.innerHTML = messages.map(m => `
-        <div class="bg-white/5 border rounded-2xl p-6 transition duration-300 ${m.is_read ? 'border-white/10' : 'border-primary/45 bg-primary/5'}">
-          <div class="flex justify-between items-start mb-3 border-b border-white/5 pb-3">
+        <div class="bg-gray-50 border rounded-2xl p-6 transition duration-300 ${m.is_read ? 'border-gray-200' : 'border-primary bg-primary/5'}">
+          <div class="flex justify-between items-start mb-3 border-b border-gray-200/60 pb-3">
             <div>
-              <span class="font-bold text-white text-lg">${m.name}</span>
-              <span class="text-sm text-gray-400 block mt-1">${m.email}</span>
+              <span class="font-bold text-gray-900 text-lg">${m.name}</span>
+              <span class="text-sm text-gray-500 block mt-1">${m.email}</span>
             </div>
-            <span class="text-xs text-gray-500">${new Date(m.created_at).toLocaleString()}</span>
+            <span class="text-xs text-gray-400">${new Date(m.created_at).toLocaleString()}</span>
           </div>
-          <div class="text-sm font-semibold text-accent mb-2">${m.subject || '(No subject)'}</div>
-          <p class="text-gray-300 text-sm leading-relaxed">${m.message}</p>
+          <div class="text-sm font-semibold text-secondary mb-2">${m.subject || '(No subject)'}</div>
+          <p class="text-gray-700 text-sm leading-relaxed">${m.message}</p>
           ${!m.is_read ? `
             <button onclick="markMessageRead(${m.id})" class="mt-4 text-xs font-bold text-primary hover:text-white transition duration-200 bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-lg">Mark as read</button>
           ` : ''}
@@ -441,23 +441,23 @@
     function renderCustomers(customers) {
       const container = document.getElementById('customersList');
       if (customers.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-center py-8 col-span-2">No customers registered yet</p>';
+        container.innerHTML = '<p class="text-gray-500 text-center py-8 col-span-2">No customers registered yet</p>';
         return;
       }
       container.innerHTML = customers.map(c => `
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition duration-300">
-          <div class="flex items-center mb-4 border-b border-white/5 pb-3">
+        <div class="bg-gray-50 border border-gray-150 rounded-2xl p-6 hover:border-gray-200 transition duration-300">
+          <div class="flex items-center mb-4 border-b border-gray-200/60 pb-3">
             <div class="w-10 h-10 bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center text-primary font-bold">${c.name.charAt(0).toUpperCase()}</div>
             <div class="ml-3">
-              <div class="font-semibold text-white">${c.name}</div>
-              <div class="text-xs text-gray-400">${c.email}</div>
+              <div class="font-semibold text-gray-900">${c.name}</div>
+              <div class="text-xs text-gray-500">${c.email}</div>
             </div>
           </div>
-          <div class="text-sm text-gray-300 mt-1">
-            Phone: <span class="text-white font-medium">${c.phone || '-'}</span>
+          <div class="text-sm text-gray-600 mt-1">
+            Phone: <span class="text-gray-900 font-bold">${c.phone || '-'}</span>
           </div>
-          <div class="text-sm text-gray-300 mt-1">
-            Address: <span class="text-white font-medium">${c.address || '-'}</span>
+          <div class="text-sm text-gray-600 mt-1">
+            Address: <span class="text-gray-900 font-bold">${c.address || '-'}</span>
           </div>
         </div>
       `).join('');
