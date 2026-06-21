@@ -203,65 +203,79 @@ input, textarea, select {
   }
 }
 
-/* Glassmorphism Design System Utilities */
+/* Glassmorphism Redefined for High Contrast E-commerce Styles */
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4) !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+.glass-nav a {
+  color: #444444 !important;
+  font-weight: 600 !important;
+}
+
+.glass-nav a:hover, .glass-nav a.active {
+  color: var(--primary) !important;
+}
+
+.glass-nav .font-bold.text-lg, .glass-nav span.font-bold {
+  color: #1a1a1a !important;
+}
+
+.glass-nav .text-xs {
+  color: var(--primary) !important;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 8px 32px 0 rgba(27, 122, 90, 0.04) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.85) !important;
+  background: #ffffff !important;
   transform: translateY(-4px) !important;
-  box-shadow: 0 12px 40px 0 rgba(27, 122, 90, 0.08) !important;
-  border-color: rgba(27, 122, 90, 0.2) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(12, 150, 156, 0.2) !important;
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  box-shadow: 0 8px 32px 0 rgba(27, 122, 90, 0.03) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
 }
 
 .glass-modal {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.15) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15) !important;
 }
 
 .glass-input {
-  background: rgba(255, 255, 255, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: blur(4px) !important;
+  background: rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  color: #1a1a1a !important;
   transition: all 0.2s ease !important;
 }
 
 .glass-input:focus {
-  background: rgba(255, 255, 255, 0.85) !important;
+  background: #ffffff !important;
   border-color: var(--primary) !important;
-  box-shadow: 0 0 0 3px rgba(27, 122, 90, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(12, 150, 156, 0.15) !important;
+  color: #1a1a1a !important;
+}
+
+.glass-input::placeholder {
+  color: #888888 !important;
 }
 
 .glass-btn {
-  background: rgba(27, 122, 90, 0.08) !important;
+  background: rgba(12, 150, 156, 0.08) !important;
   color: var(--primary) !important;
-  border: 1px solid rgba(27, 122, 90, 0.15) !important;
-  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(12, 150, 156, 0.15) !important;
   transition: all 0.2s ease !important;
 }
 
@@ -269,6 +283,81 @@ input, textarea, select {
   background: var(--primary) !important;
   color: white !important;
   transform: translateY(-1px) !important;
+}
+
+/* Force high-contrast text color overrides inside white card widgets */
+.glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5, .glass-card h6,
+.glass-panel h1, .glass-panel h2, .glass-panel h3, .glass-panel h4,
+.glass-modal h1, .glass-modal h2, .glass-modal h3, .glass-modal h4 {
+  color: #1a1a1a !important;
+  font-weight: 700 !important;
+}
+
+.glass-card p, .glass-card li, .glass-card label, .glass-card span:not([class*="status-"]):not([class*="badge"]),
+.glass-panel p, .glass-panel li, .glass-panel label, .glass-panel span:not([class*="status-"]):not([class*="badge"]),
+.glass-modal p, .glass-modal li, .glass-modal label, .glass-modal span:not([class*="status-"]):not([class*="badge"]) {
+  color: #444444 !important;
+}
+
+.glass-card a:not(.btn-primary):not(.btn-secondary):not([class*="status-"]),
+.glass-panel a:not(.btn-primary):not(.btn-secondary):not([class*="status-"]),
+.glass-modal a:not(.btn-primary):not(.btn-secondary):not([class*="status-"]) {
+  color: var(--primary) !important;
+}
+
+.glass-card a:not(.btn-primary):not(.btn-secondary):not([class*="status-"]):hover,
+.glass-panel a:not(.btn-primary):not(.btn-secondary):not([class*="status-"]):hover,
+.glass-modal a:not(.btn-primary):not(.btn-secondary):not([class*="status-"]):hover {
+  color: var(--secondary) !important;
+  text-decoration: underline !important;
+}
+
+/* Force dark category text for contrast */
+.glass-card .text-accent, .glass-panel .text-accent, .glass-modal .text-accent {
+  color: var(--secondary) !important;
+}
+
+/* Cart Sidebar Styling Overrides */
+#cartSidebar {
+  background: #ffffff !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #222222 !important;
+}
+
+#cartSidebar h3, #cartSidebar h4 {
+  color: #1a1a1a !important;
+  font-weight: 700 !important;
+}
+
+#cartSidebar p, #cartSidebar span {
+  color: #444444 !important;
+}
+
+#cartSidebar .bg-black/10 {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+#cartSidebar .text-gray-300 {
+  color: #444444 !important;
+}
+
+#cartSidebar #cartTotal {
+  color: var(--primary) !important;
+}
+
+#cartSidebar .p-3.bg-gray-50 {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+#cartSidebar button.w-8 {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #1a1a1a !important;
+}
+
+#cartSidebar button.w-8:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Background blob decorations */
