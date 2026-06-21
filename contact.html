@@ -12,14 +12,24 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { primary: '#0C969C', secondary: '#0A7075', accent: '#6BA3BE', dark: '#274D60', light: '#031716' }
+          colors: {
+            primary: '#0C969C',
+            secondary: '#0A7075',
+            accent: '#6BA3BE',
+            dark: '#274D60',
+            light: '#031716'
+          }
         }
       }
     }
   </script>
 </head>
-<body class="font-sans antialiased">
-  <!-- Background Blobs -->
+<body class="font-sans antialiased text-gray-100">
+  
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+  <!-- Ambient background blobs -->
   <div class="blob-bg">
     <div class="blob-container">
       <div class="blob-1"></div>
@@ -32,189 +42,268 @@
   <nav class="glass-nav sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center h-16">
-        <a href="/" class="flex items-center space-x-2">
+        <a href="/" class="flex items-center space-x-2" aria-label="DS TORKS VENTURES Home">
           <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
           <div>
-            <span class="font-bold text-lg text-gray-800">DS TORKS</span>
-            <span class="block text-xs text-primary font-medium">VENTURES</span>
+            <span class="font-bold text-lg text-white">DS TORKS</span>
+            <span class="block text-xs text-accent font-semibold tracking-wider">VENTURES</span>
           </div>
         </a>
+        
         <div class="hidden md:flex items-center space-x-8">
-          <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
-          <a href="shop.html" class="text-gray-700 hover:text-primary font-medium">Shop</a>
-          <a href="about.html" class="text-gray-700 hover:text-primary font-medium">About</a>
-          <a href="contact.html" class="text-primary font-medium">Contact</a>
-          <a href="profile.html" class="text-gray-700 hover:text-primary font-medium">My Account</a>
-          <a href="shop.html" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-dark transition">Shop Now</a>
+          <a href="/" class="text-white/90 hover:text-accent font-medium transition">Home</a>
+          <a href="shop.html" class="text-white/90 hover:text-accent font-medium transition">Shop</a>
+          <a href="about.html" class="text-white/90 hover:text-accent font-medium transition">About</a>
+          <a href="contact.html" class="text-white hover:text-accent font-medium transition">Contact</a>
+          <a href="profile.html" class="text-white/90 hover:text-accent font-medium transition">My Account</a>
+          
+          <!-- Cart Toggle Button -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadge" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
         </div>
-        <button id="mobileMenuBtn" class="md:hidden p-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+        
+        <div class="flex items-center space-x-4 md:hidden">
+          <!-- Cart Toggle for Mobile -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadgeMobile" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
+
+          <button id="mobileMenuBtn" class="p-2 text-white hover:text-accent" aria-label="Toggle mobile menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    
+    <div id="mobileMenu" class="hidden md:hidden bg-light/95 backdrop-blur-lg border-t border-white/10">
       <div class="px-4 py-4 space-y-3">
-        <a href="/" class="block py-2 text-gray-700">Home</a>
-        <a href="shop.html" class="block py-2 text-gray-700">Shop</a>
-        <a href="about.html" class="block py-2 text-gray-700">About</a>
-        <a href="contact.html" class="block py-2 text-gray-700">Contact</a>
-        <a href="profile.html" class="block py-2 text-gray-700">My Account</a>
+        <a href="/" class="block py-2 text-white/90 hover:text-accent transition">Home</a>
+        <a href="shop.html" class="block py-2 text-white/90 hover:text-accent transition">Shop</a>
+        <a href="about.html" class="block py-2 text-white/90 hover:text-accent transition">About</a>
+        <a href="contact.html" class="block py-2 text-white/90 hover:text-accent transition">Contact</a>
+        <a href="profile.html" class="block py-2 text-white/90 hover:text-accent transition">My Account</a>
       </div>
     </div>
   </nav>
 
-  <section class="bg-cover bg-center text-white py-20" style="background-image: linear-gradient(rgba(3, 47, 48, 0.70), rgba(3, 47, 48, 0.85)), url('images/logo0.png')">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-      <p class="text-xl text-white/90">We're here to help you succeed</p>
+  <!-- Contact Header -->
+  <header class="relative py-16 overflow-hidden border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+      <h1 class="text-4xl font-extrabold text-white mb-4">Contact Us</h1>
+      <p class="text-xl text-white/70 max-w-lg mx-auto">We're here to support your farm's growth</p>
     </div>
-  </section>
+  </header>
 
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="grid md:grid-cols-2 gap-12">
-        <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h2>
+  <main id="main-content" class="max-w-7xl mx-auto px-4 py-16">
+    <div class="grid md:grid-cols-2 gap-12">
+      <!-- Contact Form -->
+      <section class="reveal-on-scroll">
+        <h2 class="text-2xl font-extrabold text-white mb-6">Get in Touch</h2>
+        
+        <div class="glass-card p-6 rounded-3xl glow-card">
+          <form id="contactForm" class="space-y-4">
+            <div>
+              <label for="contactName" class="block text-sm font-semibold text-gray-300 mb-1">Your Name *</label>
+              <input type="text" id="contactName" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+            </div>
+            <div>
+              <label for="contactEmail" class="block text-sm font-semibold text-gray-300 mb-1">Email Address *</label>
+              <input type="email" id="contactEmail" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+            </div>
+            <div>
+              <label for="contactPhone" class="block text-sm font-semibold text-gray-300 mb-1">Phone Number</label>
+              <input type="tel" id="contactPhone" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+            </div>
+            <div>
+              <label for="contactSubject" class="block text-sm font-semibold text-gray-300 mb-1">Subject</label>
+              <input type="text" id="contactSubject" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+            </div>
+            <div>
+              <label for="contactMessage" class="block text-sm font-semibold text-gray-300 mb-1">Your Message *</label>
+              <textarea id="contactMessage" rows="5" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition shadow-lg mt-4">
+              Send Message
+            </button>
+          </form>
+          <div id="contactSuccess" class="hidden text-center py-12 space-y-4">
+            <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mx-auto text-3xl font-bold">✓</div>
+            <h3 class="text-2xl font-bold text-white">Message Sent Successfully!</h3>
+            <p class="text-gray-300">Thank you for reaching out. A representative will contact you shortly.</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Contact Info -->
+      <section class="reveal-on-scroll delay-200">
+        <h2 class="text-2xl font-extrabold text-white mb-6">Contact Information</h2>
+        
+        <div class="glass-card p-8 rounded-3xl space-y-8 animate-card-hover">
+          <div class="flex items-start gap-4">
+            <div class="text-accent">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg">Address</h3>
+              <p class="text-gray-300 mt-1">Accra, Ghana</p>
+            </div>
+          </div>
           
-          <div class="glass-card p-6 rounded-2xl mb-6">
-            <form id="contactForm" class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
-                <input type="text" id="contactName" required class="w-full px-4 py-3 border rounded-lg glass-input">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                <input type="email" id="contactEmail" required class="w-full px-4 py-3 border rounded-lg glass-input">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <input type="tel" id="contactPhone" class="w-full px-4 py-3 border rounded-lg glass-input">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                <input type="text" id="contactSubject" class="w-full px-4 py-3 border rounded-lg glass-input">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Your Message *</label>
-                <textarea id="contactMessage" rows="5" required class="w-full px-4 py-3 border rounded-lg glass-input"></textarea>
-              </div>
-              <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-dark transition">
-                Send Message
-              </button>
-            </form>
-            <div id="contactSuccess" class="hidden text-center py-8">
-              
-              <h3 class="text-xl font-bold text-green-600">Message Sent!</h3>
-              <p class="text-gray-600 mt-2">We'll get back to you soon.</p>
+          <div class="flex items-start gap-4">
+            <div class="text-accent">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg">Phone & WhatsApp</h3>
+              <p class="text-gray-300 mt-1 flex flex-col gap-1">
+                <span>WhatsApp: <a href="https://wa.me/233246056702" target="_blank" class="hover:text-accent transition">0246056702</a></span>
+                <span>Call Center: <a href="tel:0556656171" class="hover:text-accent transition">0556656171</a></span>
+                <span>Alternative: <a href="tel:0248513932" class="hover:text-accent transition">0248513932</a></span>
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-4">
+            <div class="text-accent">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg">Email</h3>
+              <p class="text-gray-300 mt-1"><a href="mailto:info@dstorks.com" class="hover:text-accent transition">info@dstorks.com</a></p>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-4">
+            <div class="text-accent">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg">Business Hours</h3>
+              <p class="text-gray-300 mt-1">Monday - Saturday: 8:00 AM - 6:00 PM</p>
             </div>
           </div>
         </div>
         
-        <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Contact Information</h2>
-          
-          <div class="glass-card p-6 rounded-2xl space-y-6">
-            <div class="flex items-start">
-              <div class="ml-0">
-                <h3 class="font-bold">Address</h3>
-                <p class="text-gray-600">Accra, Ghana</p>
-              </div>
-            </div>
-            
-            <!-- WhatsApp -->
-            <div class="flex items-start">
-              <div class="ml-0">
-                <h3 class="font-bold">WhatsApp</h3>
-                <p class="text-gray-600"><a href="https://wa.me/233246056702" target="_blank" class="hover:underline">0246056702</a></p>
-              </div>
-            </div>
-
-            <!-- Phone Call -->
-            <div class="flex items-start">
-              <div class="ml-0">
-                <h3 class="font-bold">Phone Call</h3>
-                <p class="text-gray-600">
-                  <a href="tel:0556656171" class="hover:underline">0556656171</a>, 
-                  <a href="tel:0248513932" class="hover:underline">0248513932</a>
-                </p>
-              </div>
-            </div>
-
-            <!-- More Info -->
-            <div class="flex items-start">
-              <div class="ml-0">
-                <h3 class="font-bold">More Info</h3>
-                <p class="text-gray-600"><a href="tel:0248513932" class="hover:underline">0248513932</a></p>
-              </div>
-            </div>
-            
-            <div class="flex items-start">
-              <div class="ml-0">
-                <h3 class="font-bold">Email</h3>
-                <p class="text-gray-600">info@dstorks.com</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start">
-              <div class="ml-0">
-                <h3 class="font-bold">Business Hours</h3>
-                <p class="text-gray-600">Mon - Sat: 8:00 AM - 6:00 PM</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="mt-6">
-            <a href="https://wa.me/233246056702" target="_blank" class="flex items-center justify-center bg-green-500 text-white py-4 rounded-xl font-bold hover:bg-green-600 transition">
-              Chat on WhatsApp
-            </a>
-          </div>
+        <div class="mt-8">
+          <a href="https://wa.me/233246056702" target="_blank" class="flex items-center justify-center gap-2 bg-green-500 text-white py-4 rounded-xl font-bold hover:bg-green-600 transition shadow-lg hover:shadow-green-500/20">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.453L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.497 0 9.969-4.473 9.972-9.98a9.922 9.922 0 0 0-2.915-7.07 9.92 9.92 0 0 0-7.065-2.914c-5.501 0-9.973 4.475-9.976 9.983-.001 1.54.409 3.042 1.187 4.385l-.426 1.554.426.252zm12.39-7.234c-.212-.106-1.256-.62-1.45-.69-.194-.072-.336-.107-.478.107-.142.213-.55.69-.674.832-.124.142-.248.159-.46.053-.213-.106-.9-.332-1.714-1.06-.633-.565-1.06-1.264-1.184-1.477-.124-.213-.013-.328.093-.434.096-.095.212-.248.319-.372.106-.124.142-.213.213-.354.071-.142.035-.266-.018-.372-.053-.107-.478-1.15-.654-1.575-.172-.415-.363-.358-.478-.363-.107-.005-.23-.005-.354-.005-.124 0-.327.046-.498.23-.172.185-.656.64-.656 1.562 0 .92.67 1.81.764 1.936.094.124 1.318 2.013 3.193 2.823.446.193.794.309 1.067.395.449.143.856.123 1.179.075.36-.053 1.256-.513 1.432-1.008.177-.496.177-.92.124-1.008-.053-.088-.194-.142-.407-.248z"/>
+            </svg>
+            Chat on WhatsApp
+          </a>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
+  </main>
 
-  <footer class="bg-gray-900 text-white py-8">
+  <!-- Footer -->
+  <footer class="bg-light/85 border-t border-white/10 py-12 text-gray-300 mt-20">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <p class="text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
+      <p class="text-sm text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
     </div>
   </footer>
 
-  <script>
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-    
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  <!-- Floating Cart Sidebar -->
+  <div id="cartSidebar" class="fixed right-0 top-0 h-full w-full md:w-[450px] bg-light/95 backdrop-blur-xl shadow-2xl border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+      <h3 class="font-bold text-xl text-white">Your Cart</h3>
+      <button onclick="toggleCart()" class="p-2 text-gray-400 hover:text-white" aria-label="Close Shopping Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Cart items loaded dynamically -->
+    </div>
+    <div class="p-6 border-t border-white/10 bg-black/10">
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-gray-300 font-semibold">Total:</span>
+        <span id="cartTotal" class="text-2xl font-bold text-accent">GH₵ 0.00</span>
+      </div>
+      <button onclick="checkout()" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition shadow-lg">Checkout Now</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="glass-modal max-w-lg w-full rounded-3xl overflow-hidden shadow-2xl p-6 relative">
+      <!-- Close button -->
+      <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="absolute top-4 right-4 p-2 text-gray-400 hover:text-white" aria-label="Close Checkout Window">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
       
-      const data = {
-        name: document.getElementById('contactName').value,
-        email: document.getElementById('contactEmail').value,
-        phone: document.getElementById('contactPhone').value,
-        subject: document.getElementById('contactSubject').value,
-        message: document.getElementById('contactMessage').value
-      };
-      
-      try {
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-          document.getElementById('contactForm').classList.add('hidden');
-          document.getElementById('contactSuccess').classList.remove('hidden');
-        } else {
-          alert('Failed to send message. Please try again.');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to send message. Please try again.');
-      }
-    });
-  </script>
+      <!-- Checkout Form -->
+      <form id="checkoutForm" onsubmit="event.preventDefault(); proceedToPayment();" class="space-y-4">
+        <h3 class="text-2xl font-bold text-white mb-6">Checkout</h3>
+        <div>
+          <label for="checkoutName" class="block text-sm font-semibold text-gray-300 mb-1">Full Name</label>
+          <input type="text" id="checkoutName" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutEmail" class="block text-sm font-semibold text-gray-300 mb-1">Email Address</label>
+          <input type="email" id="checkoutEmail" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutPhone" class="block text-sm font-semibold text-gray-300 mb-1">Phone Number</label>
+          <input type="tel" id="checkoutPhone" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutAddress" class="block text-sm font-semibold text-gray-300 mb-1">Delivery Address</label>
+          <textarea id="checkoutAddress" rows="2" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition mt-4">Proceed to Payment</button>
+      </form>
+
+      <!-- Payment Section -->
+      <div id="paymentSection" class="hidden text-center py-8 space-y-6">
+        <h3 class="text-2xl font-bold text-white">Payment Method</h3>
+        <p class="text-gray-300">Choose your preferred payment method:</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="selectPaymentMethod('mtn')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Mobile Money</span>
+          </button>
+          <button onclick="selectPaymentMethod('card')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Card / Paystack</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Section -->
+      <div id="successSection" class="hidden text-center py-8 space-y-6">
+        <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mx-auto text-3xl font-bold">✓</div>
+        <h3 class="text-2xl font-bold text-white">Order Placed Successfully!</h3>
+        <p class="text-gray-300">Your order has been recorded. We will contact you shortly to arrange delivery.</p>
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+          <p class="text-sm text-gray-400">Order ID:</p>
+          <p id="orderIdDisplay" class="text-xl font-bold text-accent">#0000</p>
+        </div>
+        <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="contact.js"></script>
 </body>
 </html>

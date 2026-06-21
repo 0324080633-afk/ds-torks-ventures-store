@@ -105,6 +105,22 @@ app.get('/api/customers/:id', async (req, res) => {
   }
 });
 
+app.put('/api/customers/:id', async (req, res) => {
+  try {
+    const { name, phone, address } = req.body;
+    if (!name || !phone) {
+      return res.status(400).json({ error: 'Name and phone are required' });
+    }
+    const updated = await db.updateCustomer(req.params.id, { name, phone, address });
+    if (!updated) return res.status(404).json({ error: 'Customer not found' });
+    const customer = await db.getCustomer(req.params.id);
+    res.json({ message: 'Profile updated successfully', customer });
+  } catch (error) {
+    console.error('Update customer error:', error);
+    res.status(500).json({ error: 'Failed to update customer profile' });
+  }
+});
+
 app.post('/api/orders', async (req, res) => {
   try {
     const { customerId, items, total, deliveryAddress, paymentMethod } = req.body;

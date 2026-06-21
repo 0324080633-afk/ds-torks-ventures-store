@@ -349,16 +349,263 @@ async function verifyPaystackTransaction(reference) {
   }
 }
 
-// Initialize cart UI on page load and check for payment callback
+// Interactive Particle Canvas for Hero Background
+function initParticleCanvas() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = canvas.parentElement.offsetWidth;
+  let height = canvas.height = canvas.parentElement.offsetHeight;
+  
+  // Resize handler
+  window.addEventListener('resize', () => {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+  });
+  
+  const particles = [];
+  const particleCount = 45;
+  let mouse = { x: null, y: null, radius: 120 };
+  
+  canvas.parentElement.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  
+  canvas.parentElement.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+  
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = Math.random() * 0.4 - 0.2;
+      this.speedY = Math.random() * 0.4 - 0.2;
+      this.baseX = this.x;
+      this.baseY = this.y;
+      this.density = Math.random() * 30 + 1;
+    }
+    
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      
+      if (this.x < 0 || this.x > width) this.speedX *= -1;
+      if (this.y < 0 || this.y > height) this.speedY *= -1;
+      
+      if (mouse.x !== null && mouse.y !== null) {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < mouse.radius) {
+          let force = (mouse.radius - distance) / mouse.radius;
+          let directionX = dx / distance;
+          let directionY = dy / distance;
+          let forceX = directionX * force * 3;
+          let forceY = directionY * force * 3;
+          
+          this.x -= forceX;
+          this.y -= forceY;
+        }
+      }
+    }
+    
+    draw() {
+      ctx.fillStyle = 'rgba(107, 163, 190, 0.4)';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+}
+
+// Scroll Parallax Effect
+function initScrollParallax() {
+  const parallaxBg = document.getElementById('heroParallaxBg');
+  if (!parallaxBg) return;
+  
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    parallaxBg.style.transform = `translateY(${scrollY * 0.25}px)`;
+  });
+}
+
+// Skeleton loaders for products
+function getProductSkeletonHTML(count = 4) {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `
+      <div class="glass-card skeleton-card rounded-2xl p-5 flex flex-col justify-between h-[280px]">
+        <div>
+          <div class="w-1/3 h-4 skeleton-shimmer mb-3"></div>
+          <div class="w-3/4 h-6 skeleton-shimmer mb-2"></div>
+          <div class="w-full h-4 skeleton-shimmer mb-1"></div>
+          <div class="w-5/6 h-4 skeleton-shimmer mb-1"></div>
+        </div>
+        <div class="mt-4 flex justify-between items-center">
+          <div class="w-1/3 h-6 skeleton-shimmer"></div>
+          <div class="w-24 h-10 skeleton-shimmer rounded-lg"></div>
+        </div>
+      </div>
+    `;
+  }
+  return html;
+}
+
+// Load Featured Products on Home Page
+async function loadFeaturedProducts() {
+  const container = document.getElementById('featuredProducts');
+  if (!container) return;
+  
+  container.innerHTML = getProductSkeletonHTML(4);
+  
+  try {
+    const response = await fetch('/api/products');
+    const products = await response.json();
+    
+    const featured = products.slice(0, 4);
+    container.innerHTML = featured.map((p, index) => {
+      const inStock = p.stock > 0;
+      return `
+        <div class="product-card glass-card rounded-2xl overflow-hidden relative p-5 flex flex-col justify-between reveal-on-scroll delay-${(index + 1) * 100} animate-card-hover" ${inStock ? `onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})"` : ''}>
+          <div>
+            <div class="relative">
+              ${!inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Out of Stock</span>` : ''}
+            </div>
+            <span class="text-xs text-accent font-semibold">${p.category || 'General'}</span>
+            <h3 class="font-bold text-white mt-1">${p.name}</h3>
+            <p class="text-sm text-gray-300 mt-1 line-clamp-2">${p.description || ''}</p>
+          </div>
+          <div class="mt-4">
+            <div class="flex justify-between items-center">
+              <span class="text-xl font-bold text-accent">GH₵ ${p.price.toFixed(2)}</span>
+              <button ${!inStock ? 'disabled' : ''} class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-dark transition ${!inStock ? 'opacity-50 cursor-not-allowed' : ''}">
+                ${inStock ? 'Add to Cart' : 'Out of Stock'}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    initScrollReveal();
+  } catch (error) {
+    console.error('Error loading products:', error);
+    container.innerHTML = '<div class="col-span-4 text-center text-red-500 py-8">Failed to load products.</div>';
+  }
+}
+
+// Scroll Reveal Observer
+function initScrollReveal() {
+  const observer = new IntersectionObserver((entries, self) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        self.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.05,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// Animate numbers for stats
+function animateNumbers() {
+  const stats = document.querySelectorAll('.stat-number');
+  stats.forEach(stat => {
+    const target = parseInt(stat.getAttribute('data-target'));
+    const duration = 1500;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeProgress = progress * (2 - progress);
+      const currentValue = Math.floor(easeProgress * target);
+      
+      stat.textContent = currentValue + (stat.getAttribute('data-suffix') || '');
+      
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        stat.textContent = target + (stat.getAttribute('data-suffix') || '');
+      }
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// Init Stats Counter Trigger
+function initStatsCounter() {
+  const statsSection = document.querySelector('.stats-section');
+  if (!statsSection) return;
+
+  const observer = new IntersectionObserver((entries, self) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateNumbers();
+        self.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(statsSection);
+}
+
+// Global DOM Content Loaded Handler
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('cartBadge')) {
     updateCartUI();
   }
   
-  // Check for Paystack callback reference
   const urlParams = new URLSearchParams(window.location.search);
   const reference = urlParams.get('reference');
   if (reference) {
     verifyPaystackTransaction(reference);
+  }
+  
+  // Initialize Motion and Interaction effects
+  initParticleCanvas();
+  initScrollParallax();
+  initScrollReveal();
+  
+  if (document.getElementById('featuredProducts')) {
+    loadFeaturedProducts();
+    initStatsCounter();
+  }
+  
+  // Mobile Nav Toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
   }
 });

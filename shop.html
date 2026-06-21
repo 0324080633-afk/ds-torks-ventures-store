@@ -24,8 +24,12 @@
     }
   </script>
 </head>
-<body class="font-sans antialiased">
-  <!-- Background Blobs -->
+<body class="font-sans antialiased text-gray-100">
+  
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+  <!-- Ambient background blobs -->
   <div class="blob-bg">
     <div class="blob-container">
       <div class="blob-1"></div>
@@ -38,328 +42,188 @@
   <nav class="glass-nav sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center h-16">
-        <a href="/" class="flex items-center space-x-2">
+        <a href="/" class="flex items-center space-x-2" aria-label="DS TORKS VENTURES Home">
           <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
           <div>
-            <span class="font-bold text-lg text-gray-800">DS TORKS</span>
-            <span class="block text-xs text-primary font-medium">VENTURES</span>
+            <span class="font-bold text-lg text-white">DS TORKS</span>
+            <span class="block text-xs text-accent font-semibold tracking-wider">VENTURES</span>
           </div>
         </a>
         
         <div class="hidden md:flex items-center space-x-8">
-          <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
-          <a href="shop.html" class="text-primary font-medium">Shop</a>
-          <a href="about.html" class="text-gray-700 hover:text-primary font-medium">About</a>
-          <a href="contact.html" class="text-gray-700 hover:text-primary font-medium">Contact</a>
-          <a href="profile.html" class="text-gray-700 hover:text-primary font-medium">My Account</a>
-          <button onclick="toggleCart()" class="relative p-2">
-            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+          <a href="/" class="text-white/90 hover:text-accent font-medium transition">Home</a>
+          <a href="shop.html" class="text-white hover:text-accent font-medium transition">Shop</a>
+          <a href="about.html" class="text-white/90 hover:text-accent font-medium transition">About</a>
+          <a href="contact.html" class="text-white/90 hover:text-accent font-medium transition">Contact</a>
+          <a href="profile.html" class="text-white/90 hover:text-accent font-medium transition">My Account</a>
+          
+          <!-- Cart Toggle Button -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
             </svg>
-            <span id="cartBadge" class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+            <span id="cartBadge" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
           </button>
         </div>
         
-        <button id="mobileMenuBtn" class="md:hidden p-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+        <div class="flex items-center space-x-4 md:hidden">
+          <!-- Cart Toggle for Mobile -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadgeMobile" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
+
+          <button id="mobileMenuBtn" class="p-2 text-white hover:text-accent" aria-label="Toggle mobile menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    <div id="mobileMenu" class="hidden md:hidden bg-light/95 backdrop-blur-lg border-t border-white/10">
       <div class="px-4 py-4 space-y-3">
-        <a href="/" class="block py-2 text-gray-700">Home</a>
-        <a href="shop.html" class="block py-2 text-gray-700">Shop</a>
-        <a href="about.html" class="block py-2 text-gray-700">About</a>
-        <a href="contact.html" class="block py-2 text-gray-700">Contact</a>
-        <a href="profile.html" class="block py-2 text-gray-700">My Account</a>
+        <a href="/" class="block py-2 text-white/90 hover:text-accent transition">Home</a>
+        <a href="shop.html" class="block py-2 text-white/90 hover:text-accent transition">Shop</a>
+        <a href="about.html" class="block py-2 text-white/90 hover:text-accent transition">About</a>
+        <a href="contact.html" class="block py-2 text-white/90 hover:text-accent transition">Contact</a>
+        <a href="profile.html" class="block py-2 text-white/90 hover:text-accent transition">My Account</a>
       </div>
     </div>
   </nav>
 
   <!-- Shop Header -->
-  <section class="bg-cover bg-center text-white py-12" style="background-image: linear-gradient(rgba(3, 47, 48, 0.70), rgba(3, 47, 48, 0.85)), url('images/logo0.png')">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h1 class="text-4xl font-bold mb-4">Our Products</h1>
-      <p class="text-xl text-white/90">Premium quality animal feed for every need</p>
+  <header class="relative py-16 overflow-hidden border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+      <h1 class="text-4xl font-extrabold text-white mb-4">Our Products</h1>
+      <p class="text-xl text-white/70 max-w-lg mx-auto">Premium quality animal feed for every farm size in Ghana</p>
     </div>
-  </section>
+  </header>
 
-  <!-- Filter Bar -->
-  <section class="glass-nav py-4 sticky top-16 z-40 shadow-sm border-t border-white/20">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex flex-wrap gap-4 items-center justify-between">
-        <div class="flex flex-wrap gap-2">
-          <button onclick="filterProducts('all')" class="filter-btn px-4 py-2 rounded-full bg-primary text-white flex items-center gap-1.5" data-filter="all">All</button>
-          <button onclick="filterProducts('Layers Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Layers Feed">
-            <span>Layers</span>
-          </button>
-          <button onclick="filterProducts('Broiler Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Broiler Feed">
-            <span>Broilers</span>
-          </button>
-          <button onclick="filterProducts('Grower Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Grower Feed">
-            <span>Growers</span>
-          </button>
-          <button onclick="filterProducts('Fish Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Fish Feed">
-            <span>Fish</span>
-          </button>
-          <button onclick="filterProducts('Pig Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Pig Feed">
-            <span>Pigs</span>
-          </button>
-          <button onclick="filterProducts('Specialty Feed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Specialty Feed">
-            <span>Specialty</span>
-          </button>
-          <button onclick="filterProducts('Supplements')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-1.5" data-filter="Supplements">
-            <span>Supplements</span>
-          </button>
-        </div>
-        <div class="flex items-center">
-          <input type="text" id="searchInput" placeholder="Search products..." class="px-4 py-2 border rounded-lg w-64" onkeyup="searchProducts()">
-        </div>
+  <main id="main-content" class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Filter and Search controls -->
+    <section class="glass-card rounded-3xl p-6 mb-12 flex flex-col md:flex-row gap-6 justify-between items-center">
+      <!-- Category Buttons -->
+      <div class="flex flex-wrap gap-3">
+        <button onclick="filterProducts('all')" class="filter-btn px-5 py-2.5 rounded-full border border-primary bg-primary text-white font-semibold transition" data-filter="all">All</button>
+        <button onclick="filterProducts('Layers Feed')" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-accent font-semibold transition" data-filter="Layers Feed">Layers</button>
+        <button onclick="filterProducts('Broiler Feed')" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-accent font-semibold transition" data-filter="Broiler Feed">Broilers</button>
+        <button onclick="filterProducts('Grower Feed')" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-accent font-semibold transition" data-filter="Grower Feed">Growers</button>
+        <button onclick="filterProducts('Fish Feed')" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-accent font-semibold transition" data-filter="Fish Feed">Fish</button>
+        <button onclick="filterProducts('Pig Feed')" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-accent font-semibold transition" data-filter="Pig Feed">Pig</button>
+        <button onclick="filterProducts('Supplements')" class="filter-btn px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-accent font-semibold transition" data-filter="Supplements">Supplements</button>
       </div>
-    </div>
-  </section>
 
-  <!-- Products Grid -->
-  <section class="py-12">
-    <div class="max-w-7xl mx-auto px-4">
-      <div id="productsGrid" class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <!-- Products loaded dynamically -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Cart Sidebar -->
-  <div id="cartSidebar" class="fixed right-0 top-0 h-full w-full md:w-96 glass-panel border-l border-white/30 shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
-    <div class="flex flex-col h-full">
-      <div class="flex justify-between items-center p-4 border-b bg-primary text-white">
-        <h2 class="text-xl font-bold">Shopping Cart</h2>
-        <button onclick="toggleCart()" class="p-2 hover:bg-white/20 rounded-full">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      <!-- Search Input -->
+      <div class="w-full md:w-80 relative">
+        <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search animal feeds" class="w-full p-3 pl-10 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-accent">
+        <div class="absolute left-3.5 top-3.5 text-gray-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
-        </button>
-      </div>
-      <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4">
-        <!-- Cart items here -->
-      </div>
-      <div class="border-t p-4 bg-gray-50">
-        <div class="flex justify-between mb-4">
-          <span class="font-bold text-lg">Total:</span>
-          <span id="cartTotal" class="font-bold text-lg text-primary">GH₵ 0.00</span>
         </div>
-        <button onclick="checkout()" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-dark transition">
-          Proceed to Checkout
-        </button>
       </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section id="productsGrid" class="grid md:grid-cols-4 gap-6">
+      <!-- Products loaded dynamically via shop.js -->
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light/85 border-t border-white/10 py-12 text-gray-300 mt-20">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-sm text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Floating Cart Sidebar -->
+  <div id="cartSidebar" class="fixed right-0 top-0 h-full w-full md:w-[450px] bg-light/95 backdrop-blur-xl shadow-2xl border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+      <h3 class="font-bold text-xl text-white">Your Cart</h3>
+      <button onclick="toggleCart()" class="p-2 text-gray-400 hover:text-white" aria-label="Close Shopping Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Cart items loaded dynamically -->
+    </div>
+    <div class="p-6 border-t border-white/10 bg-black/10">
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-gray-300 font-semibold">Total:</span>
+        <span id="cartTotal" class="text-2xl font-bold text-accent">GH₵ 0.00</span>
+      </div>
+      <button onclick="checkout()" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition shadow-lg">Checkout Now</button>
     </div>
   </div>
 
   <!-- Checkout Modal -->
-  <div id="checkoutModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="glass-modal rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-      <div class="p-6 border-b border-white/20 flex justify-between items-center sticky top-0 bg-white/60 backdrop-blur">
-        <h2 class="text-2xl font-bold">Checkout</h2>
-        <button onclick="closeCheckout()" class="p-2 hover:bg-gray-100 rounded-full">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="glass-modal max-w-lg w-full rounded-3xl overflow-hidden shadow-2xl p-6 relative">
+      <!-- Close button -->
+      <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="absolute top-4 right-4 p-2 text-gray-400 hover:text-white" aria-label="Close Checkout Window">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
       
-      <form id="checkoutForm" class="p-6 space-y-6">
-        <!-- Customer Info -->
-        <div id="customerSection">
-          <h3 class="font-bold text-lg mb-4">Customer Information</h3>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-              <input type="text" id="customerName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-              <input type="email" id="customerEmail" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-              <input type="tel" id="customerPhone" required placeholder="e.g. 0241234567" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Address *</label>
-              <textarea id="deliveryAddress" required rows="2" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Order Summary -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h3 class="font-bold text-lg mb-4">Order Summary</h3>
-          <div id="orderSummaryItems" class="space-y-2 mb-4">
-            <!-- Items -->
-          </div>
-          <div class="flex justify-between text-xl font-bold border-t pt-4">
-            <span>Total</span>
-            <span id="orderTotal" class="text-primary">GH₵ 0.00</span>
-          </div>
-        </div>
-        
-        <!-- Payment Method -->
+      <!-- Checkout Form -->
+      <form id="checkoutForm" onsubmit="event.preventDefault(); proceedToPayment();" class="space-y-4">
+        <h3 class="text-2xl font-bold text-white mb-6">Checkout</h3>
         <div>
-          <h3 class="font-bold text-lg mb-4">Payment Method</h3>
-          <div class="space-y-3">
-            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
-              <input type="radio" name="paymentMethod" value="mtn" checked class="w-5 h-5 text-primary">
-              <div class="ml-3">
-                <span class="font-medium">MTN Mobile Money</span>
-                <p class="text-sm text-gray-500">Pay with MoMo</p>
-              </div>
-            </label>
-          </div>
+          <label for="checkoutName" class="block text-sm font-semibold text-gray-300 mb-1">Full Name</label>
+          <input type="text" id="checkoutName" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
         </div>
-        
-        <button type="submit" class="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-dark transition">
-          Place Order & Pay
-        </button>
+        <div>
+          <label for="checkoutEmail" class="block text-sm font-semibold text-gray-300 mb-1">Email Address</label>
+          <input type="email" id="checkoutEmail" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutPhone" class="block text-sm font-semibold text-gray-300 mb-1">Phone Number</label>
+          <input type="tel" id="checkoutPhone" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutAddress" class="block text-sm font-semibold text-gray-300 mb-1">Delivery Address</label>
+          <textarea id="checkoutAddress" rows="2" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition mt-4">Proceed to Payment</button>
       </form>
-      
-      <!-- Payment Processing -->
-      <div id="paymentSection" class="p-6 hidden">
-        <div class="text-center py-8">
-          <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h3 class="text-xl font-bold mb-2">Processing Payment</h3>
-          <p class="text-gray-600 mb-4">Please check your phone for a MoMo prompt</p>
-          
-          <div id="otpSection" class="hidden">
-            <p class="text-sm text-gray-600 mb-2">Enter the OTP code sent to your phone:</p>
-            <input type="text" id="otpInput" maxlength="6" placeholder="123456" class="w-32 text-center text-2xl tracking-widest border-2 border-primary rounded-lg py-3 focus:outline-none">
-            <button onclick="verifyOTP()" class="block mx-auto mt-4 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-dark transition">
-              Verify Payment
-            </button>
-          </div>
-          
-          <p id="mockOtpHint" class="text-sm text-gray-500 mt-4">Test mode: Use OTP <strong>123456</strong></p>
+
+      <!-- Payment Section -->
+      <div id="paymentSection" class="hidden text-center py-8 space-y-6">
+        <h3 class="text-2xl font-bold text-white">Payment Method</h3>
+        <p class="text-gray-300">Choose your preferred payment method:</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="selectPaymentMethod('mtn')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Mobile Money</span>
+          </button>
+          <button onclick="selectPaymentMethod('card')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Card / Paystack</span>
+          </button>
         </div>
       </div>
-      
-      <!-- Success -->
-      <div id="successSection" class="p-6 hidden text-center">
-        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 text-3xl font-bold">
-          ✓
+
+      <!-- Success Section -->
+      <div id="successSection" class="hidden text-center py-8 space-y-6">
+        <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mx-auto text-3xl font-bold">✓</div>
+        <h3 class="text-2xl font-bold text-white">Order Placed Successfully!</h3>
+        <p class="text-gray-300">Your order has been recorded. We will contact you shortly to arrange delivery.</p>
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+          <p class="text-sm text-gray-400">Order ID:</p>
+          <p id="orderIdDisplay" class="text-xl font-bold text-accent">#0000</p>
         </div>
-        <h3 class="text-2xl font-bold text-green-600 mb-2">Payment Successful!</h3>
-        <p class="text-gray-600 mb-6">Your order has been placed successfully.</p>
-        <p class="text-sm text-gray-500 mb-6">Order ID: <span id="orderIdDisplay" class="font-bold"></span></p>
-        <button onclick="closeCheckout()" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-dark transition">
-          Continue Shopping
-        </button>
+        <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-8 mt-12">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <p class="text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
-    </div>
-  </footer>
-
   <script src="script.js"></script>
-  <script>
-    console.log('Shop script loaded');
-    let allProducts = [];
-    let currentFilter = 'all';
-
-    async function loadProducts() {
-      console.log('loadProducts() called');
-      try {
-        const response = await fetch('/api/products');
-        const data = await response.json();
-        console.log('API Response:', data);
-        const productsList = data.products || data;
-        allProducts = productsList.map(p => ({
-          ...p,
-          inStock: p.stock > 0
-        }));
-        console.log('Products loaded:', allProducts);
-        if (Array.isArray(allProducts)) {
-          console.log('Rendering', allProducts.length, 'products');
-          renderProducts(allProducts);
-        } else {
-          console.error('allProducts is not an array:', allProducts);
-        }
-      } catch (error) {
-        console.error('Error loading products:', error);
-      }
-    }
-
-    function renderProducts(products) {
-      const container = document.getElementById('productsGrid');
-      console.log('renderProducts called with', products.length, 'items');
-      console.log('Container:', container);
-      container.innerHTML = products.map(p => `
-        <div class="product-card glass-card rounded-2xl overflow-hidden relative p-5 flex flex-col justify-between" data-category="${p.category || ''}">
-          <div>
-            <div class="relative">
-              ${!p.inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Out of Stock</span>` : ''}
-            </div>
-            <span class="text-xs text-primary font-semibold">${p.category || 'General'}</span>
-            <h3 class="font-bold text-gray-800 mt-1">${p.name}</h3>
-            <p class="text-sm text-gray-500 mt-1 line-clamp-2">${p.description || 'Premium quality feed'}</p>
-          </div>
-          <div class="mt-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xl font-bold text-primary">GH₵ ${p.price.toFixed(2)}</span>
-              <span class="text-xs text-gray-500">${p.inStock ? 'In Stock' : 'Out of Stock'}</span>
-            </div>
-            <button onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})" ${!p.inStock ? 'disabled' : ''} class="w-full mt-4 bg-primary text-white py-2 rounded-lg font-medium hover:bg-dark transition ${!p.inStock ? 'opacity-50 cursor-not-allowed' : ''}">
-              ${p.inStock ? 'Add to Cart' : 'Out of Stock'}
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
-    
-    function filterProducts(category) {
-      currentFilter = category;
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('bg-primary', 'text-white');
-        btn.classList.add('bg-gray-200', 'text-gray-700');
-      });
-      document.querySelector(`[data-filter="${category}"]`).classList.remove('bg-gray-200', 'text-gray-700');
-      document.querySelector(`[data-filter="${category}"]`).classList.add('bg-primary', 'text-white');
-      
-      if (category === 'all') {
-        renderProducts(allProducts);
-      } else {
-        const filtered = allProducts.filter(p => p.category === category);
-        renderProducts(filtered);
-      }
-    }
-    
-    function searchProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allProducts.filter(p => 
-        p.name.toLowerCase().includes(query) || 
-        (p.description && p.description.toLowerCase().includes(query)) ||
-        (p.category && p.category.toLowerCase().includes(query))
-      );
-      renderProducts(filtered);
-    }
-    function getCategoryIcon(category) { return ""; }
-    
-    loadProducts();
-    
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-    
-    // Checkout form
-    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      await placeOrder();
-    });
-  </script>
+  <script src="shop.js"></script>
 </body>
 </html>

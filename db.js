@@ -242,6 +242,12 @@ async function getAllCustomers() {
   return await allQuery(sql);
 }
 
+async function updateCustomer(id, { name, phone, address }) {
+  const sql = 'UPDATE customers SET name = ?, phone = ?, address = ? WHERE id = ?';
+  const result = await runQuery(sql, [name, phone, address, id]);
+  return result.changes > 0;
+}
+
 // Order functions
 async function createOrder({ customerId, items, total, deliveryAddress, paymentMethod }) {
   const sql = 'INSERT INTO orders (customer_id, items, total, delivery_address, payment_method) VALUES (?, ?, ?, ?, ?)';
@@ -423,6 +429,7 @@ module.exports = {
   getCustomer,
   getCustomerByEmail,
   getAllCustomers,
+  updateCustomer,
   createOrder,
   getOrder,
   getCustomerOrders,

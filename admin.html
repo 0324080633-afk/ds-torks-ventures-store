@@ -19,15 +19,15 @@
   </script>
   <style>
     * { font-family: 'Inter', sans-serif; }
-    .tab-active { border-bottom: 3px solid #0C969C; color: #0C969C; }
-    .status-pending { background: #FEF3C7; color: #D97706; }
-    .status-confirmed { background: #DBEAFE; color: #2563EB; }
-    .status-shipped { background: #E0E7FF; color: #4F46E5; }
-    .status-delivered { background: #D1FAE5; color: #059669; }
-    .status-cancelled { background: #FEE2E2; color: #DC2626; }
+    .tab-active { border-bottom: 3px solid #0C969C; color: #0C969C !important; font-weight: 700; }
+    .status-pending { background: rgba(234, 179, 8, 0.15) !important; color: #fbbf24 !important; border: 1px solid rgba(234, 179, 8, 0.3); }
+    .status-confirmed { background: rgba(12, 150, 156, 0.15) !important; color: #0C969C !important; border: 1px solid rgba(12, 150, 156, 0.3); }
+    .status-shipped { background: rgba(99, 102, 241, 0.15) !important; color: #818cf8 !important; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .status-delivered { background: rgba(34, 197, 94, 0.15) !important; color: #4ade80 !important; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .status-cancelled { background: rgba(239, 68, 68, 0.15) !important; color: #f87171 !important; border: 1px solid rgba(239, 68, 68, 0.3); }
   </style>
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased text-gray-100">
   <!-- Background Blobs -->
   <div class="blob-bg">
     <div class="blob-container">
@@ -38,24 +38,24 @@
   </div>
 
   <!-- Login Screen -->
-  <div id="loginScreen" class="min-h-screen flex items-center justify-center relative z-10">
-    <div class="glass-modal p-8 rounded-2xl w-full max-w-md">
+  <div id="loginScreen" class="min-h-screen flex items-center justify-center relative z-10 px-4">
+    <div class="glass-modal p-8 rounded-3xl w-full max-w-md border border-white/20 shadow-2xl">
       <div class="text-center mb-8">
         <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-16 h-16 object-contain mx-auto mb-4">
-        <h1 class="text-2xl font-bold text-gray-800">Admin Login</h1>
-        <p class="text-gray-500 mt-2">Enter your admin token to continue</p>
+        <h1 class="text-2xl font-bold text-white">Admin Login</h1>
+        <p class="text-gray-300 mt-2 text-sm">Enter your admin token to continue</p>
       </div>
       
-      <div class="space-y-4">
+      <div class="space-y-6">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Admin Token</label>
+          <label for="adminToken" class="block text-sm font-semibold text-gray-300 mb-2">Admin Token</label>
           <input type="password" id="adminToken" placeholder="Enter your admin token" 
-                 class="w-full px-4 py-3 border rounded-lg glass-input">
+                 class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent glass-input">
         </div>
-        <button onclick="adminLogin()" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-dark transition">
+        <button onclick="adminLogin()" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition duration-300 shadow-lg">
           Sign In
         </button>
-        <p id="loginError" class="text-red-500 text-sm text-center hidden">Invalid token. Please try again.</p>
+        <p id="loginError" class="text-red-400 text-sm text-center font-medium hidden">Invalid token. Please try again.</p>
       </div>
     </div>
   </div>
@@ -63,57 +63,60 @@
   <!-- Dashboard -->
   <div id="dashboard" class="hidden">
     <!-- Header -->
-    <header class="glass-nav shadow-sm sticky top-0 z-40">
+    <header class="glass-nav shadow-sm sticky top-0 z-45">
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-4">
           <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
           <div>
-            <span class="font-bold text-lg">DS TORKS Admin</span>
-            <span class="block text-xs text-primary">VENTURES</span>
+            <span class="font-bold text-lg text-white">DS TORKS Admin</span>
+            <span class="block text-xs text-accent font-semibold tracking-wide">VENTURES</span>
           </div>
         </div>
-        <button onclick="adminLogout()" class="text-gray-600 hover:text-red-500 flex items-center">
+        <button onclick="adminLogout()" class="text-gray-300 hover:text-red-400 font-semibold flex items-center gap-1 transition duration-300">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
           Logout
         </button>
       </div>
     </header>
 
     <!-- Stats Cards -->
-    <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="max-w-7xl mx-auto px-4 py-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="glass-card rounded-xl p-6">
-          <div class="text-sm text-gray-500">Today's Revenue</div>
-          <div class="text-2xl font-bold text-primary" id="todayRevenue">GH₵ 0.00</div>
+        <div class="glass-card rounded-2xl p-6 glow-card">
+          <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Today's Revenue</div>
+          <div class="text-2xl font-black text-primary animate-fade-in" id="todayRevenue">GH₵ 0.00</div>
         </div>
-        <div class="glass-card rounded-xl p-6">
-          <div class="text-sm text-gray-500">Units Sold Today</div>
-          <div class="text-2xl font-bold text-blue-600" id="unitsToday">0</div>
+        <div class="glass-card rounded-2xl p-6 glow-card">
+          <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Units Sold Today</div>
+          <div class="text-2xl font-black text-accent animate-fade-in" id="unitsToday">0</div>
         </div>
-        <div class="glass-card rounded-xl p-6">
-          <div class="text-sm text-gray-500">Today's Orders</div>
-          <div class="text-2xl font-bold text-purple-600" id="todayOrders">0</div>
+        <div class="glass-card rounded-2xl p-6 glow-card">
+          <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Today's Orders</div>
+          <div class="text-2xl font-black text-indigo-400 animate-fade-in" id="todayOrders">0</div>
         </div>
-        <div class="glass-card rounded-xl p-6">
-          <div class="text-sm text-gray-500">Low Stock Items</div>
-          <div class="text-2xl font-bold text-red-600" id="lowStock">0</div>
+        <div class="glass-card rounded-2xl p-6 glow-card">
+          <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider mb-2">Low Stock Items</div>
+          <div class="text-2xl font-black text-red-400 animate-fade-in" id="lowStock">0</div>
         </div>
       </div>
     </div>
 
     <!-- Tabs -->
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="glass-panel rounded-xl overflow-hidden">
-        <div class="flex border-b overflow-x-auto">
-          <button onclick="switchTab('orders')" class="tab-btn px-6 py-4 font-medium text-gray-600 hover:text-primary whitespace-nowrap tab-active" data-tab="orders">
+    <div class="max-w-7xl mx-auto px-4 pb-16">
+      <div class="glass-panel rounded-3xl overflow-hidden border border-white/10 shadow-xl">
+        <div class="flex border-b border-white/10 overflow-x-auto bg-black/10">
+          <button onclick="switchTab('orders')" class="tab-btn px-6 py-4 font-semibold text-gray-300 hover:text-white whitespace-nowrap tab-active transition duration-300" data-tab="orders">
             Orders
           </button>
-          <button onclick="switchTab('products')" class="tab-btn px-6 py-4 font-medium text-gray-600 hover:text-primary whitespace-nowrap" data-tab="products">
+          <button onclick="switchTab('products')" class="tab-btn px-6 py-4 font-semibold text-gray-300 hover:text-white whitespace-nowrap transition duration-300" data-tab="products">
             Products
           </button>
-          <button onclick="switchTab('messages')" class="tab-btn px-6 py-4 font-medium text-gray-600 hover:text-primary whitespace-nowrap" data-tab="messages">
+          <button onclick="switchTab('messages')" class="tab-btn px-6 py-4 font-semibold text-gray-300 hover:text-white whitespace-nowrap transition duration-300" data-tab="messages">
             Messages
           </button>
-          <button onclick="switchTab('customers')" class="tab-btn px-6 py-4 font-medium text-gray-600 hover:text-primary whitespace-nowrap" data-tab="customers">
+          <button onclick="switchTab('customers')" class="tab-btn px-6 py-4 font-semibold text-gray-300 hover:text-white whitespace-nowrap transition duration-300" data-tab="customers">
             Customers
           </button>
         </div>
@@ -121,8 +124,8 @@
         <!-- Orders Tab -->
         <div id="ordersTab" class="p-6">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Recent Orders</h2>
-            <button onclick="loadOrders()" class="text-primary hover:underline text-sm">Refresh</button>
+            <h2 class="text-xl font-bold text-white">Recent Orders</h2>
+            <button onclick="loadOrders()" class="text-accent hover:text-white text-sm font-semibold transition duration-300">Refresh</button>
           </div>
           <div id="ordersList" class="space-y-4">
             <!-- Orders loaded here -->
@@ -132,23 +135,23 @@
         <!-- Products Tab -->
         <div id="productsTab" class="p-6 hidden">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Product Inventory</h2>
-            <button onclick="openProductModal()" class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-dark transition">
+            <h2 class="text-xl font-bold text-white">Product Inventory</h2>
+            <button onclick="openProductModal()" class="bg-primary text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-dark transition duration-300 shadow-md">
               + Add Product
             </button>
           </div>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Product</th>
-                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Category</th>
-                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Price</th>
-                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Stock</th>
-                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
+          <div class="overflow-x-auto rounded-2xl border border-white/10">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="bg-white/5 border-b border-white/10">
+                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Product</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Category</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Price</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Stock</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-accent uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody id="productsList" class="divide-y">
+              <tbody id="productsList" class="divide-y divide-white/5 bg-white/5">
                 <!-- Products loaded here -->
               </tbody>
             </table>
@@ -158,8 +161,8 @@
         <!-- Messages Tab -->
         <div id="messagesTab" class="p-6 hidden">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Contact Messages</h2>
-            <span id="unreadBadge" class="bg-red-500 text-white text-xs px-2 py-1 rounded-full hidden">0 unread</span>
+            <h2 class="text-xl font-bold text-white">Contact Messages</h2>
+            <span id="unreadBadge" class="bg-red-500/20 text-red-400 border border-red-500/30 text-xs px-2.5 py-1 rounded-full font-bold hidden">0 unread</span>
           </div>
           <div id="messagesList" class="space-y-4">
             <!-- Messages loaded here -->
@@ -169,7 +172,7 @@
         <!-- Customers Tab -->
         <div id="customersTab" class="p-6 hidden">
           <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Registered Customers</h2>
+            <h2 class="text-xl font-bold text-white">Registered Customers</h2>
           </div>
           <div id="customersList" class="grid md:grid-cols-2 gap-4">
             <!-- Customers loaded here -->
@@ -182,11 +185,11 @@
   </div>
 
   <!-- Product Modal -->
-  <div id="productModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
-    <div class="glass-modal rounded-2xl w-full max-w-lg">
-      <div class="p-6 border-b flex justify-between items-center border-white/20 bg-white/60 backdrop-blur">
-        <h2 id="modalTitle" class="text-xl font-bold">Add Product</h2>
-        <button onclick="closeProductModal()" class="p-2 hover:bg-gray-100 rounded-full">
+  <div id="productModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="glass-modal rounded-3xl w-full max-w-lg overflow-hidden border border-white/20 shadow-2xl">
+      <div class="p-6 border-b flex justify-between items-center border-white/10 bg-white/5 backdrop-blur-md">
+        <h2 id="modalTitle" class="text-xl font-bold text-white">Add Product</h2>
+        <button onclick="closeProductModal()" class="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition duration-300" aria-label="Close modal">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
@@ -195,26 +198,26 @@
       <form id="productForm" class="p-6 space-y-4">
         <input type="hidden" id="productId">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
-          <input type="text" id="productName" required class="w-full px-4 py-2 border rounded-lg glass-input">
+          <label for="productName" class="block text-sm font-semibold text-gray-300 mb-1">Product Name *</label>
+          <input type="text" id="productName" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent glass-input">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-          <textarea id="productDescription" rows="2" class="w-full px-4 py-2 border rounded-lg glass-input"></textarea>
+          <label for="productDescription" class="block text-sm font-semibold text-gray-300 mb-1">Description</label>
+          <textarea id="productDescription" rows="2" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent glass-input"></textarea>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Price (GH₵) *</label>
-            <input type="number" id="productPrice" step="0.01" required class="w-full px-4 py-2 border rounded-lg glass-input">
+            <label for="productPrice" class="block text-sm font-semibold text-gray-300 mb-1">Price (GH₵) *</label>
+            <input type="number" id="productPrice" step="0.01" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent glass-input">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Stock *</label>
-            <input type="number" id="productStock" required class="w-full px-4 py-2 border rounded-lg glass-input">
+            <label for="productStock" class="block text-sm font-semibold text-gray-300 mb-1">Stock *</label>
+            <input type="number" id="productStock" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent glass-input">
           </div>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-          <select id="productCategory" class="w-full px-4 py-2 border rounded-lg glass-input">
+          <label for="productCategory" class="block text-sm font-semibold text-gray-300 mb-1">Category</label>
+          <select id="productCategory" class="w-full px-4 py-3 bg-[#032f30] border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
             <option value="">Select category</option>
             <option value="Layers Feed">Layers Feed</option>
             <option value="Broiler Feed">Broiler Feed</option>
@@ -225,7 +228,7 @@
             <option value="Supplements">Supplements</option>
           </select>
         </div>
-        <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-dark transition">
+        <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition duration-300 shadow-lg mt-2">
           Save Product
         </button>
       </form>
@@ -241,9 +244,9 @@
     function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
-      toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300 ${
+      toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl shadow-lg z-50 transform transition-all duration-300 ${
         type === 'success' ? 'bg-green-500' : 'bg-red-500'
-      } text-white`;
+      } text-white font-semibold`;
       
       setTimeout(() => { toast.classList.remove('translate-y-20', 'opacity-0'); }, 10);
       setTimeout(() => { toast.classList.add('translate-y-20', 'opacity-0'); }, 3000);
@@ -330,60 +333,71 @@
     function renderOrders(orders) {
       const container = document.getElementById('ordersList');
       if (orders.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 text-center py-8">No orders yet</p>';
+        container.innerHTML = '<p class="text-gray-400 text-center py-8">No orders yet</p>';
         return;
       }
       
-      container.innerHTML = orders.slice(0, 10).map(order => `
-        <div class="border rounded-lg p-4">
-          <div class="flex justify-between items-start mb-3">
-            <div>
-              <span class="font-bold">Order #${order.id}</span>
-              <span class="text-sm text-gray-500 ml-2">${new Date(order.created_at).toLocaleString()}</span>
+      container.innerHTML = orders.slice(0, 10).map(order => {
+        let parsedItems = [];
+        try {
+          parsedItems = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+        } catch (e) {
+          parsedItems = [];
+        }
+
+        return `
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition duration-300">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <span class="font-bold text-white text-lg">Order #${order.id}</span>
+                <span class="text-sm text-gray-400 ml-2">${new Date(order.created_at).toLocaleString()}</span>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider status-${order.status}">${order.status}</span>
             </div>
-            <span class="px-3 py-1 rounded-full text-sm font-medium status-${order.status}">${order.status}</span>
-          </div>
-          <div class="text-sm text-gray-600 mb-2">
-            <strong>${order.customer_name || 'Unknown'}</strong> - ${order.customer_phone || ''}
-          </div>
-          <div class="text-sm text-gray-600 mb-3">
-            ${order.items.map(i => `${i.name} x${i.quantity}`).join(', ')}
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-lg">GH₵ ${order.total.toFixed(2)}</span>
-            <div class="flex gap-2">
-              ${order.status === 'pending' ? `
-                <button onclick="updateOrderStatus(${order.id}, 'confirmed')" class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">Confirm</button>
-              ` : ''}
-              ${order.status === 'confirmed' ? `
-                <button onclick="updateOrderStatus(${order.id}, 'shipped')" class="px-3 py-1 bg-purple-500 text-white rounded text-sm hover:bg-purple-600">Ship</button>
-              ` : ''}
-              ${order.status === 'shipped' ? `
-                <button onclick="updateOrderStatus(${order.id}, 'delivered')" class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">Delivered</button>
-              ` : ''}
-              <button onclick="updateOrderStatus(${order.id}, 'cancelled')" class="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600">Cancel</button>
+            <div class="text-sm text-gray-300 mb-2 border-t border-white/5 pt-3">
+              <span class="font-semibold text-white">${order.customer_name || 'Unknown'}</span> - ${order.customer_phone || ''}
+            </div>
+            <div class="text-sm text-gray-400 mb-4">
+              ${parsedItems.map(i => `${i.name} <span class="text-gray-500">x${i.quantity}</span>`).join(', ')}
+            </div>
+            <div class="flex justify-between items-center border-t border-white/5 pt-3">
+              <span class="font-bold text-lg text-white">GH₵ ${order.total.toFixed(2)}</span>
+              <div class="flex gap-2">
+                ${order.status === 'pending' ? `
+                  <button onclick="updateOrderStatus(${order.id}, 'confirmed')" class="px-3.5 py-1.5 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary/80 transition duration-300 shadow-md">Confirm</button>
+                ` : ''}
+                ${order.status === 'confirmed' ? `
+                  <button onclick="updateOrderStatus(${order.id}, 'shipped')" class="px-3.5 py-1.5 bg-indigo-500 text-white rounded-xl text-xs font-bold hover:bg-indigo-600 transition duration-300 shadow-md">Ship</button>
+                ` : ''}
+                ${order.status === 'shipped' ? `
+                  <button onclick="updateOrderStatus(${order.id}, 'delivered')" class="px-3.5 py-1.5 bg-green-500 text-white rounded-xl text-xs font-bold hover:bg-green-600 transition duration-300 shadow-md">Delivered</button>
+                ` : ''}
+                ${order.status !== 'cancelled' && order.status !== 'delivered' ? `
+                  <button onclick="updateOrderStatus(${order.id}, 'cancelled')" class="px-3.5 py-1.5 bg-red-500/20 border border-red-500/30 text-red-400 rounded-xl text-xs font-bold hover:bg-red-500/35 transition duration-300">Cancel</button>
+                ` : ''}
+              </div>
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function renderProducts(products) {
       const container = document.getElementById('productsList');
       container.innerHTML = products.map(p => `
-        <tr>
-          <td class="px-4 py-3">
-            <div class="font-medium">${p.name}</div>
-            <div class="text-sm text-gray-500">${p.description?.substring(0, 50) || ''}...</div>
+        <tr class="hover:bg-white/10 transition duration-200">
+          <td class="px-6 py-4">
+            <div class="font-semibold text-white">${p.name}</div>
+            <div class="text-xs text-gray-400 mt-1 max-w-md truncate">${p.description || ''}</div>
           </td>
-          <td class="px-4 py-3 text-sm">${p.category || '-'}</td>
-          <td class="px-4 py-3 font-medium">GH₵ ${p.price.toFixed(2)}</td>
-          <td class="px-4 py-3">
-            <span class="${p.stock < 10 ? 'text-red-600 font-bold' : ''}">${p.stock}</span>
+          <td class="px-6 py-4 text-sm text-gray-300">${p.category || '-'}</td>
+          <td class="px-6 py-4 font-semibold text-primary">GH₵ ${p.price.toFixed(2)}</td>
+          <td class="px-6 py-4">
+            <span class="px-2 py-0.5 rounded-md text-xs font-bold ${p.stock < 10 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-green-500/20 text-green-400 border border-green-500/30'}">${p.stock}</span>
           </td>
-          <td class="px-4 py-3">
-            <button onclick="editProduct(${p.id})" class="text-blue-600 hover:underline mr-3">Edit</button>
-            <button onclick="deleteProduct(${p.id})" class="text-red-600 hover:underline">Delete</button>
+          <td class="px-6 py-4 text-sm">
+            <button onclick="editProduct(${p.id})" class="text-accent hover:text-white mr-3 font-semibold transition duration-200">Edit</button>
+            <button onclick="deleteProduct(${p.id})" class="text-red-400 hover:text-red-300 font-semibold transition duration-200">Delete</button>
           </td>
         </tr>
       `).join('');
@@ -402,23 +416,23 @@
       }
       
       if (messages.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 text-center py-8">No messages yet</p>';
+        container.innerHTML = '<p class="text-gray-400 text-center py-8">No messages yet</p>';
         return;
       }
       
       container.innerHTML = messages.map(m => `
-        <div class="border rounded-lg p-4 ${m.is_read ? '' : 'bg-blue-50'}">
-          <div class="flex justify-between items-start mb-2">
+        <div class="bg-white/5 border rounded-2xl p-6 transition duration-300 ${m.is_read ? 'border-white/10' : 'border-primary/45 bg-primary/5'}">
+          <div class="flex justify-between items-start mb-3 border-b border-white/5 pb-3">
             <div>
-              <span class="font-bold">${m.name}</span>
-              <span class="text-sm text-gray-500 ml-2">${m.email}</span>
+              <span class="font-bold text-white text-lg">${m.name}</span>
+              <span class="text-sm text-gray-400 block mt-1">${m.email}</span>
             </div>
-            <span class="text-xs text-gray-400">${new Date(m.created_at).toLocaleString()}</span>
+            <span class="text-xs text-gray-500">${new Date(m.created_at).toLocaleString()}</span>
           </div>
-          <div class="text-sm text-gray-600 mb-2">${m.subject || '(No subject)'}</div>
-          <p class="text-gray-700">${m.message}</p>
+          <div class="text-sm font-semibold text-accent mb-2">${m.subject || '(No subject)'}</div>
+          <p class="text-gray-300 text-sm leading-relaxed">${m.message}</p>
           ${!m.is_read ? `
-            <button onclick="markMessageRead(${m.id})" class="mt-2 text-sm text-primary hover:underline">Mark as read</button>
+            <button onclick="markMessageRead(${m.id})" class="mt-4 text-xs font-bold text-primary hover:text-white transition duration-200 bg-primary/10 border border-primary/20 px-3 py-1.5 rounded-lg">Mark as read</button>
           ` : ''}
         </div>
       `).join('');
@@ -426,20 +440,24 @@
 
     function renderCustomers(customers) {
       const container = document.getElementById('customersList');
+      if (customers.length === 0) {
+        container.innerHTML = '<p class="text-gray-400 text-center py-8 col-span-2">No customers registered yet</p>';
+        return;
+      }
       container.innerHTML = customers.map(c => `
-        <div class="border rounded-lg p-4">
-          <div class="flex items-center mb-2">
-            <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary font-bold">${c.name.charAt(0)}</div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-white/20 transition duration-300">
+          <div class="flex items-center mb-4 border-b border-white/5 pb-3">
+            <div class="w-10 h-10 bg-primary/20 border border-primary/30 rounded-full flex items-center justify-center text-primary font-bold">${c.name.charAt(0).toUpperCase()}</div>
             <div class="ml-3">
-              <div class="font-medium">${c.name}</div>
-              <div class="text-sm text-gray-500">${c.email}</div>
+              <div class="font-semibold text-white">${c.name}</div>
+              <div class="text-xs text-gray-400">${c.email}</div>
             </div>
           </div>
-          <div class="text-sm text-gray-600 mt-1">
-            Phone: <span>${c.phone || '-'}</span>
+          <div class="text-sm text-gray-300 mt-1">
+            Phone: <span class="text-white font-medium">${c.phone || '-'}</span>
           </div>
-          <div class="text-sm text-gray-600 mt-1">
-            Address: <span>${c.address || '-'}</span>
+          <div class="text-sm text-gray-300 mt-1">
+            Address: <span class="text-white font-medium">${c.address || '-'}</span>
           </div>
         </div>
       `).join('');
@@ -465,7 +483,7 @@
         });
         
         if (response.ok) {
-          showToast(`Order ${status}`);
+          showToast(`Order status updated to: ${status}`);
           loadDashboard();
         }
       } catch (error) {

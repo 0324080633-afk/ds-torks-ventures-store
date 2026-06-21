@@ -12,14 +12,24 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { primary: '#0C969C', secondary: '#0A7075', accent: '#6BA3BE', dark: '#274D60', light: '#031716' }
+          colors: {
+            primary: '#0C969C',
+            secondary: '#0A7075',
+            accent: '#6BA3BE',
+            dark: '#274D60',
+            light: '#031716'
+          }
         }
       }
     }
   </script>
 </head>
-<body class="font-sans antialiased">
-  <!-- Background Blobs -->
+<body class="font-sans antialiased text-gray-100">
+  
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+  <!-- Ambient background blobs -->
   <div class="blob-bg">
     <div class="blob-container">
       <div class="blob-1"></div>
@@ -32,131 +42,225 @@
   <nav class="glass-nav sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center h-16">
-        <a href="/" class="flex items-center space-x-2">
+        <a href="/" class="flex items-center space-x-2" aria-label="DS TORKS VENTURES Home">
           <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
           <div>
-            <span class="font-bold text-lg text-gray-800">DS TORKS</span>
-            <span class="block text-xs text-primary font-medium">VENTURES</span>
+            <span class="font-bold text-lg text-white">DS TORKS</span>
+            <span class="block text-xs text-accent font-semibold tracking-wider">VENTURES</span>
           </div>
         </a>
+        
         <div class="hidden md:flex items-center space-x-8">
-          <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
-          <a href="shop.html" class="text-gray-700 hover:text-primary font-medium">Shop</a>
-          <a href="about.html" class="text-primary font-medium">About</a>
-          <a href="contact.html" class="text-gray-700 hover:text-primary font-medium">Contact</a>
-          <a href="profile.html" class="text-gray-700 hover:text-primary font-medium">My Account</a>
-          <a href="shop.html" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-dark transition">Shop Now</a>
+          <a href="/" class="text-white/90 hover:text-accent font-medium transition">Home</a>
+          <a href="shop.html" class="text-white/90 hover:text-accent font-medium transition">Shop</a>
+          <a href="about.html" class="text-white hover:text-accent font-medium transition">About</a>
+          <a href="contact.html" class="text-white/90 hover:text-accent font-medium transition">Contact</a>
+          <a href="profile.html" class="text-white/90 hover:text-accent font-medium transition">My Account</a>
+          
+          <!-- Cart Toggle Button -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadge" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
         </div>
-        <button id="mobileMenuBtn" class="md:hidden p-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+        
+        <div class="flex items-center space-x-4 md:hidden">
+          <!-- Cart Toggle for Mobile -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadgeMobile" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
+
+          <button id="mobileMenuBtn" class="p-2 text-white hover:text-accent" aria-label="Toggle mobile menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    
+    <div id="mobileMenu" class="hidden md:hidden bg-light/95 backdrop-blur-lg border-t border-white/10">
       <div class="px-4 py-4 space-y-3">
-        <a href="/" class="block py-2 text-gray-700">Home</a>
-        <a href="shop.html" class="block py-2 text-gray-700">Shop</a>
-        <a href="about.html" class="block py-2 text-gray-700">About</a>
-        <a href="contact.html" class="block py-2 text-gray-700">Contact</a>
-        <a href="profile.html" class="block py-2 text-gray-700">My Account</a>
+        <a href="/" class="block py-2 text-white/90 hover:text-accent transition">Home</a>
+        <a href="shop.html" class="block py-2 text-white/90 hover:text-accent transition">Shop</a>
+        <a href="about.html" class="block py-2 text-white/90 hover:text-accent transition">About</a>
+        <a href="contact.html" class="block py-2 text-white/90 hover:text-accent transition">Contact</a>
+        <a href="profile.html" class="block py-2 text-white/90 hover:text-accent transition">My Account</a>
       </div>
     </div>
   </nav>
 
-  <section class="bg-cover bg-center text-white py-20" style="background-image: linear-gradient(rgba(3, 47, 48, 0.70), rgba(3, 47, 48, 0.85)), url('images/logo0.png')">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">About DS TORKS VENTURES</h1>
-      <p class="text-xl text-white/90">Your trusted partner in quality animal feed since 2019</p>
+  <!-- About Header -->
+  <header class="relative py-16 overflow-hidden border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+      <h1 class="text-4xl font-extrabold text-white mb-4">About DS TORKS VENTURES</h1>
+      <p class="text-xl text-white/70 max-w-lg mx-auto">Your trusted partner in quality animal feed since 2019</p>
     </div>
-  </section>
+  </header>
 
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Story</h2>
-          <p class="text-gray-600 mb-4">
-            DS TORKS VENTURES was founded with a simple mission: to provide Ghanaian farmers with 
-            access to high-quality, affordable animal feed that helps their livestock thrive.
-          </p>
-          <p class="text-gray-600 mb-4">
-            Starting from a small warehouse in Accra, we've grown to serve over 500 farmers across 
-            Ghana, from the coastal regions to the northern territories.
-          </p>
-          <p class="text-gray-600">
-            Our team consists of animal nutritionists and agriculture experts who understand the 
-            unique challenges facing Ghanaian farmers. We work closely with our customers to ensure 
-            they get the right products for their specific needs.
-          </p>
-        </div>
-        <div class="glass-panel rounded-2xl h-80 flex items-center justify-center p-8 reveal-on-scroll delay-200 animate-card-hover">
-          <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-full h-full object-contain">
-        </div>
+  <main id="main-content" class="max-w-7xl mx-auto px-4 py-16 space-y-24">
+    <!-- Our Story Section -->
+    <section class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="reveal-on-scroll">
+        <h2 class="text-3xl font-extrabold text-white mb-6">Our Story</h2>
+        <p class="text-gray-300 mb-4 leading-relaxed">
+          DS TORKS VENTURES was founded with a simple mission: to provide Ghanaian farmers with 
+          access to high-quality, affordable animal feed that helps their livestock thrive.
+        </p>
+        <p class="text-gray-300 mb-4 leading-relaxed">
+          Starting from a small warehouse in Accra, we've grown to serve over 500 farmers across 
+          Ghana, from the coastal regions to the northern territories.
+        </p>
+        <p class="text-gray-300 leading-relaxed">
+          Our team consists of animal nutritionists and agriculture experts who understand the 
+          unique challenges facing Ghanaian farmers. We work closely with our customers to ensure 
+          they get the right products for their specific needs.
+        </p>
       </div>
-    </div>
-  </section>
+      <div class="glass-card rounded-3xl h-80 flex items-center justify-center p-8 reveal-on-scroll delay-200 animate-card-hover">
+        <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-full h-full object-contain">
+      </div>
+    </section>
 
-  <section class="py-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl max-w-7xl mx-auto my-12 relative z-10 shadow-lg">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Our Values</h2>
+    <!-- Our Values Section -->
+    <section class="glass-card rounded-3xl p-8 shadow-lg reveal-on-scroll">
+      <h2 class="text-3xl font-extrabold text-white text-center mb-12">Our Values</h2>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="glass-card p-6 rounded-2xl text-center">
-          
-          <h3 class="font-bold text-xl mb-2 text-gray-800">Quality First</h3>
-          <p class="text-gray-600">We source only the finest ingredients and maintain strict quality control standards.</p>
+        <div class="glass-card p-6 rounded-2xl text-center glow-card animate-card-hover">
+          <h3 class="font-bold text-xl mb-3 text-white">Quality First</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">We source only the finest ingredients and maintain strict quality control standards for optimal feed conversion.</p>
         </div>
-        <div class="glass-card p-6 rounded-2xl text-center">
-          
-          <h3 class="font-bold text-xl mb-2 text-gray-800">Customer Partnership</h3>
-          <p class="text-gray-600">We see our customers as partners and work together for their success.</p>
+        <div class="glass-card p-6 rounded-2xl text-center glow-card animate-card-hover">
+          <h3 class="font-bold text-xl mb-3 text-white">Customer Partnership</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">We see our farmers as partners, offering educational advice and custom solutions for their farm's growth.</p>
         </div>
-        <div class="glass-card p-6 rounded-2xl text-center">
-          
-          <h3 class="font-bold text-xl mb-2 text-gray-800">Sustainability</h3>
-          <p class="text-gray-600">We care about the environment and use sustainable practices in our operations.</p>
+        <div class="glass-card p-6 rounded-2xl text-center glow-card animate-card-hover">
+          <h3 class="font-bold text-xl mb-3 text-white">Sustainability</h3>
+          <p class="text-gray-300 text-sm leading-relaxed">We respect local farming ecosystems and source sustainably to support the agricultural community in Ghana.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Meet Our Team</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="w-32 h-32 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold">DT</div>
-          <h3 class="font-bold text-xl">David Torkpor</h3>
-          <p class="text-primary font-medium">Founder & CEO</p>
-          <p class="text-gray-600 text-sm mt-2">20+ years in agriculture and animal nutrition</p>
+    <!-- Meet Our Team Section -->
+    <section class="reveal-on-scroll">
+      <h2 class="text-3xl font-extrabold text-white text-center mb-16">Meet Our Team</h2>
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="text-center glass-card rounded-3xl p-6 glow-card animate-card-hover">
+          <div class="w-24 h-24 bg-primary/20 text-accent border border-accent/30 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-extrabold">DT</div>
+          <h3 class="font-bold text-xl text-white">David Torkpor</h3>
+          <p class="text-accent font-semibold text-sm mt-1">Founder & CEO</p>
+          <p class="text-gray-300 text-sm mt-3 leading-relaxed">20+ years of local agricultural experience and livestock feed operations.</p>
         </div>
-        <div class="text-center">
-          <div class="w-32 h-32 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold">SM</div>
-          <h3 class="font-bold text-xl">Sarah Mensah</h3>
-          <p class="text-primary font-medium">Head of Nutrition</p>
-          <p class="text-gray-600 text-sm mt-2">PhD in Animal Science, AU</p>
+        <div class="text-center glass-card rounded-3xl p-6 glow-card animate-card-hover">
+          <div class="w-24 h-24 bg-primary/20 text-accent border border-accent/30 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-extrabold">SM</div>
+          <h3 class="font-bold text-xl text-white">Sarah Mensah</h3>
+          <p class="text-accent font-semibold text-sm mt-1">Head of Nutrition</p>
+          <p class="text-gray-300 text-sm mt-3 leading-relaxed">PhD in Animal Science, specializing in optimal poultry and fish feed conversion ratios.</p>
         </div>
-        <div class="text-center">
-          <div class="w-32 h-32 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold">KA</div>
-          <h3 class="font-bold text-xl">Kofi Annan</h3>
-          <p class="text-primary font-medium">Operations Manager</p>
-          <p class="text-gray-600 text-sm mt-2">Logistics and supply chain expert</p>
+        <div class="text-center glass-card rounded-3xl p-6 glow-card animate-card-hover">
+          <div class="w-24 h-24 bg-primary/20 text-accent border border-accent/30 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-extrabold">KA</div>
+          <h3 class="font-bold text-xl text-white">Kofi Annan</h3>
+          <p class="text-accent font-semibold text-sm mt-1">Operations Manager</p>
+          <p class="text-gray-300 text-sm mt-3 leading-relaxed">Expert in logistics, cold storage, and fast shipping networks across rural Ghana.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <footer class="bg-gray-900 text-white py-8">
+  <!-- Footer -->
+  <footer class="bg-light/85 border-t border-white/10 py-12 text-gray-300 mt-20">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <p class="text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
+      <p class="text-sm text-gray-400">&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
     </div>
   </footer>
 
-  <script>
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-  </script>
+  <!-- Floating Cart Sidebar -->
+  <div id="cartSidebar" class="fixed right-0 top-0 h-full w-full md:w-[450px] bg-light/95 backdrop-blur-xl shadow-2xl border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+      <h3 class="font-bold text-xl text-white">Your Cart</h3>
+      <button onclick="toggleCart()" class="p-2 text-gray-400 hover:text-white" aria-label="Close Shopping Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Cart items loaded dynamically -->
+    </div>
+    <div class="p-6 border-t border-white/10 bg-black/10">
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-gray-300 font-semibold">Total:</span>
+        <span id="cartTotal" class="text-2xl font-bold text-accent">GH₵ 0.00</span>
+      </div>
+      <button onclick="checkout()" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition shadow-lg">Checkout Now</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="glass-modal max-w-lg w-full rounded-3xl overflow-hidden shadow-2xl p-6 relative">
+      <!-- Close button -->
+      <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="absolute top-4 right-4 p-2 text-gray-400 hover:text-white" aria-label="Close Checkout Window">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <!-- Checkout Form -->
+      <form id="checkoutForm" onsubmit="event.preventDefault(); proceedToPayment();" class="space-y-4">
+        <h3 class="text-2xl font-bold text-white mb-6">Checkout</h3>
+        <div>
+          <label for="checkoutName" class="block text-sm font-semibold text-gray-300 mb-1">Full Name</label>
+          <input type="text" id="checkoutName" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutEmail" class="block text-sm font-semibold text-gray-300 mb-1">Email Address</label>
+          <input type="email" id="checkoutEmail" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutPhone" class="block text-sm font-semibold text-gray-300 mb-1">Phone Number</label>
+          <input type="tel" id="checkoutPhone" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutAddress" class="block text-sm font-semibold text-gray-300 mb-1">Delivery Address</label>
+          <textarea id="checkoutAddress" rows="2" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition mt-4">Proceed to Payment</button>
+      </form>
+
+      <!-- Payment Section -->
+      <div id="paymentSection" class="hidden text-center py-8 space-y-6">
+        <h3 class="text-2xl font-bold text-white">Payment Method</h3>
+        <p class="text-gray-300">Choose your preferred payment method:</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="selectPaymentMethod('mtn')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Mobile Money</span>
+          </button>
+          <button onclick="selectPaymentMethod('card')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Card / Paystack</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Section -->
+      <div id="successSection" class="hidden text-center py-8 space-y-6">
+        <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mx-auto text-3xl font-bold">✓</div>
+        <h3 class="text-2xl font-bold text-white">Order Placed Successfully!</h3>
+        <p class="text-gray-300">Your order has been recorded. We will contact you shortly to arrange delivery.</p>
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+          <p class="text-sm text-gray-400">Order ID:</p>
+          <p id="orderIdDisplay" class="text-xl font-bold text-accent">#0000</p>
+        </div>
+        <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

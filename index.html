@@ -23,411 +23,394 @@
     }
   </script>
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased text-gray-100">
+  
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+  <!-- Ambient background blobs -->
+  <div class="blob-bg">
+    <div class="blob-container">
+      <div class="blob-1"></div>
+      <div class="blob-2"></div>
+      <div class="blob-3"></div>
+    </div>
+  </div>
+
   <!-- Navigation -->
   <nav class="glass-nav sticky top-0 z-50 shadow-sm">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center h-16">
-        <a href="/" class="flex items-center space-x-2">
+        <a href="/" class="flex items-center space-x-2" aria-label="DS TORKS VENTURES Home">
           <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
           <div>
-            <span class="font-bold text-lg text-gray-800">DS TORKS</span>
-            <span class="block text-xs text-primary font-medium">VENTURES</span>
+            <span class="font-bold text-lg text-white">DS TORKS</span>
+            <span class="block text-xs text-accent font-semibold tracking-wider">VENTURES</span>
           </div>
         </a>
         
         <div class="hidden md:flex items-center space-x-8">
-          <a href="/" class="text-gray-700 hover:text-primary font-medium">Home</a>
-          <a href="shop.html" class="text-gray-700 hover:text-primary font-medium">Shop</a>
-          <a href="about.html" class="text-gray-700 hover:text-primary font-medium">About</a>
-          <a href="contact.html" class="text-gray-700 hover:text-primary font-medium">Contact</a>
-          <a href="profile.html" class="text-gray-700 hover:text-primary font-medium">My Account</a>
-          <a href="shop.html" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-dark transition">Shop Now</a>
+          <a href="/" class="text-white/90 hover:text-accent font-medium transition">Home</a>
+          <a href="shop.html" class="text-white/90 hover:text-accent font-medium transition">Shop</a>
+          <a href="about.html" class="text-white/90 hover:text-accent font-medium transition">About</a>
+          <a href="contact.html" class="text-white/90 hover:text-accent font-medium transition">Contact</a>
+          <a href="profile.html" class="text-white/90 hover:text-accent font-medium transition">My Account</a>
+          
+          <!-- Cart Toggle Button -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadge" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
+
+          <a href="shop.html" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-dark transition font-semibold shadow-md">Shop Now</a>
         </div>
         
-        <button id="mobileMenuBtn" class="md:hidden p-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+        <div class="flex items-center space-x-4 md:hidden">
+          <!-- Cart Toggle for Mobile -->
+          <button onclick="toggleCart()" class="relative p-2 text-white hover:text-accent transition" aria-label="Open Shopping Cart">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cartBadgeMobile" class="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+          </button>
+
+          <button id="mobileMenuBtn" class="p-2 text-white hover:text-accent" aria-label="Toggle mobile menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     
-    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    <div id="mobileMenu" class="hidden md:hidden bg-light/95 backdrop-blur-lg border-t border-white/10">
       <div class="px-4 py-4 space-y-3">
-        <a href="/" class="block py-2 text-gray-700">Home</a>
-        <a href="shop.html" class="block py-2 text-gray-700">Shop</a>
-        <a href="about.html" class="block py-2 text-gray-700">About</a>
-        <a href="contact.html" class="block py-2 text-gray-700">Contact</a>
-        <a href="profile.html" class="block py-2 text-gray-700">My Account</a>
+        <a href="/" class="block py-2 text-white/90 hover:text-accent transition">Home</a>
+        <a href="shop.html" class="block py-2 text-white/90 hover:text-accent transition">Shop</a>
+        <a href="about.html" class="block py-2 text-white/90 hover:text-accent transition">About</a>
+        <a href="contact.html" class="block py-2 text-white/90 hover:text-accent transition">Contact</a>
+        <a href="profile.html" class="block py-2 text-white/90 hover:text-accent transition">My Account</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
-        </pattern>
-        <rect width="100" height="100" fill="url(#grid)"/>
-      </svg>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 py-20 md:py-32 relative">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <span class="inline-block bg-white/20 text-white px-4 py-1 rounded-full text-sm font-medium mb-6">
-            Trusted by 500+ Ghanaian Farmers
-          </span>
-          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-            Premium Animal Feed for <span class="text-accent">Healthier Livestock</span>
-          </h1>
-          <p class="text-lg md:text-xl text-white/90 mb-8">
-            Quality poultry, fish, and livestock feed delivered across Ghana. 
-            Boost your farm's productivity with our nutrient-rich formulas.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <a href="shop.html" class="bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-accent transition text-center">
-              Browse Shop
-            </a>
-            <a href="contact.html" class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition text-center">
-              Contact Us
-            </a>
-          </div>
-        </div>
-        <div class="hidden md:grid grid-cols-2 gap-4">
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur reveal-on-scroll delay-100 animate-card-hover">
-            
-            <h3 class="font-bold text-lg">Poultry Feed</h3>
-            <p class="text-sm text-white/80">Layers, Broilers, Growers</p>
-          </div>
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur mt-8 reveal-on-scroll delay-200 animate-card-hover">
-            
-            <h3 class="font-bold text-lg">Fish Feed</h3>
-            <p class="text-sm text-white/80">Tilapia, Catfish</p>
-          </div>
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur reveal-on-scroll delay-300 animate-card-hover">
-            
-            <h3 class="font-bold text-lg">Specialty Feed</h3>
-            <p class="text-sm text-white/80">Turkeys, Guinea Fowl</p>
-          </div>
-          <div class="bg-white/10 rounded-2xl p-6 backdrop-blur mt-8 reveal-on-scroll delay-400 animate-card-hover">
-            
-            <h3 class="font-bold text-lg">Supplements</h3>
-            <p class="text-sm text-white/80">Vitamins, Minerals</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Why Choose DS TORKS VENTURES?</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">We provide premium quality animal feed backed by years of expertise in Ghana's agricultural sector.</p>
-      </div>
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="relative min-h-[85vh] flex items-center text-white overflow-hidden py-16 md:py-24">
+      <!-- Interactive Particle Canvas -->
+      <canvas id="particleCanvas"></canvas>
       
-      <div class="grid md:grid-cols-4 gap-8">
-        <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-100 animate-card-hover">
-          
-          <h3 class="font-bold text-lg mb-2">Premium Quality</h3>
-          <p class="text-gray-600 text-sm">Nutrient-rich formulas for optimal animal growth and health</p>
-        </div>
-        
-        <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-200 animate-card-hover">
-          
-          <h3 class="font-bold text-lg mb-2">Affordable Prices</h3>
-          <p class="text-gray-600 text-sm">Competitive pricing to help Ghanaian farmers succeed</p>
-        </div>
-        
-        <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-300 animate-card-hover">
-          
-          <h3 class="font-bold text-lg mb-2">Fast Delivery</h3>
-          <p class="text-gray-600 text-sm">Quick and reliable delivery across Ghana</p>
-        </div>
-        
-        <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-400 animate-card-hover">
-          
-          <h3 class="font-bold text-lg mb-2">Expert Support</h3>
-          <p class="text-gray-600 text-sm">24/7 customer support for all your farming questions</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Products -->
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between items-center mb-12">
-        <div>
-          <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
-          <p class="text-gray-600 mt-2">Our most popular animal feed products</p>
-        </div>
-        <a href="shop.html" class="text-primary font-semibold hover:underline">View All →</a>
-      </div>
-      
-      <div id="featuredProducts" class="grid md:grid-cols-4 gap-6">
-        <!-- Products loaded dynamically -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats Section -->
-  <section class="py-16 bg-primary text-white stats-section">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div>
-          <div class="text-4xl md:text-5xl font-bold mb-2 stat-number" data-target="500" data-suffix="+">0+</div>
-          <div class="text-white/80">Happy Customers</div>
-        </div>
-        <div>
-          <div class="text-4xl md:text-5xl font-bold mb-2 stat-number" data-target="12" data-suffix="">0</div>
-          <div class="text-white/80">Product Categories</div>
-        </div>
-        <div>
-          <div class="text-4xl md:text-5xl font-bold mb-2 stat-number" data-target="50" data-suffix="+">0+</div>
-          <div class="text-white/80">Towns Covered</div>
-        </div>
-        <div>
-          <div class="text-4xl md:text-5xl font-bold mb-2 stat-number" data-target="5" data-suffix="+">0+</div>
-          <div class="text-white/80">Years Experience</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">What Our Customers Say</h2>
-        <p class="text-gray-600">Real stories from Ghanaian farmers</p>
-      </div>
-      
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="glass-card p-6 rounded-2xl reveal-on-scroll delay-100 animate-card-hover">
-          <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">AK</div>
-            <div class="ml-4">
-              <h4 class="font-bold">Ama Kofi</h4>
-              <p class="text-sm text-gray-500">Poultry Farmer, Kumasi</p>
+      <div class="max-w-7xl mx-auto px-4 w-full relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="reveal-on-scroll">
+            <span class="inline-block bg-white/10 border border-white/20 text-accent px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-6">
+              Trusted by 500+ Ghanaian Farmers
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+              Premium Animal Feed for <span class="text-accent">Healthier Livestock</span>
+            </h1>
+            <p class="text-lg md:text-xl text-white/80 mb-8 max-w-lg">
+              Quality poultry, fish, and livestock feed delivered across Ghana. 
+              Boost your farm's productivity with our nutrient-rich formulas.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="shop.html" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-dark transition text-center shadow-lg hover:shadow-primary/30">
+                Browse Shop
+              </a>
+              <a href="contact.html" class="border-2 border-white/40 text-white hover:border-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition text-center">
+                Contact Us
+              </a>
             </div>
           </div>
-          <p class="text-gray-600">"Since switching to DS TORKS feed, my hens lay more eggs and the shells are stronger. My income has increased by 40%!"</p>
-          <div class="mt-4 text-yellow-400">★★★★★</div>
-        </div>
-        
-        <div class="glass-card p-6 rounded-2xl reveal-on-scroll delay-200 animate-card-hover">
-          <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">KO</div>
-            <div class="ml-4">
-              <h4 class="font-bold">Kwesi Owusu</h4>
-              <p class="text-sm text-gray-500">Fish Farmer, Accra</p>
+          <div class="hidden md:grid grid-cols-2 gap-4 reveal-on-scroll delay-200">
+            <div class="glass-card rounded-2xl p-6 glow-card animate-card-hover mt-4">
+              <h3 class="font-bold text-lg text-white">Poultry Feed</h3>
+              <p class="text-sm text-gray-300 mt-1">Layers, Broilers, Growers</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 glow-card animate-card-hover">
+              <h3 class="font-bold text-lg text-white">Fish Feed</h3>
+              <p class="text-sm text-gray-300 mt-1">Tilapia, Catfish</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 glow-card animate-card-hover mt-4">
+              <h3 class="font-bold text-lg text-white">Specialty Feed</h3>
+              <p class="text-sm text-gray-300 mt-1">Turkeys, Guinea Fowl</p>
+            </div>
+            <div class="glass-card rounded-2xl p-6 glow-card animate-card-hover">
+              <h3 class="font-bold text-lg text-white">Supplements</h3>
+              <p class="text-sm text-gray-300 mt-1">Vitamins, Minerals</p>
             </div>
           </div>
-          <p class="text-gray-600">"Their fish feed produces excellent growth rates. My catfish reach market size in just 4 months. Highly recommended!"</p>
-          <div class="mt-4 text-yellow-400">★★★★★</div>
-        </div>
-        
-        <div class="glass-card p-6 rounded-2xl reveal-on-scroll delay-300 animate-card-hover">
-          <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">EA</div>
-            <div class="ml-4">
-              <h4 class="font-bold">Esi Asante</h4>
-              <p class="text-sm text-gray-500">Mixed Farmer, Tamale</p>
-            </div>
-          </div>
-          <p class="text-gray-600">"Fast delivery even to the north! The team is very helpful and the prices are very competitive. My go-to feed supplier."</p>
-          <div class="mt-4 text-yellow-400">★★★★★</div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA Section -->
-  <section class="py-16 bg-gradient-to-r from-primary to-dark text-white">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Boost Your Farm's Productivity?</h2>
-      <p class="text-xl text-white/90 mb-8">Start shopping today and experience the difference quality feed makes!</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="shop.html" class="bg-white text-primary px-8 py-4 rounded-full font-bold text-lg hover:bg-accent transition">
-          Shop Now
-        </a>
-        <a href="https://wa.me/233500000000" target="_blank" class="bg-green-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-green-600 transition flex items-center justify-center">
-          WhatsApp Us
-        </a>
+    <!-- Features Section -->
+    <section class="py-20 bg-light/30">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16 reveal-on-scroll">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why Choose DS TORKS VENTURES?</h2>
+          <p class="text-gray-300 max-w-2xl mx-auto">We provide premium quality animal feed backed by years of expertise in Ghana's agricultural sector.</p>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-100 animate-card-hover">
+            <h3 class="font-bold text-lg text-white mb-2">Premium Quality</h3>
+            <p class="text-gray-300 text-sm">Nutrient-rich formulas for optimal animal growth and health</p>
+          </div>
+          
+          <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-200 animate-card-hover">
+            <h3 class="font-bold text-lg text-white mb-2">Affordable Prices</h3>
+            <p class="text-gray-300 text-sm">Competitive pricing to help Ghanaian farmers succeed</p>
+          </div>
+          
+          <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-300 animate-card-hover">
+            <h3 class="font-bold text-lg text-white mb-2">Fast Delivery</h3>
+            <p class="text-gray-300 text-sm">Quick and reliable delivery across Ghana</p>
+          </div>
+          
+          <div class="glass-card p-6 rounded-2xl text-center reveal-on-scroll delay-400 animate-card-hover">
+            <h3 class="font-bold text-lg text-white mb-2">Expert Support</h3>
+            <p class="text-gray-300 text-sm">24/7 customer support for all your farming questions</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-20">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center mb-16 reveal-on-scroll">
+          <div>
+            <h2 class="text-3xl font-bold text-white">Featured Products</h2>
+            <p class="text-gray-300 mt-2">Our most popular animal feed products</p>
+          </div>
+          <a href="shop.html" class="text-accent font-semibold hover:text-white transition flex items-center gap-1">
+            View All 
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+        
+        <div id="featuredProducts" class="grid md:grid-cols-4 gap-6">
+          <!-- Products loaded dynamically via script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-primary/20 backdrop-blur-md border-y border-white/10 stats-section">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div class="text-4xl md:text-5xl font-extrabold mb-2 text-accent stat-number" data-target="500" data-suffix="+">0+</div>
+            <div class="text-white/80 font-medium">Happy Customers</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-extrabold mb-2 text-accent stat-number" data-target="12" data-suffix="">0</div>
+            <div class="text-white/80 font-medium">Product Categories</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-extrabold mb-2 text-accent stat-number" data-target="50" data-suffix="+">0+</div>
+            <div class="text-white/80 font-medium">Towns Covered</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-extrabold mb-2 text-accent stat-number" data-target="5" data-suffix="+">0+</div>
+            <div class="text-white/80 font-medium">Years Experience</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-light/30">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16 reveal-on-scroll">
+          <h2 class="text-3xl font-bold text-white mb-4">What Our Customers Say</h2>
+          <p class="text-gray-300">Real stories from Ghanaian farmers</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="glass-card p-6 rounded-2xl reveal-on-scroll delay-100 animate-card-hover">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">AK</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-white">Ama Kofi</h4>
+                <p class="text-sm text-gray-400">Poultry Farmer, Kumasi</p>
+              </div>
+            </div>
+            <p class="text-gray-300">"Since switching to DS TORKS feed, my hens lay more eggs and the shells are stronger. My income has increased by 40%!"</p>
+            <div class="mt-4 text-yellow-400">★★★★★</div>
+          </div>
+          
+          <div class="glass-card p-6 rounded-2xl reveal-on-scroll delay-200 animate-card-hover">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">KO</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-white">Kwesi Owusu</h4>
+                <p class="text-sm text-gray-400">Fish Farmer, Accra</p>
+              </div>
+            </div>
+            <p class="text-gray-300">"Their fish feed produces excellent growth rates. My catfish reach market size in just 4 months. Highly recommended!"</p>
+            <div class="mt-4 text-yellow-400">★★★★★</div>
+          </div>
+          
+          <div class="glass-card p-6 rounded-2xl reveal-on-scroll delay-300 animate-card-hover">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">EA</div>
+              <div class="ml-4">
+                <h4 class="font-bold text-white">Esi Asante</h4>
+                <p class="text-sm text-gray-400">Mixed Farmer, Tamale</p>
+              </div>
+            </div>
+            <p class="text-gray-300">"Fast delivery even to the north! The team is very helpful and the prices are very competitive. My go-to feed supplier."</p>
+            <div class="mt-4 text-yellow-400">★★★★★</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 relative overflow-hidden">
+      <div class="max-w-4xl mx-auto text-center px-4 relative z-10 reveal-on-scroll">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-6">Ready to Boost Your Yields?</h2>
+        <p class="text-lg text-white/80 mb-8">Get in touch with us today or explore our wide selection of feeds online.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="shop.html" class="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-dark transition shadow-lg">Shop Now</a>
+          <a href="contact.html" class="border border-white/30 text-white hover:border-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition">Contact Representative</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-12">
+  <footer class="bg-light/80 border-t border-white/10 py-12 text-gray-300">
     <div class="max-w-7xl mx-auto px-4">
       <div class="grid md:grid-cols-4 gap-8">
         <div>
           <div class="flex items-center space-x-2 mb-4">
-            <img src="images/logo0_transparent.png" alt="DS TORKS VENTURES Logo" class="w-10 h-10 object-contain">
-            <div>
-              <span class="font-bold text-lg">DS TORKS</span>
-              <span class="block text-xs text-accent font-medium">VENTURES</span>
-            </div>
+            <img src="images/logo0_transparent.png" alt="Logo" class="w-8 h-8 object-contain">
+            <span class="font-bold text-white">DS TORKS VENTURES</span>
           </div>
-          <p class="text-gray-400 text-sm">Your trusted partner for quality animal feed in Ghana. Healthy animals, thriving farms.</p>
+          <p class="text-sm text-gray-400">Leading animal feed supplier in Ghana. Providing nutrition that grows farms.</p>
         </div>
-        
         <div>
-          <h4 class="font-bold mb-4">Quick Links</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><a href="/" class="hover:text-white">Home</a></li>
-            <li><a href="shop.html" class="hover:text-white">Shop</a></li>
-            <li><a href="about.html" class="hover:text-white">About Us</a></li>
-            <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+          <h4 class="font-bold text-white mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="/" class="hover:text-white transition">Home</a></li>
+            <li><a href="shop.html" class="hover:text-white transition">Shop</a></li>
+            <li><a href="about.html" class="hover:text-white transition">About</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
           </ul>
         </div>
-        
         <div>
-          <h4 class="font-bold mb-4">Categories</h4>
-          <ul class="space-y-2 text-gray-400">
-            <li><a href="shop.html" class="hover:text-white">Poultry Feed</a></li>
-            <li><a href="shop.html" class="hover:text-white">Fish Feed</a></li>
-            <li><a href="shop.html" class="hover:text-white">Specialty Feed</a></li>
-            <li><a href="shop.html" class="hover:text-white">Supplements</a></li>
+          <h4 class="font-bold text-white mb-4">Admin</h4>
+          <ul class="space-y-2">
+            <li><a href="admin.html" class="hover:text-white transition">Admin Portal</a></li>
           </ul>
         </div>
-        
         <div>
-          <h4 class="font-bold mb-4">Contact Us</h4>
+          <h4 class="font-bold text-white mb-4">Contact Us</h4>
           <ul class="space-y-2 text-gray-400">
-            <li class="py-1"><span>Ghana</span></li>
-            <li class="py-1"><span>0556656171, 0248513932</span></li>
-            <li class="py-1"><span>info@dstorks.com</span></li>
+            <li>Ghana</li>
+            <li>0556656171, 0248513932</li>
+            <li>info@dstorks.com</li>
           </ul>
-          <div class="flex space-x-4 mt-4 text-sm">
-            <a href="#" class="text-gray-400 hover:text-white">Facebook</a>
-            <span class="text-gray-600">|</span>
-            <a href="https://wa.me/233246056702" class="text-gray-400 hover:text-white">WhatsApp</a>
+          <div class="flex space-x-4 mt-4">
+            <a href="https://wa.me/233246056702" class="text-gray-400 hover:text-white transition">WhatsApp Support</a>
           </div>
         </div>
       </div>
-      
-      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+      <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-gray-400">
         <p>&copy; 2024 DS TORKS VENTURES. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <!-- Floating Cart Sidebar -->
+  <div id="cartSidebar" class="fixed right-0 top-0 h-full w-full md:w-[450px] bg-light/95 backdrop-blur-xl shadow-2xl border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+      <h3 class="font-bold text-xl text-white">Your Cart</h3>
+      <button onclick="toggleCart()" class="p-2 text-gray-400 hover:text-white" aria-label="Close Shopping Cart">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Cart items loaded dynamically -->
+    </div>
+    <div class="p-6 border-t border-white/10 bg-black/10">
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-gray-300 font-semibold">Total:</span>
+        <span id="cartTotal" class="text-2xl font-bold text-accent">GH₵ 0.00</span>
+      </div>
+      <button onclick="checkout()" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition shadow-lg">Checkout Now</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="glass-modal max-w-lg w-full rounded-3xl overflow-hidden shadow-2xl p-6 relative">
+      <!-- Close button -->
+      <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="absolute top-4 right-4 p-2 text-gray-400 hover:text-white" aria-label="Close Checkout Window">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <!-- Checkout Form -->
+      <form id="checkoutForm" onsubmit="event.preventDefault(); proceedToPayment();" class="space-y-4">
+        <h3 class="text-2xl font-bold text-white mb-6">Checkout</h3>
+        <div>
+          <label for="checkoutName" class="block text-sm font-semibold text-gray-300 mb-1">Full Name</label>
+          <input type="text" id="checkoutName" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutEmail" class="block text-sm font-semibold text-gray-300 mb-1">Email Address</label>
+          <input type="email" id="checkoutEmail" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutPhone" class="block text-sm font-semibold text-gray-300 mb-1">Phone Number</label>
+          <input type="tel" id="checkoutPhone" required class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent">
+        </div>
+        <div>
+          <label for="checkoutAddress" class="block text-sm font-semibold text-gray-300 mb-1">Delivery Address</label>
+          <textarea id="checkoutAddress" rows="2" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-accent"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition mt-4">Proceed to Payment</button>
+      </form>
+
+      <!-- Payment Section -->
+      <div id="paymentSection" class="hidden text-center py-8 space-y-6">
+        <h3 class="text-2xl font-bold text-white">Payment Method</h3>
+        <p class="text-gray-300">Choose your preferred payment method:</p>
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="selectPaymentMethod('mtn')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Mobile Money</span>
+          </button>
+          <button onclick="selectPaymentMethod('card')" class="p-4 bg-white/5 border border-white/10 hover:border-accent rounded-2xl flex flex-col items-center gap-2 transition">
+            <span class="font-bold text-white">Card / Paystack</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Section -->
+      <div id="successSection" class="hidden text-center py-8 space-y-6">
+        <div class="w-16 h-16 bg-accent/20 text-accent rounded-full flex items-center justify-center mx-auto text-3xl font-bold">✓</div>
+        <h3 class="text-2xl font-bold text-white">Order Placed Successfully!</h3>
+        <p class="text-gray-300">Your order has been recorded. We will contact you shortly to arrange delivery.</p>
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+          <p class="text-sm text-gray-400">Order ID:</p>
+          <p id="orderIdDisplay" class="text-xl font-bold text-accent">#0000</p>
+        </div>
+        <button onclick="document.getElementById('checkoutModal').classList.add('hidden')" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-dark transition">Close</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
-  <script>
-    async function loadFeaturedProducts() {
-      try {
-        const response = await fetch('/api/products');
-        const products = await response.json();
-        const container = document.getElementById('featuredProducts');
-        
-        const featured = products.slice(0, 4);
-        container.innerHTML = featured.map((p, index) => {
-          const inStock = p.stock > 0;
-          return `
-            <div class="product-card glass-card rounded-2xl overflow-hidden relative p-5 flex flex-col justify-between reveal-on-scroll delay-${(index + 1) * 100} animate-card-hover" ${inStock ? `onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})"` : ''}>
-              <div>
-                <div class="relative">
-                  ${!inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Out of Stock</span>` : ''}
-                </div>
-                <span class="text-xs text-primary font-semibold">${p.category || 'General'}</span>
-                <h3 class="font-bold text-gray-800 mt-1">${p.name}</h3>
-                <p class="text-sm text-gray-500 mt-1 line-clamp-2">${p.description || ''}</p>
-              </div>
-              <div class="mt-4">
-                <div class="flex justify-between items-center">
-                  <span class="text-xl font-bold text-primary">GH₵ ${p.price.toFixed(2)}</span>
-                  <button ${!inStock ? 'disabled' : ''} class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-dark transition ${!inStock ? 'opacity-50 cursor-not-allowed' : ''}">
-                    ${inStock ? 'Add to Cart' : 'Out of Stock'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-        
-        // Re-initialize Scroll Reveal to observe newly loaded product cards
-        initScrollReveal();
-      } catch (error) {
-        console.error('Error loading products:', error);
-      }
-    }
-    
-    function initScrollReveal() {
-      const observer = new IntersectionObserver((entries, self) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            self.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.05,
-        rootMargin: '0px 0px -40px 0px'
-      });
-
-      document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-        observer.observe(el);
-      });
-    }
-
-    function animateNumbers() {
-      const stats = document.querySelectorAll('.stat-number');
-      stats.forEach(stat => {
-        const target = parseInt(stat.getAttribute('data-target'));
-        const duration = 1500; // ms
-        const startTime = performance.now();
-        
-        function update(currentTime) {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          
-          // Easing function (easeOutQuad)
-          const easeProgress = progress * (2 - progress);
-          const currentValue = Math.floor(easeProgress * target);
-          
-          stat.textContent = currentValue + (stat.getAttribute('data-suffix') || '');
-          
-          if (progress < 1) {
-            requestAnimationFrame(update);
-          } else {
-            stat.textContent = target + (stat.getAttribute('data-suffix') || '');
-          }
-        }
-        requestAnimationFrame(update);
-      });
-    }
-
-    function initStatsCounter() {
-      const statsSection = document.querySelector('.stats-section');
-      if (!statsSection) return;
-
-      const observer = new IntersectionObserver((entries, self) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateNumbers();
-            self.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.2 });
-
-      observer.observe(statsSection);
-    }
-    
-    // Start page hooks
-    loadFeaturedProducts();
-    initScrollReveal();
-    initStatsCounter();
-    
-    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-  </script>
 </body>
 </html>
