@@ -36,21 +36,21 @@ function renderProducts(products) {
   }
 
   container.innerHTML = products.map(p => `
-    <div class="product-card glass-card rounded-2xl overflow-hidden relative p-5 flex flex-col justify-between animate-card-hover" data-category="${p.category || ''}">
+    <div class="product-card bg-white border border-gray-100 rounded-2xl overflow-hidden relative p-6 flex flex-col justify-between animate-card-hover shadow-md hover:shadow-xl transition-shadow duration-300" data-category="${p.category || ''}">
       <div>
         <div class="relative">
-          ${!p.inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">Out of Stock</span>` : ''}
+          ${!p.inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2.5 py-1 rounded-full shadow-md z-10">Out of Stock</span>` : ''}
         </div>
-        <span class="text-xs text-accent font-semibold">${p.category || 'General'}</span>
-        <h3 class="font-bold text-white mt-1 text-lg">${p.name}</h3>
-        <p class="text-sm text-gray-300 mt-1 line-clamp-2">${p.description || 'Premium quality feed'}</p>
+        <span class="inline-block text-[10px] font-extrabold uppercase tracking-widest bg-[#0A7075]/10 text-[#0A7075] px-2.5 py-1 rounded-md mb-3">${p.category || 'General'}</span>
+        <h3 class="font-bold text-[#1a1a1a] mt-1 text-lg leading-snug">${p.name}</h3>
+        <p class="text-sm text-gray-600 mt-2 line-clamp-3 leading-relaxed">${p.description || 'Premium quality feed'}</p>
       </div>
-      <div class="mt-6">
+      <div class="mt-6 border-t border-gray-100 pt-4">
         <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-accent">GH₵ ${p.price.toFixed(2)}</span>
-          <span class="text-xs ${p.inStock ? 'text-green-400' : 'text-red-400'} font-medium">${p.inStock ? 'In Stock' : 'Out of Stock'}</span>
+          <span class="text-2xl font-extrabold text-primary">GH₵ ${p.price.toFixed(2)}</span>
+          <span class="text-xs ${p.inStock ? 'text-green-600' : 'text-red-500'} font-bold uppercase tracking-wider">${p.inStock ? 'In Stock' : 'Out of Stock'}</span>
         </div>
-        <button onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})" ${!p.inStock ? 'disabled' : ''} class="w-full mt-4 bg-primary text-white py-3 rounded-xl font-bold hover:bg-dark transition shadow-lg ${!p.inStock ? 'opacity-40 cursor-not-allowed' : 'hover:shadow-primary/25'}">
+        <button onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})" ${!p.inStock ? 'disabled' : ''} class="w-full mt-4 bg-primary text-white py-3.5 rounded-xl font-bold hover:bg-secondary transition duration-200 shadow-md ${!p.inStock ? 'opacity-40 cursor-not-allowed' : 'hover:shadow-primary/25'}">
           ${p.inStock ? 'Add to Cart' : 'Out of Stock'}
         </button>
       </div>

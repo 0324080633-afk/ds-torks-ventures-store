@@ -483,24 +483,23 @@ async function loadFeaturedProducts() {
   try {
     const response = await fetch('/api/products');
     const products = await response.json();
-    
     const featured = products.slice(0, 4);
     container.innerHTML = featured.map((p, index) => {
       const inStock = p.stock > 0;
       return `
-        <div class="product-card glass-card rounded-2xl overflow-hidden relative p-5 flex flex-col justify-between reveal-on-scroll delay-${(index + 1) * 100} animate-card-hover" ${inStock ? `onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})"` : ''}>
+        <div class="product-card bg-white border border-gray-100 rounded-2xl overflow-hidden relative p-6 flex flex-col justify-between reveal-on-scroll delay-${(index + 1) * 100} animate-card-hover shadow-md hover:shadow-xl transition-shadow duration-300" ${inStock ? `onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})"` : ''}>
           <div>
             <div class="relative">
-              ${!inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Out of Stock</span>` : ''}
+              ${!inStock ? `<span class="absolute -top-3 -right-3 bg-red-500 text-white text-xs px-2.5 py-1 rounded-full shadow-md z-10">Out of Stock</span>` : ''}
             </div>
-            <span class="text-xs text-accent font-semibold">${p.category || 'General'}</span>
-            <h3 class="font-bold text-white mt-1">${p.name}</h3>
-            <p class="text-sm text-gray-300 mt-1 line-clamp-2">${p.description || ''}</p>
+            <span class="inline-block text-[10px] font-extrabold uppercase tracking-widest bg-[#0A7075]/10 text-[#0A7075] px-2.5 py-1 rounded-md mb-3">${p.category || 'General'}</span>
+            <h3 class="font-bold text-[#1a1a1a] text-lg leading-snug mt-1">${p.name}</h3>
+            <p class="text-sm text-gray-600 mt-2 line-clamp-3 leading-relaxed">${p.description || ''}</p>
           </div>
-          <div class="mt-4">
+          <div class="mt-6 border-t border-gray-100 pt-4">
             <div class="flex justify-between items-center">
-              <span class="text-xl font-bold text-accent">GH₵ ${p.price.toFixed(2)}</span>
-              <button ${!inStock ? 'disabled' : ''} class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-dark transition ${!inStock ? 'opacity-50 cursor-not-allowed' : ''}">
+              <span class="text-xl font-extrabold text-primary">GH₵ ${p.price.toFixed(2)}</span>
+              <button ${!inStock ? 'disabled' : ''} class="bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-secondary transition duration-200 ${!inStock ? 'opacity-50 cursor-not-allowed' : ''}">
                 ${inStock ? 'Add to Cart' : 'Out of Stock'}
               </button>
             </div>
